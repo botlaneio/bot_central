@@ -1,0 +1,2 @@
+# Products, Sessions and global commerce
+The product area uses an introductory heading and six illustrated cards. Payments sits above Billing, Radar, Issuing, Crypto and Connect. Cards lead to a modal and collapse to a single column at phone widths. Sessions follows with a visual banner and a registration CTA. Global commerce leads with a large heading next to data visualisation and four metrics. The reference uses a light desktop stats theme and was captured in dark mode at tablet and mobile widths. Colors are #061b31 for headings and a cool steel blue for explanatory copy.

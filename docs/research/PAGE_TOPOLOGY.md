@@ -1,0 +1,2 @@
+# Stripe India homepage
+The browser redirected stripe.com to https://stripe.com/in. At 1440px the observed main sections were hero (685px), product bento (2196px), Sessions (560px), global commerce (977px), business sizes (4530px), developer infrastructure (2341px), news and publications (1766px), then conversion (380px) and footer. Measurements include section padding and reflect the captured layout. The app uses the same section order.

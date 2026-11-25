@@ -1,0 +1,2 @@
+# News
+The heading measures 32px desktop, 28px tablet and 22px mobile. The reference carousel starts at the 2025 annual letter, followed by Black Friday and Cyber Monday, vertical SaaS, Cheeky Pint, payments, crypto, agentic commerce and retail. Next wraps from the last entry to the first. The demo uses eight locally bundled images and wraps in both directions. The featured book appears beneath the carousel. The demo uses a responsive image strip for the carousel visual.

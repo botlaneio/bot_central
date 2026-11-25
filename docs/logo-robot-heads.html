@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>botLane · minimal robot heads</title>
+<style>
+  @font-face { font-family: "Instrument Sans"; src: url("/media/instrument-sans.ttf") format("truetype"); font-weight: 400 700; }
+  :root { --ink: #061b31; --muted: #425e73; --line: #e3e8ed; --soft: #f6f8fa;
+    --orange: #ff8a1f; --coral: #ff6a5c; --pink: #f77ce0; --violet: #7a5cff; --accent: #5333f5; --sky: #6f9bff; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Instrument Sans", Arial, sans-serif; color: var(--ink); background: #fff; }
+  header { max-width: 1240px; margin: 0 auto; padding: 56px 32px 24px; }
+  header p.k { margin: 0 0 14px; font-size: 13px; font-weight: 600; color: var(--accent); }
+  header h1 { margin: 0; font-size: 40px; font-weight: 400; letter-spacing: -0.035em; }
+  header h1 span { color: var(--muted); }
+  header p.l { max-width: 760px; color: var(--muted); line-height: 1.6; }
+  .rules { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .rules i { font-style: normal; font-size: 12.5px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 4px; }
+  .grid { max-width: 1240px; margin: 0 auto; padding: 16px 32px 80px; display: grid; grid-template-columns: repeat(auto-fill, minmax(370px, 1fr)); gap: 16px; }
+  .card { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: #fff; }
+  .hero { display: grid; place-items: center; height: 220px; background: var(--soft); border-bottom: 1px solid var(--line); position: relative; }
+  .hero .n { position: absolute; top: 14px; left: 16px; font-size: 13px; font-weight: 700; }
+  .row { display: flex; align-items: center; gap: 18px; padding: 16px 18px; border-bottom: 1px solid var(--line); }
+  .sizes { display: flex; align-items: end; gap: 14px; }
+  .tile { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 14px; background: var(--ink); }
+  .tile.light { background: #fff; border: 1px solid var(--line); }
+  .lock { display: inline-flex; align-items: center; gap: 8px; font-size: 22px; font-weight: 600; letter-spacing: -0.035em; }
+  .dark { background: #0b1530; color: #fff; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; }
+  .copy { padding: 14px 18px 18px; }
+  .copy h3 { margin: 0 0 6px; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+  .copy p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--muted); }
+  .pick { margin-top: 10px; font-size: 12px; font-weight: 600; color: var(--accent); }
+  svg { display: block; }
+  /* Live touches: each mark has one small motion, the kind it would use on the site. */
+  @media (prefers-reduced-motion: no-preference) {
+    .live .travel { animation: travel 2.6s cubic-bezier(.45,0,.2,1) infinite; }
+    .live .blink { animation: blink 2.6s ease-in-out infinite; }
+    .live .spin { transform-origin: 32px 32px; animation: spin 6s linear infinite; }
+  }
+  @keyframes travel { 0%, 15% { transform: translateX(0); } 55%, 100% { transform: translateX(24px); } }
+  @keyframes blink { 0%, 40% { opacity: .25; } 60%, 100% { opacity: 1; } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<header>
+  <p class="k">Logo direction 4 · minimal robot heads</p>
+  <h1>Ten minimal robot heads. <span>Flat, friendly, and readable at 16px.</span></h1>
+  <p class="l">Same rules as the site: flat navy ink, one wave-colour accent per mark, rounded geometry, no gradients or 3D. Each head is shown large, at 32 and 16px, as an app tile on navy and white, in the nav lockup and on a dark band. Rough concepts to react to.</p>
+  <div class="rules"><i>Flat colour only</i><i>One accent per mark</i><i>Reads at 16px</i><i>Works in one colour</i><i>Original geometry</i></div>
+</header>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- 1 Tile bot: rounded-square head, two pill eyes, one lit -->
+    <symbol id="r1" viewBox="0 0 64 64">
+      <rect x="8" y="12" width="48" height="42" rx="13" fill="currentColor"/>
+      <rect x="21" y="25" width="6" height="14" rx="3" fill="var(--knock)"/><rect x="37" y="25" width="6" height="14" rx="3" fill="var(--orange)"/>
+      <rect x="29" y="4" width="6" height="8" rx="3" fill="currentColor"/>
+    </symbol>
+    <!-- 2 Visor: one wide visor slot with a scanning dot -->
+    <symbol id="r2" viewBox="0 0 64 64">
+      <rect x="8" y="10" width="48" height="46" rx="16" fill="currentColor"/>
+      <rect x="15" y="26" width="34" height="12" rx="6" fill="var(--knock)"/>
+      <circle cx="38" cy="32" r="4" fill="var(--coral)"/>
+    </symbol>
+    <!-- 3 Antenna pulse: round head, antenna tipped with a pulse -->
+    <symbol id="r3" viewBox="0 0 64 64">
+      <path d="M32 18V9" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><circle cx="32" cy="7" r="4.5" fill="var(--violet)"/>
+      <circle cx="32" cy="38" r="21" fill="currentColor"/>
+      <circle cx="24.5" cy="37" r="3.8" fill="var(--knock)"/><circle cx="39.5" cy="37" r="3.8" fill="var(--knock)"/>
+    </symbol>
+    <!-- 4 Line bot: outline only, square eyes -->
+    <symbol id="r4" viewBox="0 0 64 64">
+      <rect x="10" y="14" width="44" height="38" rx="12" fill="none" stroke="currentColor" stroke-width="5"/>
+      <rect x="21" y="27" width="7" height="7" rx="2" fill="currentColor"/><rect x="36" y="27" width="7" height="7" rx="2" fill="var(--pink)"/>
+      <path d="M26 42h12" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+      <path d="M4 29v8M60 29v8" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+    </symbol>
+    <!-- 5 Wink: friendly head, one eye a wink arc -->
+    <symbol id="r5" viewBox="0 0 64 64">
+      <rect x="8" y="12" width="48" height="42" rx="18" fill="currentColor"/>
+      <rect x="20" y="26" width="7" height="12" rx="3.5" fill="var(--knock)"/>
+      <path d="M36 33q4-5 8 0" fill="none" stroke="var(--sky)" stroke-width="4" stroke-linecap="round"/>
+    </symbol>
+    <!-- 6 Ears: head with side ear-nodes (connections), dot eyes -->
+    <symbol id="r6" viewBox="0 0 64 64">
+      <rect x="4" y="27" width="6" height="12" rx="3" fill="var(--orange)"/><rect x="54" y="27" width="6" height="12" rx="3" fill="var(--orange)"/>
+      <rect x="12" y="14" width="40" height="38" rx="12" fill="currentColor"/>
+      <circle cx="25" cy="32" r="4" fill="var(--knock)"/><circle cx="39" cy="32" r="4" fill="var(--knock)"/>
+      <rect x="27" y="41" width="10" height="3" rx="1.5" fill="var(--knock)" opacity=".5"/>
+    </symbol>
+    <!-- 7 Screen face: monitor head on a small neck, eyes as a check mark -->
+    <symbol id="r7" viewBox="0 0 64 64">
+      <rect x="8" y="10" width="48" height="36" rx="10" fill="currentColor"/>
+      <path d="M23 28l6 6 12-12" fill="none" stroke="var(--knock)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="27" y="46" width="10" height="6" fill="currentColor"/><rect x="20" y="52" width="24" height="5" rx="2.5" fill="var(--violet)"/>
+    </symbol>
+    <!-- 8 Capsule: tall pill head, stacked eyes like a status light -->
+    <symbol id="r8" viewBox="0 0 64 64">
+      <rect x="14" y="6" width="36" height="52" rx="18" fill="currentColor"/>
+      <rect x="23" y="24" width="18" height="6" rx="3" fill="var(--knock)"/><rect x="23" y="34" width="18" height="6" rx="3" fill="var(--coral)"/>
+    </symbol>
+    <!-- 9 Lane eyes: two eyes joined by a lane, pulse travelling between them -->
+    <symbol id="r9" viewBox="0 0 64 64">
+      <rect x="6" y="12" width="52" height="42" rx="14" fill="currentColor"/>
+      <path d="M22 33h20" stroke="var(--knock)" stroke-opacity=".4" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="20" cy="33" r="5" fill="var(--knock)"/><circle cx="44" cy="33" r="5" fill="var(--knock)"/>
+      <circle cx="32" cy="33" r="3" fill="var(--orange)"/>
+    </symbol>
+    <!-- 10 Half-circle: dome head on a flat base, single cyclops eye -->
+    <symbol id="r10" viewBox="0 0 64 64">
+      <path d="M8 46a24 24 0 0 1 48 0v4a4 4 0 0 1-4 4H12a4 4 0 0 1-4-4z" fill="currentColor"/>
+      <rect x="24" y="31" width="16" height="9" rx="4.5" fill="var(--knock)"/><circle cx="35" cy="35.5" r="3" fill="var(--pink)"/>
+      <path d="M32 22v-8" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
+<main class="grid" id="grid"></main>
+<script>
+  const concepts = [
+    ["r1", "Tile bot", "A rounded-square head with two pill eyes, one lit orange, and a short antenna. The most classic, and the closest to the site's icon tiles.", "Strong pick: simple, friendly, crisp at 16px."],
+    ["r2", "Visor", "One wide visor slot with a coral scanning dot. Feels attentive, like it is reading the work."],
+    ["r3", "Antenna pulse", "A round head with an antenna tipped in violet: the signal, or the pulse, on top."],
+    ["r4", "Line bot", "Outline only, with square eyes, one pink, and small side nodes. The lightest and most technical."],
+    ["r5", "Wink", "A soft head with one eye winking. The most personality; carries over the orb's character."],
+    ["r6", "Connected", "Orange ear-nodes on both sides, like ports: a bot that plugs into your tools."],
+    ["r7", "Approved", "A screen head whose face is a check mark: the bot that does the work and gets it approved."],
+    ["r8", "Capsule", "A tall pill head with two stacked bars, like a status light. Unusual and distinctive in a row of icons."],
+    ["r9", "Lane eyes", "Two eyes joined by a lane, with the orange pulse travelling between them. Robot and workflow in one.", "Strong pick: ties the bot to the lanes and pulses."],
+    ["r10", "Dome", "A dome on a flat base with a single eye and a pink lens. Calm and sturdy."],
+  ];
+  const use = (id, size, color) => `<svg width="${size}" height="${size}" style="color:${color};--knock:${color === "#ffffff" ? "#061b31" : "#ffffff"}"><use href="#${id}"/></svg>`;
+  document.getElementById("grid").innerHTML = concepts.map(([id, name, text, pick], i) => `
+    <article class="card">
+      <div class="hero"><span class="n">${String(i + 1).padStart(2, "0")}</span>${use(id, 132, "#061b31")}</div>
+      <div class="row">
+        <div class="sizes">${use(id, 32, "#061b31")}${use(id, 16, "#061b31")}</div>
+        <span class="tile">${use(id, 40, "#ffffff")}</span>
+        <span class="tile light">${use(id, 40, "#061b31")}</span>
+        <span class="lock">${use(id, 30, "#061b31")}botLane</span>
+      </div>
+      <div class="dark"><span class="lock">${use(id, 28, "#ffffff")}botLane</span>${use(id, 16, "#ffffff")}</div>
+      <div class="copy"><h3>${name}</h3><p>${text}</p>${pick ? `<p class="pick">${pick}</p>` : ""}</div>
+    </article>`).join("");
+</script>
+</body>
+</html>

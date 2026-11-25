@@ -1,0 +1,2 @@
+# Navigation
+The browser showed a navy announcement band above a 76px desktop navigation row. The desktop row presents Products, Solutions, Developers, Resources and Pricing, with Sign in and Contact sales at the right. Products opens a grouped menu for Payments, Revenue, Money Management, Embedded Finance and More. The mobile browser shows one menu button. The demo implements button-activated menus, Escape and outside-click dismissal, a closable announcement, and local UI for Sign in and Contact sales. The demo contains fewer menu entries and groups than the reference.

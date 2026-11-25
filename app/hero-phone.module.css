@@ -1,0 +1,174 @@
+/* Only transform and opacity animate. The phone rises in with CSS so it is there from the first paint. */
+.stage {
+  --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --black: #0b0d12;
+  --card: 0 1px 2px #061b310f, 0 12px 28px -10px #061b3140;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 620px;
+}
+
+/* ───────── The phone ───────── */
+.phone {
+  position: relative;
+  z-index: 1;
+  width: 320px;
+  height: 600px;
+  padding: 12px 12px 0;
+  border-radius: 46px 46px 0 0;
+  background: var(--black);
+  box-shadow: 0 30px 60px -24px #061b3166, 0 12px 24px -12px #061b3133, inset 0 0 0 1.5px #2a2d36;
+  animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.1, 1) 0.2s both;
+}
+@keyframes rise { from { opacity: 0; transform: translate3d(0, 40px, 0); } to { opacity: 1; transform: none; } }
+
+.screen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 35px 35px 0 0;
+  background: #f6f8fa;
+  color: var(--ink);
+}
+.screen::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  left: calc(50% - 46px);
+  width: 92px;
+  height: 26px;
+  border-radius: 999px;
+  background: var(--black);
+}
+
+.status { display: flex; justify-content: space-between; align-items: center; height: 46px; padding: 6px 26px 0; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.signal { display: flex; align-items: flex-end; gap: 2px; height: 10px; }
+.signal i { width: 3px; border-radius: 1px; background: var(--ink); }
+.signal i:nth-child(1) { height: 4px; } .signal i:nth-child(2) { height: 6px; } .signal i:nth-child(3) { height: 8px; } .signal i:nth-child(4) { height: 10px; }
+.signal b { width: 20px; height: 10px; margin-left: 5px; border-radius: 3px; border: 1.5px solid var(--ink); background: linear-gradient(90deg, var(--ink) 70%, transparent 70%) content-box; padding: 1px; }
+
+.roll { display: inline-grid; overflow: hidden; vertical-align: bottom; }
+.roll > span { grid-area: 1 / 1; }
+
+.appBar { display: flex; align-items: center; gap: 9px; padding: 4px 16px 12px; }
+.appBar div { display: grid; line-height: 1.15; }
+.appBar strong { font-size: 15px; font-weight: 600; letter-spacing: -0.02em; }
+.appBar small { font-size: 11px; color: var(--muted); }
+.demo { margin-left: auto; padding: 3px 8px; border-radius: 999px; background: #e3e8ed; font: 600 9.5px/1.2 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+.today { display: grid; grid-template-columns: 0.8fr 0.8fr 1.2fr; gap: 6px; padding: 0 12px; }
+.today > div { padding: 8px 10px; border-radius: 12px; background: white; box-shadow: 0 1px 2px #061b310d; }
+.today small { display: block; font-size: 10px; color: var(--muted); }
+.today strong { display: block; margin-top: 2px; font-size: 16px; font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.today > div:last-child strong { color: var(--black); }
+
+.tabs { position: relative; display: flex; gap: 16px; margin: 14px 16px 10px; font-size: 12px; font-weight: 600; color: #061b3166; }
+.tabs span[data-on="true"] { color: var(--ink); box-shadow: 0 2px 0 var(--black); padding-bottom: 4px; }
+.live { display: inline-block; width: 6px; height: 6px; margin-left: 3px; vertical-align: 1px; border-radius: 50%; background: #16a34a; }
+
+.feed { flex: 1; list-style: none; margin: 0; padding: 0 12px; display: grid; align-content: start; gap: 7px; overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent); mask-image: linear-gradient(to bottom, black 85%, transparent); }
+.note {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 9px;
+  padding: 10px 11px;
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 1px 2px #061b310f, 0 4px 12px -6px #061b311f;
+  font-size: 12px;
+  line-height: 1.38;
+  transition: box-shadow 0.35s;
+}
+.note[data-ask="true"] { box-shadow: inset 0 0 0 1.5px var(--black), 0 8px 20px -8px #061b3140; }
+.note[data-ok="true"] { box-shadow: inset 0 0 0 1.5px #16a34a66, 0 4px 12px -6px #061b311f; }
+.note small { display: block; margin-bottom: 2px; font: 600 9px/1.2 var(--mono); letter-spacing: 0.08em; color: #061b3180; }
+.note p { margin: 0; }
+.noteIcon { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 8px; background: var(--black); color: white; }
+.note[data-ok="true"] .noteIcon { background: #16a34a; }
+.noteIcon svg, .cardIcon svg, .tabBar svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.typing .noteIcon { background: #eef1f4; color: var(--ink); }
+.dots { display: inline-flex; gap: 3px; margin-left: 5px; }
+.dots i { width: 4px; height: 4px; border-radius: 50%; background: var(--muted); animation: dot 1s ease-in-out infinite; }
+.dots i:nth-child(2) { animation-delay: 0.15s; } .dots i:nth-child(3) { animation-delay: 0.3s; }
+@keyframes dot { 50% { opacity: 0.25; transform: translateY(-2px); } }
+
+.buttons { display: flex; gap: 6px; margin-top: 9px; overflow: hidden; }
+.buttons span { flex: 1; padding: 7px; border-radius: 9px; background: #eef1f4; text-align: center; font-size: 12px; font-weight: 600; }
+.buttons .approve { background: var(--black); color: white; }
+
+.tabBar { display: flex; justify-content: space-around; padding: 10px 20px 22px; background: white; box-shadow: 0 -1px 0 #061b310f; }
+.tabBar span { display: grid; place-items: center; width: 34px; height: 30px; border-radius: 9px; color: #061b3166; }
+.tabBar span[data-on="true"] { color: var(--ink); background: #eef1f4; }
+.tabBar svg { width: 17px; height: 17px; }
+.homeBar { position: absolute; bottom: 7px; left: calc(50% - 56px); width: 112px; height: 4px; border-radius: 4px; background: var(--black); }
+
+.finger {
+  position: absolute;
+  z-index: 3;
+  /* sits over the Approve button of the newest note */
+  top: 262px;
+  right: 48px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #061b3126;
+  box-shadow: 0 0 0 2px #ffffffcc, 0 6px 14px -4px #061b3166;
+  pointer-events: none;
+}
+
+/* ───────── Cards outside the phone ───────── */
+.side { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.card { position: absolute; padding: 12px 14px; border-radius: 14px; background: white; box-shadow: var(--card); color: var(--ink); }
+.card small { display: block; font-size: 11px; color: var(--muted); }
+.card strong { display: block; font-size: 14px; font-weight: 600; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.cardIcon { display: grid; place-items: center; flex: none; width: 32px; height: 32px; border-radius: 10px; background: var(--black); color: white; }
+.cardIcon[data-ring="true"] { animation: ring 0.9s ease-in-out infinite; }
+@keyframes ring { 0%, 100% { transform: rotate(0); } 20% { transform: rotate(-12deg); } 40% { transform: rotate(10deg); } 60% { transform: rotate(-6deg); } }
+
+.callCard { top: 96px; left: calc(50% - 160px - 120px); display: flex; align-items: center; gap: 10px; width: 224px; }
+.wave { display: flex; align-items: center; gap: 2px; height: 22px; margin-left: auto; }
+.wave i { width: 3px; height: 22px; border-radius: 2px; background: var(--black); }
+
+.calCard { top: 200px; right: calc(50% - 160px - 120px); width: 248px; }
+.slots { position: relative; display: grid; gap: 7px; margin-top: 8px; padding-left: 36px; }
+.slots span { position: relative; left: -36px; font: 500 10px/14px var(--mono); color: #061b3180; }
+.slots b { position: absolute; top: 18px; left: 36px; right: 0; height: 22px; padding: 4px 8px; border-radius: 6px; background: var(--black); color: white; font-size: 10.5px; font-weight: 600; white-space: nowrap; overflow: hidden; transform-origin: left center; }
+
+.mapCard { top: 380px; left: calc(50% - 160px - 120px); width: 214px; }
+.map { overflow: hidden; border-radius: 9px; background: #eef1f4; }
+.map svg { display: block; width: 100%; height: auto; }
+.streets { fill: none; stroke: white; stroke-width: 7; }
+.route { fill: none; stroke: var(--black); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.pin { fill: #16a34a; stroke: white; stroke-width: 2; }
+.mapText { display: flex; align-items: center; gap: 10px; padding: 8px 6px 2px; }
+
+.paidCard { top: 380px; right: calc(50% - 160px - 120px); width: 196px; }
+.paidCard strong { margin-top: 4px; font-size: 22px; letter-spacing: -0.03em; }
+.stamp { position: absolute; top: 12px; right: 12px; padding: 3px 9px; border-radius: 6px; border: 1.5px solid #16a34a; color: #15803d; font: 700 11px/1.2 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; }
+.stars { display: flex; align-items: center; gap: 3px; margin-top: 10px; }
+.stars i { width: 11px; height: 11px; background: var(--black); clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+.stars span { margin-left: 0; font-size: 11px; color: var(--muted); }
+
+@media (max-width: 1050px) {
+  .stage { width: min(100%, 720px); margin-inline: auto; }
+}
+@media (max-width: 640px) {
+  .stage { height: 560px; }
+  .phone { width: min(100%, 300px); height: 540px; }
+  .side { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .phone, .cardIcon[data-ring="true"], .dots i { animation: none; } }
+
+/* Fields read from an RFQ attachment (document processing), in the left-hand card. */
+.fields { display: grid; gap: 5px; margin: 8px 0 0; }
+.fields div { display: flex; justify-content: space-between; gap: 12px; font-size: 11.5px; }
+.fields dt { color: var(--muted); }
+.fields dd { margin: 0; font-weight: 600; }
+
+.reading { display: flex; align-items: center; gap: 6px; }

@@ -1,0 +1,108 @@
+.section { padding-block: 24px 112px; }
+.heading { font-weight: 400; max-width: 640px; margin: 0 0 48px; }
+.heading span { color: var(--muted); }
+
+.window {
+  --wf-bg: #0e1116;
+  --wf-card: #171b22;
+  --wf-line: #ffffff14;
+  --wf-text: #e8eaee;
+  --wf-muted: #8b919c;
+  --wf-green: #3ddc84;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--wf-bg);
+  color: var(--wf-text);
+  box-shadow: 0 40px 80px -40px #061b3180, 0 0 0 1px #061b3114;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--wf-line);
+  font-size: 13px;
+}
+.barTitle { display: flex; align-items: baseline; gap: 12px; min-width: 0; margin-right: auto; }
+.barTitle strong { font-size: 14px; font-weight: 600; white-space: nowrap; }
+.barTitle span { color: var(--wf-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.live { display: inline-flex; align-items: center; gap: 7px; padding: 4px 10px; border-radius: 999px; background: #3ddc841a; color: var(--wf-green); font-weight: 600; }
+.live i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 3px #3ddc8433; animation: blink 1.6s ease-in-out infinite; }
+.demo { padding: 4px 10px; border-radius: 999px; border: 1px dashed #ffffff33; color: var(--wf-muted); font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+@keyframes blink { 50% { opacity: 0.35; } }
+
+.viewport {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle, #ffffff1c 1px, transparent 1.5px) 0 0 / 22px 22px;
+  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+}
+.world { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform; }
+.wires { position: absolute; inset: 0; overflow: visible; }
+
+.wire, .wireDim, .trail { fill: none; stroke-linecap: round; }
+.wire { stroke: #ffffff26; stroke-width: 2; transition: stroke 0.4s; }
+.wire[data-state="done"] { stroke: #3ddc8466; }
+.wire[data-state="active"] { stroke: #ffffff40; }
+.wireDim { stroke: #ffffff14; stroke-width: 2; stroke-dasharray: 4 6; }
+/* No SVG filters: blurred drop-shadows re-rasterise every frame and flicker, especially on iPad. The glow is a
+   wide translucent stroke and a halo circle instead. */
+.trail { stroke: var(--wf-green); stroke-width: 3; }
+.trailGlow { fill: none; stroke: #3ddc84; stroke-width: 10; stroke-linecap: round; opacity: 0.18; }
+.trailGlow, .trail { transition: opacity 0.25s ease; }
+.halo { fill: #3ddc842e; }
+.pulse { fill: #d9ffe9; }
+.branch { fill: var(--wf-muted); font-size: 12px; font-weight: 600; }
+
+.node {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: 12px 16px 12px 20px;
+  border-radius: 12px;
+  border: 1px solid var(--wf-line);
+  background: var(--wf-card);
+  box-shadow: 0 12px 30px -12px #000000aa;
+  transition: border-color 0.5s ease, background-color 0.5s ease, box-shadow 0.6s ease, opacity 0.5s ease;
+}
+.node::before { content: ""; position: absolute; left: 0; top: 14px; bottom: 14px; width: 3px; border-radius: 0 3px 3px 0; background: var(--node-accent, #ffffff40); }
+.node[data-kind="trigger"] { --node-accent: #7c8cff; }
+.node[data-kind="ai"] { --node-accent: var(--accent); }
+.node[data-kind="condition"] { --node-accent: #f5b544; }
+.node[data-kind="action"] { --node-accent: #3ddc84; }
+.node[data-kind="goal"] { --node-accent: #3ddc84; }
+.node strong { font-size: 15px; font-weight: 600; letter-spacing: -0.02em; }
+.detail { font-size: 12.5px; color: var(--wf-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tag { position: absolute; left: 0; top: -24px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; color: var(--wf-muted); }
+.time { position: absolute; right: 2px; top: -24px; font-size: 11.5px; font-weight: 600; color: var(--wf-green); animation: pop 0.45s cubic-bezier(0.2, 0.7, 0.1, 1) both; }
+.goal { position: absolute; right: -10px; top: -10px; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--wf-green); color: #08240f; font-size: 13px; font-weight: 800; box-shadow: 0 0 0 4px #3ddc8433; animation: pop 0.45s cubic-bezier(0.2, 0.7, 0.1, 1) both; }
+
+.node[data-state="idle"] { opacity: 0.5; }
+.node[data-state="done"] { border-color: color-mix(in srgb, var(--node-accent) 35%, transparent); background: color-mix(in srgb, var(--node-accent) 7%, var(--wf-card)); }
+/* The box the pulse just reached: tinted with its accent and a soft glow. */
+.node[data-fresh="true"] { border-color: var(--node-accent); background: color-mix(in srgb, var(--node-accent) 14%, var(--wf-card)); box-shadow: 0 0 0 1px var(--node-accent), 0 0 34px -4px color-mix(in srgb, var(--node-accent) 70%, transparent), 0 12px 30px -12px #000000aa; }
+
+/* Step toasts, stacked in the corner of the canvas (absolutely placed, so the canvas never resizes). */
+.toasts { position: absolute; right: 16px; bottom: 16px; z-index: 2; display: grid; gap: 8px; width: 260px; list-style: none; margin: 0; padding: 0; pointer-events: none; }
+.toast { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; background: #1d222bf2; border: 1px solid #ffffff1f; box-shadow: 0 14px 30px -12px #000000cc; font-size: 12.5px; }
+.toast b { display: block; font-weight: 600; color: var(--wf-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.toast small { display: block; margin-top: 1px; color: var(--wf-muted); font-size: 11.5px; }
+.toast > span:last-child { min-width: 0; }
+.toastIcon { display: grid; place-items: center; flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--wf-green); color: #08240f; font-size: 12px; font-weight: 800; }
+.node[data-state="skipped"] { opacity: 0.32; border-style: dashed; }
+@keyframes pop { from { opacity: 0; transform: translateY(4px) scale(0.9); } }
+
+.note { margin: 18px 0 0; font-size: 13px; color: var(--muted); }
+
+@media (max-width: 600px) {
+  .section { padding-block: 8px 64px; }
+  .heading { margin-bottom: 28px; }
+  .barTitle span, .demo { display: none; }
+  .toasts { width: 210px; right: 10px; bottom: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .live i, .time, .goal { animation: none; }
+}

@@ -1,0 +1,228 @@
+{
+ "sheetsById": {
+  "Workflow": {
+   "staticOverrides": {
+    "byObject": {}
+   },
+   "sequence": {
+    "subUnitsPerUnit": 30,
+    "length": 16.6,
+    "type": "PositionalSequence",
+    "tracksByObject": {
+     "Flow": {
+      "trackIdByPropPath": {
+       "[\"progress\"]": "wfProgress"
+      },
+      "trackData": {
+       "wfProgress": {
+        "type": "BasicKeyframedTrack",
+        "__debugName": "Flow:[\"progress\"]",
+        "keyframes": [
+         {
+          "id": "s",
+          "position": 0,
+          "connectedRight": true,
+          "handles": [
+           0.5,
+           1,
+           0.5,
+           0
+          ],
+          "type": "bezier",
+          "value": 0
+         },
+         {
+          "id": "h",
+          "position": 0.8,
+          "connectedRight": true,
+          "handles": [
+           0.5,
+           1,
+           0.5,
+           0
+          ],
+          "type": "bezier",
+          "value": 0
+         },
+         {
+          "id": "n1",
+          "position": 2.4,
+          "connectedRight": true,
+          "handles": [
+           0.5,
+           1,
+           0.5,
+           0
+          ],
+          "type": "bezier",
+          "value": 1
+         },
+         {
+          "id": "n2",
+          "position": 4.0,
+          "connectedRight": true,
+          "handles": [
+           0.5,
+           1,
+           0.5,
+           0
+          ],
+          "type": "bezier",
+          "value": 2
+         },
+         {
+          "id": "n3",
+          "position": 5.6,
+          "connectedRight": true,
+          "handles": [
+           0.5,
+           1,
+           0.5,
+           0
+          ],
+          "type": "bezier",
+          "value": 3
+         },
+         {
+          "id": "n4",
+          "position": 7.2,
+          "connectedRight": true,
+          "handles": [
+           0.5,
+           1,
+           0.5,
+           0
+          ],
+          "type": "bezier",
+          "value": 4
+         },
+         {
+          "id": "n5",
+          "position": 8.8,
+          "connectedRight": true,
+          "handles": [
+           0.5,
+           1,
+           0.5,
+           0
+          ],
+          "type": "bezier",
+          "value": 5
+         },
+         {
+          "id": "n6",
+          "position": 10.4,
+          "connectedRight": true,
+          "handles": [
+           0.5,
+           1,
+           0.5,
+           0
+          ],
+          "type": "bezier",
+          "value": 6
+         },
+         {
+          "id": "n7",
+          "position": 12.0,
+          "connectedRight": true,
+          "handles": [
+           0.5,
+           1,
+           0.5,
+           0
+          ],
+          "type": "bezier",
+          "value": 7
+         },
+         {
+          "id": "n8",
+          "position": 13.6,
+          "connectedRight": true,
+          "handles": [
+           0.5,
+           1,
+           0.5,
+           0
+          ],
+          "type": "bezier",
+          "value": 8
+         },
+         {
+          "id": "e",
+          "position": 16.6,
+          "connectedRight": false,
+          "handles": [
+           0.5,
+           1,
+           0.5,
+           0
+          ],
+          "type": "bezier",
+          "value": 8
+         }
+        ]
+       }
+      }
+     },
+     "Camera": {
+      "trackIdByPropPath": {
+       "[\"zoom\"]": "camZoom"
+      },
+      "trackData": {
+       "camZoom": {
+        "type": "BasicKeyframedTrack",
+        "__debugName": "Camera:[\"zoom\"]",
+        "keyframes": [
+         {
+          "id": "z0",
+          "position": 0,
+          "connectedRight": true,
+          "handles": [
+           0.5,
+           1,
+           0.5,
+           0
+          ],
+          "type": "bezier",
+          "value": 0.92
+         },
+         {
+          "id": "z1",
+          "position": 8.3,
+          "connectedRight": true,
+          "handles": [
+           0.5,
+           1,
+           0.5,
+           0
+          ],
+          "type": "bezier",
+          "value": 1
+         },
+         {
+          "id": "z2",
+          "position": 16.6,
+          "connectedRight": false,
+          "handles": [
+           0.5,
+           1,
+           0.5,
+           0
+          ],
+          "type": "bezier",
+          "value": 0.92
+         }
+        ]
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "definitionVersion": "0.4.0",
+ "revisionHistory": [
+  "botlane-workflow-v1"
+ ]
+}

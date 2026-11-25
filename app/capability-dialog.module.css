@@ -1,0 +1,32 @@
+/* Capability detail dialog. White panel, wave-tone accents, navy primary button, soft focus ring. */
+.dialog { width: min(600px, calc(100% - 32px)); max-width: none; max-height: calc(100dvh - 48px); margin: auto; padding: 0; border: 0; border-radius: 18px; background: white; color: var(--ink); box-shadow: 0 40px 100px -30px #061b3166; overflow: auto; }
+.dialog::backdrop { background: #0b1530a6; backdrop-filter: blur(3px); }
+.inner { padding: 30px 32px 28px; }
+.head { display: flex; align-items: center; gap: 14px; }
+.head small { display: block; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--tone); }
+.head h2 { margin: 2px 0 0; font-size: 28px; font-weight: 400; letter-spacing: -0.03em; }
+.icon { display: grid; place-items: center; flex: none; width: 48px; height: 48px; border-radius: 12px; background: var(--tint); color: var(--tone); }
+.dialog svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.close { display: grid; place-items: center; align-self: flex-start; margin-left: auto; width: 36px; height: 36px; border: 0; border-radius: 50%; background: var(--soft); color: var(--muted); transition: background 0.2s ease, color 0.2s ease; }
+.close:hover { background: #eef1f4; color: var(--ink); }
+.close:focus-visible, .primary:focus-visible, .secondary:focus-visible { outline: 2px solid var(--tone); outline-offset: 2px; }
+.close svg { width: 18px; height: 18px; }
+.lede { margin: 18px 0 0; color: var(--muted); font-size: 16px; line-height: 1.6; }
+.inner h3 { margin: 26px 0 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.includes { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+.includes li { padding: 7px 11px; border-radius: 6px; background: var(--tint); color: var(--ink); font-size: 13.5px; font-weight: 500; }
+.examples { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.examples div { display: grid; gap: 4px; align-content: start; padding: 12px; border: 1px solid var(--line); border-radius: 10px; }
+.examples small { font-size: 12px; font-weight: 600; color: var(--tone); }
+.examples span { font-size: 13.5px; line-height: 1.45; }
+.control { display: flex; align-items: flex-start; gap: 10px; margin: 22px 0 0; padding: 12px 14px; border-radius: 10px; background: var(--soft); font-size: 14px; line-height: 1.5; }
+.control svg { flex: none; width: 18px; height: 18px; margin-top: 1px; color: var(--tone); }
+.foot { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+.primary, .secondary { padding: 12px 18px; border: 0; border-radius: 4px; font-size: 14px; font-weight: 550; }
+.primary { background: var(--ink); color: white; transition: background 0.2s ease; }
+.primary:hover { background: #1c3250; }
+.primary span { display: inline-block; margin-left: 4px; transition: transform 0.2s ease; }
+.primary:hover span { transform: translateX(3px); }
+.secondary { background: var(--soft); color: var(--ink); }
+.secondary:hover { background: #eef1f4; }
+@media (max-width: 600px) { .inner { padding: 24px 20px; } .examples { grid-template-columns: 1fr; } .head h2 { font-size: 23px; } }

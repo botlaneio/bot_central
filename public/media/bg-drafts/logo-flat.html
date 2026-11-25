@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>botLane · new logo direction (flat, lanes and pulses)</title>
+<style>
+  @font-face { font-family: "Instrument Sans"; src: url("/media/instrument-sans.ttf") format("truetype"); font-weight: 400 700; }
+  :root { --ink: #061b31; --muted: #425e73; --line: #e3e8ed; --soft: #f6f8fa;
+    --orange: #ff8a1f; --coral: #ff6a5c; --pink: #f77ce0; --violet: #7a5cff; --accent: #5333f5; --sky: #6f9bff; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Instrument Sans", Arial, sans-serif; color: var(--ink); background: #fff; }
+  header { max-width: 1240px; margin: 0 auto; padding: 56px 32px 24px; }
+  header p.k { margin: 0 0 14px; font-size: 13px; font-weight: 600; color: var(--accent); }
+  header h1 { margin: 0; font-size: 40px; font-weight: 400; letter-spacing: -0.035em; }
+  header h1 span { color: var(--muted); }
+  header p.l { max-width: 760px; color: var(--muted); line-height: 1.6; }
+  .rules { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .rules i { font-style: normal; font-size: 12.5px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 4px; }
+  .grid { max-width: 1240px; margin: 0 auto; padding: 16px 32px 80px; display: grid; grid-template-columns: repeat(auto-fill, minmax(370px, 1fr)); gap: 16px; }
+  .card { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: #fff; }
+  .hero { display: grid; place-items: center; height: 220px; background: var(--soft); border-bottom: 1px solid var(--line); position: relative; }
+  .hero .n { position: absolute; top: 14px; left: 16px; font-size: 13px; font-weight: 700; }
+  .row { display: flex; align-items: center; gap: 18px; padding: 16px 18px; border-bottom: 1px solid var(--line); }
+  .sizes { display: flex; align-items: end; gap: 14px; }
+  .tile { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 14px; background: var(--ink); }
+  .tile.light { background: #fff; border: 1px solid var(--line); }
+  .lock { display: inline-flex; align-items: center; gap: 8px; font-size: 22px; font-weight: 600; letter-spacing: -0.035em; }
+  .dark { background: #0b1530; color: #fff; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; }
+  .copy { padding: 14px 18px 18px; }
+  .copy h3 { margin: 0 0 6px; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+  .copy p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--muted); }
+  .pick { margin-top: 10px; font-size: 12px; font-weight: 600; color: var(--accent); }
+  svg { display: block; }
+  /* Live touches: each mark has one small motion, the kind it would use on the site. */
+  @media (prefers-reduced-motion: no-preference) {
+    .live .travel { animation: travel 2.6s cubic-bezier(.45,0,.2,1) infinite; }
+    .live .blink { animation: blink 2.6s ease-in-out infinite; }
+    .live .spin { transform-origin: 32px 32px; animation: spin 6s linear infinite; }
+  }
+  @keyframes travel { 0%, 15% { transform: translateX(0); } 55%, 100% { transform: translateX(24px); } }
+  @keyframes blink { 0%, 40% { opacity: .25; } 60%, 100% { opacity: 1; } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<header>
+  <p class="k">Logo direction 3 · blank canvas</p>
+  <h1>Ten new icon concepts. <span>Built from the site as it looks now.</span></h1>
+  <p class="l">Each mark uses only what the site already uses: flat navy ink, the hero wave colours as flat accents, rounded-square tiles, 1.7px line icons, lanes, nodes and a travelling pulse. No gradients, no 3D. Every concept is shown large, at 32 and 16px, as an app tile on navy and white, in the nav lockup, and on a dark band. Rough concepts to react to; pick one or two to refine.</p>
+  <div class="rules"><i>Flat colour only</i><i>Navy #061B31 + wave accents</i><i>Reads at 16px</i><i>Works in one colour</i><i>Original geometry</i></div>
+</header>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- 1 Lane pulse: a lane with two steps passed and the pulse arriving at the third -->
+    <symbol id="m1" viewBox="0 0 64 64">
+      <rect x="6" y="6" width="52" height="52" rx="14" fill="currentColor"/>
+      <path d="M17 32h30" stroke="var(--knock)" stroke-opacity=".35" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="18" cy="32" r="4" fill="var(--knock)"/><circle cx="32" cy="32" r="4" fill="var(--knock)"/>
+      <circle cx="46" cy="32" r="5.5" fill="var(--orange)"/>
+    </symbol>
+    <!-- 2 Lane b: a lowercase b drawn as one lane; the pulse sits where the lane closes -->
+    <symbol id="m2" viewBox="0 0 64 64">
+      <path d="M20 10v30a12 12 0 1 0 12-12h-12" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="44" cy="40" r="5" fill="var(--coral)"/>
+    </symbol>
+    <!-- 3 Checkpoint: a lane bends up through a square approval node and carries on -->
+    <symbol id="m3" viewBox="0 0 64 64">
+      <path d="M8 44h14l8-12h4l8 12h14" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="24" y="14" width="16" height="16" rx="4" fill="var(--violet)"/>
+      <path d="M28 22l3 3 5-6" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <!-- 4 Merge: three lanes in wave colours become one navy lane -->
+    <symbol id="m4" viewBox="0 0 64 64">
+      <path d="M8 16c14 0 16 16 26 16" fill="none" stroke="var(--orange)" stroke-width="5" stroke-linecap="round"/>
+      <path d="M8 32h26" fill="none" stroke="var(--pink)" stroke-width="5" stroke-linecap="round"/>
+      <path d="M8 48c14 0 16-16 26-16" fill="none" stroke="var(--violet)" stroke-width="5" stroke-linecap="round"/>
+      <path d="M34 32h22" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+    </symbol>
+    <!-- 5 Steps: four tiles climbing, the last one lit -->
+    <symbol id="m5" viewBox="0 0 64 64">
+      <rect x="8" y="40" width="12" height="12" rx="3.5" fill="currentColor" opacity=".25"/>
+      <rect x="20" y="30" width="12" height="12" rx="3.5" fill="currentColor" opacity=".45"/>
+      <rect x="32" y="20" width="12" height="12" rx="3.5" fill="currentColor" opacity=".7"/>
+      <rect x="44" y="10" width="12" height="12" rx="3.5" fill="var(--orange)"/>
+    </symbol>
+    <!-- 6 Dotted orb: a sphere of dots (a nod to the thinking orbs), one dot lit -->
+    <symbol id="m6" viewBox="0 0 64 64">
+      <g fill="currentColor">
+        <circle cx="32" cy="10" r="2.4"/><circle cx="32" cy="54" r="2.4"/><circle cx="10" cy="32" r="2.4"/><circle cx="54" cy="32" r="2.4"/>
+        <circle cx="16.4" cy="16.4" r="2.4"/><circle cx="47.6" cy="16.4" r="2.4"/><circle cx="16.4" cy="47.6" r="2.4"/><circle cx="47.6" cy="47.6" r="2.4"/>
+        <circle cx="32" cy="21" r="3"/><circle cx="21" cy="32" r="3"/><circle cx="32" cy="43" r="3"/>
+        <circle cx="25" cy="25" r="2.2" opacity=".5"/><circle cx="39" cy="39" r="2.2" opacity=".5"/><circle cx="25" cy="39" r="2.2" opacity=".5"/>
+      </g>
+      <circle cx="43" cy="32" r="4.5" fill="var(--pink)"/><circle cx="39" cy="25" r="2.2" fill="var(--pink)" opacity=".6"/>
+    </symbol>
+    <!-- 7 Switch: an always-on toggle whose knob is a square node -->
+    <symbol id="m7" viewBox="0 0 64 64">
+      <rect x="6" y="18" width="52" height="28" rx="14" fill="currentColor"/>
+      <rect x="34" y="22" width="20" height="20" rx="6" fill="var(--sky)"/>
+      <circle cx="20" cy="32" r="3" fill="var(--knock)" opacity=".45"/>
+    </symbol>
+    <!-- 8 Lanes: three lanes with one job moving through the middle one -->
+    <symbol id="m8" viewBox="0 0 64 64">
+      <path d="M10 18h44M10 32h44M10 46h44" stroke="currentColor" stroke-width="5" stroke-linecap="round" opacity=".9"/>
+      <rect x="30" y="25" width="14" height="14" rx="4" fill="var(--coral)"/>
+    </symbol>
+    <!-- 9 Corner bL: b and L share one stem; the L's foot ends in a pulse -->
+    <symbol id="m9" viewBox="0 0 64 64">
+      <path d="M16 8v40h30" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M16 26h10a11 11 0 0 1 0 22" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity=".35"/>
+      <circle cx="52" cy="48" r="5.5" fill="var(--violet)"/>
+    </symbol>
+    <!-- 10 Loop lane: a continuous loop (run, monitor, improve) with the pulse on it -->
+    <symbol id="m10" viewBox="0 0 64 64">
+      <rect x="8" y="16" width="48" height="32" rx="16" fill="none" stroke="currentColor" stroke-width="6"/>
+      <circle cx="40" cy="16" r="5.5" fill="var(--orange)"/>
+      <path d="M24 32h16" stroke="currentColor" stroke-width="6" stroke-linecap="round" opacity=".35"/>
+    </symbol>
+  </defs>
+</svg>
+
+<main class="grid" id="grid"></main>
+
+<script>
+  const concepts = [
+    ["m1", "Lane pulse", "A lane with two steps done and the pulse arriving at the third. The most direct picture of what the site shows: work moving through steps.", "Strong pick: matches the pillar line and workflow canvas."],
+    ["m2", "Lane b", "A lowercase b drawn as one continuous lane, with the pulse where it closes. Keeps the name in the mark."],
+    ["m3", "Checkpoint", "A lane that rises through a square approval node and carries on. Says supervised automation: a person approves, then it continues."],
+    ["m4", "Merge", "Three lanes in wave colours become one navy lane: many tools, one connected system. The only multi-colour mark here."],
+    ["m5", "Steps", "Four tiles climbing, the last one lit. The six-step method in one glance; very clear at 16px."],
+    ["m6", "Dotted orb", "A sphere of dots with one lit, a nod to the thinking orbs, and a flat, quiet successor to the 3D orb."],
+    ["m7", "Always on", "A toggle switched on, its knob a square node. Simple and memorable; reads as 'it just runs'."],
+    ["m8", "Lanes", "Three lanes with one job moving through the middle. Calm and very legible."],
+    ["m9", "Corner bL", "b and L share one stem; the L's foot ends in a pulse. A monogram with motion built in."],
+    ["m10", "Loop", "A continuous loop with the pulse on it: run, monitor, improve every month."],
+  ];
+  // --knock is the colour cut out of a solid mark: white on light backgrounds, navy on dark ones.
+  const use = (id, size, color) => `<svg width="${size}" height="${size}" style="color:${color};--knock:${color === "#ffffff" ? "#061b31" : "#ffffff"}"><use href="#${id}"/></svg>`;
+  document.getElementById("grid").innerHTML = concepts.map(([id, name, text, pick], i) => `
+    <article class="card">
+      <div class="hero live"><span class="n">${String(i + 1).padStart(2, "0")}</span>${use(id, 132, "#061b31")}</div>
+      <div class="row">
+        <div class="sizes">${use(id, 32, "#061b31")}${use(id, 16, "#061b31")}</div>
+        <span class="tile">${use(id, 40, "#ffffff")}</span>
+        <span class="tile light">${use(id, 40, "#061b31")}</span>
+        <span class="lock">${use(id, 30, "#061b31")}botLane</span>
+      </div>
+      <div class="dark"><span class="lock">${use(id, 28, "#ffffff")}botLane</span>${use(id, 16, "#ffffff")}</div>
+      <div class="copy"><h3>${name}</h3><p>${text}</p>${pick ? `<p class="pick">${pick}</p>` : ""}</div>
+    </article>`).join("");
+</script>
+</body>
+</html>

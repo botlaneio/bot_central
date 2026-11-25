@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>botLane · Hero concepts</title>
+<style>
+  @font-face { font-family: "Instrument Sans"; src: url("../public/media/instrument-sans.ttf") format("truetype"); font-weight: 400 700; }
+  :root {
+    --ink: #061b31; --muted: #425e73; --black: #0b0d12; --line: #061b3117;
+    --silk: linear-gradient(135deg, #4b6bff 0%, #5333f5 50%, #c38bff 100%);
+    --lift: 0 1px 2px #061b310f, 0 8px 24px -8px #061b3126;
+    --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    --ease: cubic-bezier(.2,.7,.1,1);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #eef0f4; color: var(--ink); font-family: "Instrument Sans", "Helvetica Neue", Arial, sans-serif; }
+  .intro { max-width: 1240px; margin: 40px auto 8px; padding: 0 24px; }
+  .intro h1 { margin: 0 0 6px; font-size: 26px; font-weight: 600; letter-spacing: -.03em; }
+  .intro p { margin: 0; color: var(--muted); max-width: 760px; line-height: 1.5; }
+  .concept { max-width: 1240px; margin: 36px auto; padding: 0 24px; }
+  .tag { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; }
+  .tag b { font-size: 15px; } .tag span { color: var(--muted); font-size: 14px; }
+  .tag button { margin-left: auto; border: 0; border-radius: 6px; padding: 6px 12px; background: white; box-shadow: var(--lift); font: 600 12px var(--mono); cursor: pointer; }
+  .page { position: relative; overflow: hidden; border-radius: 14px; background: white; box-shadow: var(--lift); }
+  .nav { display: flex; align-items: center; gap: 24px; height: 60px; padding: 0 40px; border-bottom: 1px solid var(--line); font-size: 13px; font-weight: 550; }
+  .nav .logo { display: flex; align-items: center; gap: 4px; font-size: 19px; font-weight: 600; letter-spacing: -.035em; margin-right: 12px; }
+  .nav .cta { margin-left: auto; padding: 8px 14px; border-radius: 4px; background: var(--silk); color: white; }
+
+  /* Shared hero copy */
+  h2.head { margin: 0; font-size: clamp(32px, 3.6vw, 50px); font-weight: 400; line-height: 1.1; letter-spacing: -.035em; color: #10172d; }
+  h2.head em { display: block; font-style: normal; background: var(--silk); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .lede { margin: 22px 0 0; max-width: 520px; font-size: 17px; line-height: 1.55; color: var(--muted); }
+  .actions { display: flex; gap: 10px; margin-top: 30px; flex-wrap: wrap; }
+  .btn { padding: 13px 20px; border-radius: 4px; font-size: 15px; font-weight: 550; }
+  .btn.p { background: var(--silk); color: white; } .btn.s { background: white; box-shadow: inset 0 0 0 1px var(--line); }
+  .eyebrow { display: inline-flex; gap: 8px; align-items: center; margin-bottom: 24px; font-size: 13px; font-weight: 550; }
+  .eyebrow i { width: 7px; height: 7px; border-radius: 2px; background: var(--silk); }
+  .demo { padding: 3px 8px; border-radius: 999px; background: #f2f3f6; font: 600 9.5px/1.2 var(--mono); letter-spacing: .1em; color: #061b3199; }
+  .card { background: white; border-radius: 12px; box-shadow: var(--lift); }
+
+  /* Page-load entrance used everywhere: transform + opacity only (GPU friendly). */
+  .in { opacity: 0; transform: translateY(14px); animation: rise .8s var(--ease) forwards; animation-delay: var(--d, 0s); }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+  .replay .in, .replay .in * { animation: none !important; }
+
+  /* ───────── Concept A: Orb at the front desk ───────── */
+  .a { display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center; padding: 72px 56px 80px; }
+  .a-stage { position: relative; height: 440px; }
+  .a-orb { position: absolute; left: 50%; top: 0; width: 120px; transform: translateX(-50%); }
+  .a-orb svg { width: 120px; height: 120px; display: block; animation: bob 4s ease-in-out infinite; }
+  @keyframes bob { 50% { transform: translateY(-5px); } }
+  .a-say { position: absolute; left: 50%; top: 124px; transform: translateX(-50%); white-space: nowrap; font: 600 10.5px var(--mono); letter-spacing: .08em; color: #061b3180; }
+  .a-feed { position: absolute; left: 0; right: 0; top: 160px; display: grid; gap: 10px; }
+  .a-row { display: grid; grid-template-columns: 34px 1fr auto; align-items: center; gap: 12px; padding: 12px 14px; opacity: 0; transform: translateY(12px) scale(.98); }
+  .a-row .ic { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; background: #f2f3f6; font-size: 15px; }
+  .a-row strong { display: block; font-size: 14px; font-weight: 600; letter-spacing: -.01em; }
+  .a-row small { font-size: 12px; color: var(--muted); }
+  .a-row .st { font: 600 10px var(--mono); letter-spacing: .08em; padding: 5px 8px; border-radius: 999px; background: #f2f3f6; color: var(--muted); }
+  .a-row .st.done { background: var(--black); color: white; }
+  .a-row.show { animation: rowIn .6s var(--ease) forwards; }
+  @keyframes rowIn { to { opacity: 1; transform: none; } }
+  .a-meta { position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: center; }
+
+  /* ───────── Concept B: botLane lanes ───────── */
+  .b { padding: 76px 56px 64px; text-align: center; }
+  .b .lede { margin-inline: auto; }
+  .b .actions { justify-content: center; }
+  .b-board { position: relative; margin: 52px auto 0; max-width: 1040px; padding: 22px 24px 18px; text-align: left; }
+  .b-head { display: grid; grid-template-columns: 150px repeat(5, 1fr); gap: 0; margin-bottom: 8px; font: 600 10px var(--mono); letter-spacing: .1em; color: #061b3180; }
+  .b-lane { position: relative; display: grid; grid-template-columns: 150px 1fr; align-items: center; height: 58px; border-top: 1px solid #061b310d; }
+  .b-lane label { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; }
+  .b-lane label i { width: 8px; height: 8px; border-radius: 50%; background: var(--black); }
+  .b-track { position: relative; height: 100%; }
+  .b-track::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 1.5px dashed #061b311c; }
+  .b-chip { position: absolute; top: 50%; left: 0; display: flex; align-items: center; gap: 8px; padding: 7px 11px 7px 8px; border-radius: 8px; background: white; box-shadow: var(--lift); font-size: 12px; font-weight: 600; white-space: nowrap; transform: translate(0, -50%); opacity: 0; will-change: transform; }
+  .b-chip b { width: 18px; height: 18px; border-radius: 5px; display: grid; place-items: center; background: var(--black); color: white; font: 700 10px var(--mono); }
+  .b-chip span { font: 500 10.5px var(--mono); color: var(--muted); }
+  .b-chip.run { animation: lane var(--t, 9s) var(--ease) var(--d, 0s) infinite; }
+  @keyframes lane {
+    0% { opacity: 0; transform: translate(0, -50%); }
+    6% { opacity: 1; }
+    20% { transform: translate(calc(var(--w) * .2), -50%); }
+    30% { transform: translate(calc(var(--w) * .2), -50%); }
+    45% { transform: translate(calc(var(--w) * .4), -50%); }
+    55% { transform: translate(calc(var(--w) * .4), -50%); }
+    70% { transform: translate(calc(var(--w) * .6), -50%); }
+    80% { transform: translate(calc(var(--w) * .8), -50%); }
+    92% { opacity: 1; }
+    100% { opacity: 0; transform: translate(calc(var(--w) * .8), -50%); }
+  }
+  .b-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+  .b-foot .orbline { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--muted); }
+
+  /* ───────── Concept C: The owner's phone ───────── */
+  .c { display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; align-items: center; padding: 64px 56px 0; }
+  .c-copy { padding-bottom: 72px; }
+  .c-stage { position: relative; height: 520px; display: flex; justify-content: center; align-items: flex-end; }
+  .c-glow { position: absolute; bottom: -80px; width: 420px; height: 420px; border-radius: 50%; background: var(--silk); filter: blur(70px); opacity: .22; }
+  .c-phone { position: relative; width: 300px; height: 500px; padding: 14px 14px 0; border-radius: 40px 40px 0 0; background: var(--black); box-shadow: 0 30px 60px -20px #061b3166; }
+  .c-screen { height: 100%; border-radius: 28px 28px 0 0; background: #f6f7f9; padding: 40px 12px 0; overflow: hidden; }
+  .c-top { display: flex; align-items: center; gap: 8px; padding: 0 4px 14px; font-size: 13px; font-weight: 600; }
+  .c-top svg { width: 26px; height: 26px; }
+  .c-top .demo { margin-left: auto; }
+  .c-note { margin-bottom: 8px; padding: 11px 12px; background: white; border-radius: 14px; box-shadow: 0 1px 2px #061b310d; font-size: 12.5px; line-height: 1.35; opacity: 0; transform: translateY(-10px) scale(.97); }
+  .c-note.show { animation: rowIn .55s var(--ease) forwards; }
+  .c-note small { display: block; margin-bottom: 3px; font: 600 9.5px var(--mono); letter-spacing: .08em; color: #061b3180; }
+  .c-note .row { display: flex; gap: 6px; margin-top: 9px; }
+  .c-note .row span { flex: 1; text-align: center; padding: 7px; border-radius: 8px; font-size: 12px; font-weight: 600; background: #f2f3f6; }
+  .c-note .row .yes { background: var(--black); color: white; transition: transform .2s; }
+  .c-note .row .yes.tap { transform: scale(.94); }
+  .c-note.ok { box-shadow: inset 0 0 0 1.5px var(--black); }
+
+  @media (max-width: 900px) {
+    .a, .c { grid-template-columns: 1fr; padding: 48px 24px 48px; }
+    .b { padding: 48px 20px; }
+    .b-head { display: none; } .b-lane { grid-template-columns: 90px 1fr; }
+    .c-copy { padding-bottom: 0; }
+    .nav span:not(.logo):not(.cta) { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation-duration: .01s !important; animation-iteration-count: 1 !important; } }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="ig" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#4B6BFF"/><stop offset=".45" stop-color="#5333F5"/><stop offset="1" stop-color="#C38BFF"/></linearGradient>
+    <filter id="ib" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="9"/></filter>
+    <radialGradient id="is" cx="38%" cy="30%" r="75%"><stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#fbfbfe"/><stop offset=".82" stop-color="#ebeaf5"/><stop offset="1" stop-color="#d9d7ea"/></radialGradient>
+    <radialGradient id="ir" cx="50%" cy="100%" r="60%"><stop offset="0" stop-color="#5333F5" stop-opacity=".18"/><stop offset="1" stop-color="#5333F5" stop-opacity="0"/></radialGradient>
+    <symbol id="orb" viewBox="0 0 132 132"><g transform="translate(6 8)">
+      <g filter="url(#ib)" opacity=".85"><ellipse cx="66" cy="72" rx="40" ry="36" fill="url(#ig)"/></g>
+      <circle cx="60" cy="58" r="40" fill="url(#is)"/><circle cx="60" cy="58" r="40" fill="url(#ir)"/>
+      <rect x="45" y="49" width="9" height="18" rx="4.5" fill="#061B31"/><rect x="66" y="49" width="9" height="18" rx="4.5" fill="#5333F5"/></g></symbol>
+  </defs>
+</svg>
+
+<div class="intro">
+  <h1>Three hero directions for botLane</h1>
+  <p>Rough previews to pick a direction, not finished designs. Each one plays on load and loops. All numbers and jobs are demo data. Inside every animation the accents are black; the violet silk gradient stays on the headline and the main button. The chosen one gets rebuilt properly in React with Motion and the real animated orb (its moods: thinking, working, happy and so on).</p>
+</div>
+
+<!-- ───────── A ───────── -->
+<section class="concept" id="A">
+  <div class="tag"><b>A · The orb at the front desk</b><span>The orb is the star. Requests land, it handles each one, and the owner sees it done.</span><button onclick="replay('A')">Replay</button></div>
+  <div class="page">
+    <div class="nav"><span class="logo"><svg width="26" height="26"><use href="#orb"/></svg>botLane</span><span>Solutions</span><span>Industries</span><span>How it works</span><span class="cta">Explore automation</span></div>
+    <div class="a">
+      <div>
+        <div class="eyebrow in" style="--d:.05s"><i></i>Business automation for plumbing, HVAC and law firms</div>
+        <h2 class="head in" style="--d:.12s">You run your business. <em>We automate the work behind it.</em></h2>
+        <p class="lede in" style="--d:.2s">botLane designs, builds and manages intelligent digital systems that connect your customers, streamline your operations and give you more time to grow.</p>
+        <div class="actions in" style="--d:.28s"><span class="btn p">Explore automation for your business →</span><span class="btn s">How it works</span></div>
+      </div>
+      <div class="a-stage in" style="--d:.3s">
+        <div class="a-orb"><svg><use href="#orb"/></svg></div>
+        <div class="a-say" id="a-say">ON THE FRONT DESK</div>
+        <div class="a-feed" id="a-feed"></div>
+        <div class="a-meta"><span class="demo">DEMO · PLUMBING</span><span style="font:600 10px var(--mono);letter-spacing:.08em;color:#061b3180">YOU APPROVE WHAT MATTERS</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── B ───────── -->
+<section class="concept" id="B">
+  <div class="tag"><b>B · Lanes</b><span>Plays on the name. Every job travels its own lane from first call to paid, all at once.</span><button onclick="replay('B')">Replay</button></div>
+  <div class="page">
+    <div class="nav"><span class="logo"><svg width="26" height="26"><use href="#orb"/></svg>botLane</span><span>Solutions</span><span>Industries</span><span>How it works</span><span class="cta">Explore automation</span></div>
+    <div class="b">
+      <div class="eyebrow in" style="--d:.05s"><i></i>Business automation for plumbing, HVAC and law firms</div>
+      <h2 class="head in" style="--d:.12s">You run your business. <em style="margin-inline:auto;width:fit-content">We automate the work behind it.</em></h2>
+      <p class="lede in" style="--d:.2s">botLane designs, builds and manages intelligent digital systems that connect your customers, streamline your operations and give you more time to grow.</p>
+      <div class="actions in" style="--d:.28s"><span class="btn p">Explore automation for your business →</span><span class="btn s">How it works</span></div>
+      <div class="b-board card in" style="--d:.4s" id="b-board">
+        <div class="b-head"><span></span><span>INQUIRY</span><span>BOOKED</span><span>ON THE WAY</span><span>INVOICED</span><span>PAID</span></div>
+        <div class="b-lane"><label><i></i>Plumbing</label><div class="b-track"><div class="b-chip" style="--d:.9s"><b>✓</b>Burst pipe <span>#1042</span></div></div></div>
+        <div class="b-lane"><label><i></i>HVAC</label><div class="b-track"><div class="b-chip" style="--d:2.4s"><b>✓</b>No heat, upstairs <span>#2211</span></div></div></div>
+        <div class="b-lane"><label><i></i>Law firm</label><div class="b-track"><div class="b-chip" style="--d:3.9s;--t:10s"><b>✓</b>New client intake <span>#0381</span></div></div></div>
+        <div class="b-foot"><span class="orbline"><svg width="22" height="22"><use href="#orb"/></svg>botLane keeps every lane moving. You step in only for approvals.</span><span class="demo">DEMO</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── C ───────── -->
+<section class="concept" id="C">
+  <div class="tag"><b>C · The owner's phone</b><span>Seen from the owner's side: a quiet feed of work getting done, and one tap to approve.</span><button onclick="replay('C')">Replay</button></div>
+  <div class="page">
+    <div class="nav"><span class="logo"><svg width="26" height="26"><use href="#orb"/></svg>botLane</span><span>Solutions</span><span>Industries</span><span>How it works</span><span class="cta">Explore automation</span></div>
+    <div class="c">
+      <div class="c-copy">
+        <div class="eyebrow in" style="--d:.05s"><i></i>Business automation for plumbing, HVAC and law firms</div>
+        <h2 class="head in" style="--d:.12s">You run your business. <em>We automate the work behind it.</em></h2>
+        <p class="lede in" style="--d:.2s">botLane designs, builds and manages intelligent digital systems that connect your customers, streamline your operations and give you more time to grow.</p>
+        <div class="actions in" style="--d:.28s"><span class="btn p">Explore automation for your business →</span><span class="btn s">How it works</span></div>
+      </div>
+      <div class="c-stage">
+        <div class="c-glow"></div>
+        <div class="c-phone in" style="--d:.25s"><div class="c-screen">
+          <div class="c-top"><svg><use href="#orb"/></svg>botLane<span class="demo">DEMO</span></div>
+          <div id="c-feed"></div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // A: requests land one by one and flip to done.
+  const aItems = [
+    ["☎", "Missed call answered", "Burst pipe, kitchen · 11:42 PM", "BOOKED"],
+    ["✉", "Web form replied", "Water heater quote · 7:05 AM", "QUOTED"],
+    ["➤", "Tech dispatched", "ETA texted to customer", "ON THE WAY"],
+    ["$", "Invoice sent", "Job #1042 · $480", "PAID"],
+  ];
+  const sayings = ["ON THE FRONT DESK", "ANSWERING…", "BOOKING…", "DISPATCHING…", "INVOICING…", "ALL CAUGHT UP"];
+  let aTimers = [];
+  function runA() {
+    aTimers.forEach(clearTimeout); aTimers = [];
+    const feed = document.getElementById("a-feed"), say = document.getElementById("a-say");
+    feed.innerHTML = ""; say.textContent = sayings[0];
+    aItems.forEach((it, i) => {
+      aTimers.push(setTimeout(() => {
+        say.textContent = sayings[i + 1];
+        const row = document.createElement("div");
+        row.className = "a-row card";
+        row.innerHTML = `<span class="ic">${it[0]}</span><div><strong>${it[1]}</strong><small>${it[2]}</small></div><span class="st">WORKING</span>`;
+        feed.appendChild(row); requestAnimationFrame(() => row.classList.add("show"));
+        aTimers.push(setTimeout(() => { const st = row.querySelector(".st"); st.textContent = it[3]; st.classList.add("done"); }, 900));
+      }, 1200 + i * 1500));
+    });
+    aTimers.push(setTimeout(() => say.textContent = sayings[5], 1200 + 4 * 1500));
+    aTimers.push(setTimeout(runA, 1200 + 4 * 1500 + 2600));
+  }
+
+  // B: chips travel the lane; width measured once.
+  function runB() {
+    document.querySelectorAll(".b-chip").forEach(chip => {
+      const w = chip.parentElement.clientWidth - chip.offsetWidth;
+      chip.style.setProperty("--w", w + "px");
+      chip.classList.remove("run"); void chip.offsetWidth; chip.classList.add("run");
+    });
+  }
+
+  // C: notifications stack in, then the owner taps Approve.
+  const cItems = [
+    ["CALL ANSWERED · 11:42 PM", "Burst pipe in the kitchen. Emergency visit booked for 7:30 AM."],
+    ["TECH DISPATCHED · 7:02 AM", "Mike is on the way. ETA texted to the customer."],
+    ["NEEDS YOU · 8:15 AM", "Quote for pipe replacement: $480. Send it?", true],
+    ["INVOICE PAID · 10:20 AM", "$480 received. Review request sent."],
+  ];
+  let cTimers = [];
+  function runC() {
+    cTimers.forEach(clearTimeout); cTimers = [];
+    const feed = document.getElementById("c-feed"); feed.innerHTML = "";
+    let t = 1000;
+    cItems.forEach(it => {
+      cTimers.push(setTimeout(() => {
+        const n = document.createElement("div"); n.className = "c-note";
+        n.innerHTML = `<small>${it[0]}</small>${it[1]}` + (it[2] ? `<div class="row"><span>Edit</span><span class="yes">Approve</span></div>` : "");
+        feed.prepend(n); requestAnimationFrame(() => n.classList.add("show"));
+        if (it[2]) {
+          cTimers.push(setTimeout(() => n.querySelector(".yes").classList.add("tap"), 1500));
+          cTimers.push(setTimeout(() => { n.querySelector(".yes").classList.remove("tap"); n.querySelector(".row").outerHTML = ""; n.querySelector("small").textContent = "APPROVED BY YOU · 8:16 AM"; n.classList.add("ok"); }, 1750));
+        }
+      }, t));
+      t += it[2] ? 2800 : 1500;
+    });
+    cTimers.push(setTimeout(runC, t + 2500));
+  }
+
+  function replay(id) {
+    const sec = document.getElementById(id);
+    sec.classList.add("replay"); void sec.offsetWidth; sec.classList.remove("replay");
+    ({ A: runA, B: runB, C: runC })[id]();
+  }
+  runA(); runB(); runC();
+  addEventListener("resize", runB);
+</script>
+</body>
+</html>
