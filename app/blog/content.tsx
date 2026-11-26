@@ -26,7 +26,7 @@ export default function Content() {
         </div>
         <div className={styles.grid}>
           {shown.map((post, i) => <a key={post.slug} href={`/blog/${post.slug}`} className={styles.card} data-feature={i === 0 && topic === "All"} data-tone={toneFor(post.topic)}>
-            <Cover kind={post.cover} seed={post.slug} className={styles.cover} />
+            <Cover slug={post.slug} className={styles.cover} />
             <div className={styles.cardBody}>
               <div className={styles.meta}><span>{post.topic}</span><em>{formatDate(post.date)} · {readingMinutes(post)} min read</em></div>
               <h2>{post.title}</h2>

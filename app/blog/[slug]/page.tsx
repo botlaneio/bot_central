@@ -29,7 +29,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         <p className={styles.lede}>{post.dek}</p>
         <p className={styles.byline}>{formatDate(post.date)} · {readingMinutes(post)} min read</p>
       </div>
-      <Cover kind={post.cover} seed={post.slug} className={styles.postCover} />
+      <Cover slug={post.slug} className={styles.postCover} />
     </div>
   </header>}>
     <div className={`frame ${styles.postLayout}`} data-tone={tone}>
@@ -51,7 +51,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         <h2>More insights</h2>
         <div className={styles.grid} data-compact="true">
           {more.map(p => <a key={p.slug} href={`/blog/${p.slug}`} className={styles.card} data-tone={toneFor(p.topic)}>
-            <Cover kind={p.cover} seed={p.slug} className={styles.cover} />
+            <Cover slug={p.slug} className={styles.cover} />
             <div className={styles.cardBody}>
               <div className={styles.meta}><span>{p.topic}</span><em>{readingMinutes(p)} min read</em></div>
               <h2>{p.title}</h2>
