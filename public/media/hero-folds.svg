@@ -1,17 +1,36 @@
 <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" viewBox="600 0 680 720" width="680" height="720">
-  <!-- botLane hero: folded planes, state A. Original artwork in the wave colours; crisp edges. -->
+  <!-- botLane hero: folded planes with a textured silk finish, state A. Original artwork in the wave colours.
+       Rendered once as an image (the page only fades and drifts it), so the texture costs nothing per frame. -->
   <defs>
-    <linearGradient id="f1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffc56b"/><stop offset="1" stop-color="#ff7a00"/></linearGradient>
-    <linearGradient id="f2" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9a7a"/><stop offset="1" stop-color="#f53fd0"/></linearGradient>
-    <linearGradient id="f3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b7a3ff"/><stop offset="1" stop-color="#4b2bf2"/></linearGradient>
-    <linearGradient id="f4" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#3f7dff"/><stop offset="1" stop-color="#b9d4ff"/></linearGradient>
+    <linearGradient id="f1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd27a"/><stop offset="0.35" stop-color="#ffb03a"/><stop offset="0.7" stop-color="#ff8a1f"/><stop offset="1" stop-color="#ff6a5c"/></linearGradient>
+    <linearGradient id="f2" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb08a"/><stop offset="0.4" stop-color="#ff86c8"/><stop offset="0.75" stop-color="#f77ce0"/><stop offset="1" stop-color="#c77dff"/></linearGradient>
+    <linearGradient id="f3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#cdbfff"/><stop offset="0.4" stop-color="#a99cff"/><stop offset="0.75" stop-color="#7a5cff"/><stop offset="1" stop-color="#5333f5"/></linearGradient>
+    <linearGradient id="f4" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#5a8bff"/><stop offset="0.45" stop-color="#8fb0ff"/><stop offset="0.8" stop-color="#b9d4ff"/><stop offset="1" stop-color="#e3edff"/></linearGradient>
+    <!-- Fine threads, each fold's running along its own direction. -->
+    <pattern id="t1" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(62)"><rect width="5" height=".9" fill="#ffffff" fill-opacity=".34"/></pattern>
+    <pattern id="t2" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(-38)"><rect width="5" height=".9" fill="#ffffff" fill-opacity=".3"/></pattern>
+    <pattern id="t3" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(76)"><rect width="5" height=".9" fill="#ffffff" fill-opacity=".26"/></pattern>
+    <pattern id="t4" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(-58)"><rect width="5" height=".9" fill="#ffffff" fill-opacity=".3"/></pattern>
+    <!-- Soft sheen across each fold, light to shadow. -->
+    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2=".4"><stop offset="0" stop-color="#ffffff" stop-opacity=".28"/><stop offset=".45" stop-color="#ffffff" stop-opacity="0"/><stop offset="1" stop-color="#061b31" stop-opacity=".14"/></linearGradient>
+    <filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .09 0"/><feComposite in2="SourceGraphic" operator="in"/></filter>
+    <clipPath id="all"><polygon points="760,0 1010,0 880,330 640,420"/><polygon points="880,330 1010,0 1280,0 1280,140 1060,420"/><polygon points="640,420 880,330 1060,420 960,720 700,720"/><polygon points="1060,420 1280,140 1280,720 960,720"/></clipPath>
   </defs>
   <polygon points="760,0 1010,0 880,330 640,420" fill="url(#f1)"/>
-  <polygon points="880,330 1010,0 1280,0 1280,140 1060,420" fill="url(#f2)" fill-opacity=".94"/>
-  <polygon points="640,420 880,330 1060,420 960,720 700,720" fill="url(#f3)" fill-opacity=".94"/>
-  <polygon points="1060,420 1280,140 1280,720 960,720" fill="url(#f4)" fill-opacity=".92"/>
+  <polygon points="880,330 1010,0 1280,0 1280,140 1060,420" fill="url(#f2)"/>
+  <polygon points="640,420 880,330 1060,420 960,720 700,720" fill="url(#f3)"/>
+  <polygon points="1060,420 1280,140 1280,720 960,720" fill="url(#f4)"/>
+  <polygon points="760,0 1010,0 880,330 640,420" fill="url(#t1)"/>
+  <polygon points="880,330 1010,0 1280,0 1280,140 1060,420" fill="url(#t2)"/>
+  <polygon points="640,420 880,330 1060,420 960,720 700,720" fill="url(#t3)"/>
+  <polygon points="1060,420 1280,140 1280,720 960,720" fill="url(#t4)"/>
+  <polygon points="760,0 1010,0 880,330 640,420" fill="url(#sheen)"/>
+  <polygon points="880,330 1010,0 1280,0 1280,140 1060,420" fill="url(#sheen)"/>
+  <polygon points="640,420 880,330 1060,420 960,720 700,720" fill="url(#sheen)"/>
+  <polygon points="1060,420 1280,140 1280,720 960,720" fill="url(#sheen)"/>
   <polygon points="880,330 1060,420 960,720" fill="#061b31" fill-opacity=".08"/>
-  <g fill="none" stroke="#ffffff" stroke-opacity=".55" stroke-width="1.2">
+  <rect x="600" y="0" width="680" height="720" fill="#ffffff" filter="url(#grain)" clip-path="url(#all)"/>
+  <g fill="none" stroke="#ffffff" stroke-opacity=".6" stroke-width="1.2">
     <polyline points="640,420 880,330 1010,0"/>
     <polyline points="880,330 1060,420 1280,140"/>
     <polyline points="1060,420 960,720"/>
