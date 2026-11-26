@@ -5,7 +5,6 @@
   "dek": "Three ways to handle the messages that come in at night, what each one takes, and an instant reply you can copy.",
   "topic": "Enquiries",
   "date": "2026-10-23",
-  "cover": "lines",
   "body": [
    {
     "type": "markdown",
@@ -51,7 +50,6 @@
   "dek": "Plan one booking workflow from qualifying questions to calendar confirmation, with a handover checklist and failure tests to run before launch.",
   "topic": "Automation and AI",
   "date": "2026-10-28",
-  "cover": "orbit",
   "body": [
    {
     "type": "markdown",
@@ -113,7 +111,6 @@
   "dek": "Compare a booking form, a website chatbot, and an AI intake workflow using a practical decision guide and a launch checklist.",
   "topic": "Automation and AI",
   "date": "2026-10-24",
-  "cover": "orbit",
   "body": [
    {
     "type": "markdown",
@@ -199,7 +196,6 @@
   "dek": "A practical guide to Claude Duet for small business: research preview access, pricing, useful workflows, approval controls, and where automation still fits.",
   "topic": "Automation and AI",
   "date": "2026-10-30",
-  "cover": "orbit",
   "body": [
    {
     "type": "markdown",
@@ -261,7 +257,6 @@
   "dek": "What a good scope lists, how revision rounds and changes should work, and why paying in stages protects both sides.",
   "topic": "Buying a website",
   "date": "2026-10-21",
-  "cover": "grid",
   "body": [
    {
     "type": "markdown",
@@ -323,7 +318,6 @@
   "dek": "The settings that help people find you, trust you and get in touch, in the order worth doing them.",
   "topic": "Getting found",
   "date": "2026-10-18",
-  "cover": "orbit",
   "body": [
    {
     "type": "markdown",
@@ -409,7 +403,6 @@
   "dek": "Define the questions, routing rules, approved answers, and staff handoff your service-business intake workflow needs before implementation.",
   "topic": "Enquiries",
   "date": "2026-10-28",
-  "cover": "lines",
   "body": [
    {
     "type": "markdown",
@@ -471,7 +464,6 @@
   "dek": "Compare website quotes by build scope, recurring costs, and ownership, with a practical first-year budget checklist for service businesses.",
   "topic": "Buying a website",
   "date": "2026-10-28",
-  "cover": "grid",
   "body": [
    {
     "type": "markdown",

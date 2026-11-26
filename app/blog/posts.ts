@@ -15,7 +15,6 @@ export type Post = {
   dek: string;
   topic: string;
   date: string; // YYYY-MM-DD
-  cover: "lines" | "grid" | "orbit";
   body: Block[];
 };
 
