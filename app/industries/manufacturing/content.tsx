@@ -1,26 +1,31 @@
 "use client";
 
-import { Checklist, Chips, Faq, Flow, Hero, IndustryPage, NumberedGrid, Process, Section, Stages, TwoCol } from "../blocks";
+import {
+  ArrowRight, Boxes, Calculator, ClipboardCheck, Copy, CreditCard, EyeOff, FileCheck, FolderOpen, FolderSearch, Globe,
+  Inbox, LayoutDashboard, Mail, MessageCircle, MessagesSquare, ShieldCheck, Timer, Unplug, Users, Warehouse, type LucideIcon,
+} from "lucide-react";
+import { Faq, Flow, IndustryPage, Process } from "../blocks";
 import type { FlowConfig } from "../../workflow";
-import styles from "../industry.module.css";
+import OrderDesk from "./order-desk";
+import OrderPath from "./order-path";
+import page from "./manufacturing.module.css";
 
-const challenges = [
-  ["Manual RFQ processing", "Requests arrive by email, phone and web form, each in a different format."],
-  ["Repetitive quotations", "Engineers and sales re-key the same specifications into the same templates."],
-  ["Purchase order handling", "POs are checked against quotes and typed into the ERP by hand."],
-  ["Slow customer responses", "Buyers wait days for a price or an order status while competitors reply first."],
-  ["Disconnected procurement", "Supplier requests, approvals and documents live in separate inboxes."],
-  ["Scattered dealer communication", "Distributors ask the same questions by phone, WhatsApp and email."],
-  ["Document handling", "Drawings, certificates and delivery notes are filed and searched manually."],
-  ["Limited visibility", "Nobody can see how many RFQs are open, quoted or won this week."],
-] as const;
+/*
+ * Manufacturing: the flagship industry page. Its own hero (blueprint backdrop and a live order desk), then the
+ * commercial story from inquiry to order. Demo data is labelled; no invented results, clients or certifications.
+ * Icons from Lucide (ISC).
+ */
 
-const stages = [
-  { name: "Inquiry", items: ["Automated RFQ intake and classification", "Customer inquiry management", "RFQ-focused landing pages", "Digital product catalogues"] },
-  { name: "Quotation", items: ["AI-assisted quotation preparation", "Approval workflows for pricing", "Sales follow-up automation", "Document extraction from drawings and specs"] },
-  { name: "Order", items: ["Purchase order processing", "ERP and CRM integrations", "Inventory system integrations", "Order status notifications"] },
-  { name: "After the order", items: ["Invoice and payment workflows", "Dealer and distributor portals", "Operational reporting", "Business intelligence dashboards"] },
-] as const;
+const challenges: [LucideIcon, string, string][] = [
+  [Inbox, "Manual RFQ processing", "Requests arrive by email, phone and web form, each in a different format."],
+  [Copy, "Repetitive quotations", "Sales and engineering re-key the same specifications into the same templates."],
+  [FileCheck, "Purchase order handling", "POs are checked against quotes and typed into the ERP by hand."],
+  [Timer, "Slow customer responses", "Buyers wait days for a price or an order status while competitors reply first."],
+  [Unplug, "Disconnected procurement", "Supplier requests, approvals and documents live in separate inboxes."],
+  [MessagesSquare, "Scattered dealer communication", "Distributors ask the same questions by phone, WhatsApp and email."],
+  [FolderSearch, "Document handling", "Drawings, certificates and delivery notes are filed and searched by hand."],
+  [EyeOff, "Limited visibility", "Nobody can see how many RFQs are open, quoted or won this week."],
+];
 
 const x = (i: number) => 60 + i * 320;
 const flow: FlowConfig = {
@@ -43,21 +48,20 @@ const flow: FlowConfig = {
   noBranch: { x: x(3), y: 320, kind: "action", tag: "Price", title: "Standard items priced", detail: "Straight from the catalogue", dim: true },
 };
 
-const digital = [
-  ["Corporate website", "A premium site that explains what you make and who you make it for."],
-  ["Product catalogue", "Searchable products and specifications, connected to RFQ forms."],
-  ["RFQ landing pages", "Focused pages for campaigns and trade shows that capture complete requests."],
-  ["Customer and dealer portals", "Quotes, orders, documents and status in one login."],
-  ["Custom business applications", "Built only where off-the-shelf tools fall short."],
-] as const;
+const tools: [LucideIcon, string, string][] = [
+  [Boxes, "ERP", "Orders, items and stock"], [Users, "CRM", "Accounts and opportunities"], [Warehouse, "Inventory", "Availability and lead times"],
+  [Calculator, "Accounting", "Invoices and payments"], [Mail, "Email", "RFQ and order inboxes"], [MessageCircle, "WhatsApp Business", "Dealer and buyer messages"],
+  [Globe, "Web forms", "Catalogue and RFQ pages"], [FolderOpen, "Document storage", "Drawings and certificates"], [CreditCard, "Payments", "Deposits and settlement"],
+  [LayoutDashboard, "Dashboards", "Open, quoted and won"],
+];
 
-const safeguards = [
+const safeguards: [string, string][] = [
   ["Pricing approval", "Quotes and discounts are approved by the people you choose before anything is sent."],
   ["Financial authorisation", "Invoices, credits and payment actions follow your existing authorisation rules."],
   ["Role-based access", "Sales, engineering, finance and dealers see only what their role needs."],
   ["Audit logs", "Every automated step and every approval is recorded."],
   ["Your data stays yours", "Customer, pricing and product data remain your business information."],
-] as const;
+];
 
 const faq = [
   ["Do you automate machinery or the production line?", "No. We focus on the commercial and administrative side: inquiries, quotations, orders, documents, dealers and reporting. We don't work on factory machinery, industrial robotics or safety-critical production systems."],
@@ -67,64 +71,151 @@ const faq = [
   ["Where should we start?", "Usually with RFQ intake and quotation preparation, because that is where response time is won or lost. Other modules can follow once the first one proves its value."],
 ] as const;
 
+function Hero({ onDemo }: { onDemo: (label: string) => void }) {
+  return <section className={page.hero} aria-labelledby="mfg-title">
+    <div className={page.blueprint} aria-hidden="true" />
+    <div className={`frame ${page.heroGrid}`}>
+      <div className={page.heroCopy}>
+        <p className={page.crumb}><a href="/#business">Industries</a><span aria-hidden="true">/</span>Manufacturing<em>Flagship</em></p>
+        <h1 id="mfg-title">From inquiry to order, <span>intelligently connected.</span></h1>
+        <p className={page.lede}>Quotations, customer inquiries, purchase orders and dealer communication, connected into one system built around your manufacturing business, with a person approving every price.</p>
+        <div className={page.actions}>
+          <button type="button" className={page.primary} onClick={() => onDemo("Get an automation assessment")}>Get an automation assessment <ArrowRight aria-hidden="true" /></button>
+          <a className={page.secondary} href="#workflow">See an RFQ become an order</a>
+        </div>
+        <ul className={page.for}><li>Manufacturers</li><li>Industrial suppliers</li><li>Distributors</li></ul>
+      </div>
+      <OrderDesk />
+    </div>
+  </section>;
+}
+
 export default function Content() {
-  return <IndustryPage hero={onDemo => <Hero onDemo={onDemo} eyebrow="Manufacturing"
-    title={<>From inquiry to order, <em>intelligently connected.</em></>}
-    lede="Streamline quotations, customer inquiries, document processing and operational workflows with intelligent systems built around your manufacturing business."
-    panel={<>
-      <div className={styles.mockCard}>
-        <small>RFQ inbox · today</small>
-        <strong>4 new requests</strong>
-        <div className={styles.mockRow}><span>500 steel brackets SB-40</span><span className={styles.pill}>Quote drafted</span></div>
-        <div className={styles.mockRow}><span>Custom enclosure, 40 units</span><span className={styles.pill} data-tone="grey">Engineering review</span></div>
-        <div className={styles.mockRow}><span>Hinge assemblies, repeat order</span><span className={styles.pill} data-tone="ink">PO matched</span></div>
-        <div className={styles.mockRow}><span>Distributor price request</span><span className={styles.pill} data-tone="grey">Classified</span></div>
+  return <IndustryPage hero={onDemo => <Hero onDemo={onDemo} />}>
+
+    <section className={page.band} aria-label="What we cover">
+      <div className={`frame ${page.bandGrid}`}>
+        <div><strong>The commercial side of the factory</strong><span>Inquiries, quotes, orders, documents, dealers and reporting.</span></div>
+        <div><strong>Never the production line</strong><span>No machinery, robotics or safety-critical systems.</span></div>
+        <div><strong>United States and India</strong><span>Channels, currency and tax documents for each market.</span></div>
       </div>
-      <div className={styles.mockCard}>
-        <small>Needs your approval</small>
-        <strong>Quote Q-2041 · 500 × SB-40 · $4,820</strong>
-        <div className={styles.mockButtons}><span>Edit</span><span>Approve and send</span></div>
+    </section>
+
+    <section className={page.chapter} aria-labelledby="mfg-slow">
+      <div className="frame">
+        <header className={page.heading}>
+          <h2 id="mfg-slow">Where commercial work slows down.</h2>
+          <p>Common challenges for small and mid-sized manufacturers, industrial suppliers and distributors.</p>
+        </header>
+        <ul className={page.challenges}>{challenges.map(([Icon, title, text]) => <li key={title}>
+          <span className={page.cIcon}><Icon aria-hidden="true" /></span><h3>{title}</h3><p>{text}</p>
+        </li>)}</ul>
       </div>
-    </>} />}>
+    </section>
 
-    <Section title="Where commercial work slows down." sub="Common challenges for small and mid-sized manufacturers, industrial suppliers and distributors.">
-      <NumberedGrid items={challenges} />
-    </Section>
+    <section className={`${page.chapter} ${page.tinted}`} aria-labelledby="mfg-path">
+      <div className="frame">
+        <header className={page.heading}>
+          <h2 id="mfg-path">Automation along the order path.</h2>
+          <p>Start with one stage. Each module runs on the same shared infrastructure, so the next one connects to it.</p>
+        </header>
+        <OrderPath />
+      </div>
+    </section>
 
-    <Flow flow={flow} />
+    <div className={page.workflow}><Flow flow={flow} /></div>
 
-    <Section tone="soft" title="Automation modules, along the order path." sub="Start with one stage. Each module runs on the same shared infrastructure, so the next one connects to it.">
-      <Stages stages={stages} />
-    </Section>
+    <section className={page.chapter} aria-labelledby="mfg-spot">
+      <div className="frame">
+        <header className={page.heading}>
+          <h2 id="mfg-spot">What your team sees.</h2>
+          <p>The same work, without the retyping. Every screen here is a sample.</p>
+        </header>
+        <div className={page.spots}>
+          <article className={page.spot}>
+            <div className={page.spotCopy}><small>RFQ intake</small><h3>One queue for every request.</h3><p>Emails, web forms and WhatsApp messages are read, sorted by type and urgency, and assigned with the details already filled in.</p></div>
+            <div className={page.mock}>
+              <div className={page.mockHead}><b>RFQ inbox</b><em>Demo</em></div>
+              {[["500 × steel bracket SB-40", "Quote drafted", "ok"], ["Custom enclosure, 40 units", "Engineering review", "warn"], ["Hinge assemblies, repeat order", "PO matched", "ink"], ["Distributor price request", "Classified", "soft"]].map(([t, s, k]) => <div key={t} className={page.mockRow}><span>{t}</span><i data-k={k}>{s}</i></div>)}
+            </div>
+          </article>
+          <article className={page.spot} data-flip="true">
+            <div className={page.spotCopy}><small>Quotation</small><h3>Quotes you review, not rebuild.</h3><p>A draft is prepared from your price lists, lead times and rules. It waits for the person you choose, and nothing goes out without approval.</p></div>
+            <div className={page.mock}>
+              <div className={page.mockHead}><b>Quote Q-2041</b><em>Demo</em></div>
+              {[["500 × SB-40 bracket", "$4,250"], ["Powder coating", "$420"], ["Freight", "$150"]].map(([t, v]) => <div key={t} className={page.mockRow}><span>{t}</span><b>{v}</b></div>)}
+              <div className={page.mockTotal}><span>Total</span><b>$4,820</b></div>
+              <div className={page.mockActions}><span>Edit</span><span>Approve and send</span></div>
+            </div>
+          </article>
+          <article className={page.spot}>
+            <div className={page.spotCopy}><small>Dealer portal</small><h3>Dealers check status themselves.</h3><p>Quotes, orders, documents and delivery status in one login, so the same questions stop arriving by phone.</p></div>
+            <div className={page.mock}>
+              <div className={page.mockHead}><b>Dealer portal · Westfield Supply</b><em>Demo</em></div>
+              <div className={page.timeline}>
+                {[["Order confirmed", "ERP #44102", true], ["In production", "Expected 9 Jan", true], ["Dispatched", "Delivery note attached", false], ["Delivered", "", false]].map(([t, d, on]) => <div key={String(t)} data-on={on as boolean}><i /><span><b>{t as string}</b><small>{d as string}</small></span></div>)}
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
 
-    <Section title="The digital front end, connected to the back office." sub="Websites and apps are part of the system, not a separate project.">
-      <TwoCol intro={<><h3>Built for buyers and dealers</h3><p>Every page and portal feeds the same workflows: a catalogue enquiry becomes a classified RFQ, a dealer order becomes an ERP entry.</p></>}>
-        <Checklist items={digital} />
-      </TwoCol>
-    </Section>
+    <section className={`${page.chapter} ${page.tinted}`} aria-labelledby="mfg-people">
+      <div className={`frame ${page.split}`}>
+        <figure className={page.photo}>
+          <img src="/media/stock/faq-industries.jpg" alt="Industrial worker at a machinery control panel" loading="lazy" decoding="async" />
+          <figcaption>Stock photo. Not a botLane customer.</figcaption>
+        </figure>
+        <div>
+          <h2 id="mfg-people">Built for the people around the machines.</h2>
+          <p className={page.big}>Your production line stays exactly as it is. We take the commercial admin off sales, engineering and finance, so the people who know your products spend their time on customers and quotes that matter.</p>
+          <ul className={page.ticks}>
+            <li><ClipboardCheck aria-hidden="true" />Sales reviews drafted quotes instead of building them.</li>
+            <li><ClipboardCheck aria-hidden="true" />Engineering sees only the requests that need a drawing checked.</li>
+            <li><ClipboardCheck aria-hidden="true" />Finance gets invoices that already match the order.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-    <Section tone="navy" title="Fits the systems you already run." sub="We connect what is there before building anything new.">
-      <Chips items={["ERP", "CRM", "Inventory", "Accounting", "Email", "WhatsApp Business", "Web forms", "Document storage", "Payment systems", "Dashboards"]} />
-    </Section>
+    <section className={page.chapter} aria-labelledby="mfg-tools">
+      <div className="frame">
+        <header className={page.heading}>
+          <h2 id="mfg-tools">Fits the systems you already run.</h2>
+          <p>We connect what is there before building anything new.</p>
+        </header>
+        <ul className={page.tools}>{tools.map(([Icon, name, what]) => <li key={name}><Icon aria-hidden="true" /><b>{name}</b><small>{what}</small></li>)}</ul>
+      </div>
+    </section>
 
-    <Section title="What it can change." sub="Potential benefits. Every business is different, and we agree measurable goals during the assessment rather than promise numbers up front.">
-      <NumberedGrid columns={3} items={[
-        ["Faster responses", "RFQs acknowledged and classified as they arrive, so buyers hear back sooner."],
-        ["Less re-keying", "Details captured once from emails and documents, then reused for quotes and orders."],
-        ["Clear visibility", "Open, quoted and won requests on one dashboard."],
-      ]} />
-    </Section>
+    <section className={page.safe} aria-labelledby="mfg-safe">
+      <div className={`frame ${page.split}`}>
+        <div>
+          <ShieldCheck className={page.safeIcon} aria-hidden="true" />
+          <h2 id="mfg-safe">Supervised, not autonomous.</h2>
+          <p>Commercial and financial actions keep a person in the loop.</p>
+          <div className={page.approval} aria-hidden="true"><span><small>Needs your approval</small><b>Quote Q-2041 · $4,820</b></span><i>Approve</i></div>
+        </div>
+        <dl className={page.rules}>{safeguards.map(([t, d]) => <div key={t}><dt>{t}</dt><dd>{d}</dd></div>)}</dl>
+      </div>
+    </section>
 
-    <Section tone="soft" title="Supervised, not autonomous." sub="Commercial and financial actions keep a person in the loop.">
-      <Checklist items={safeguards} />
-    </Section>
+    <section className={`${page.chapter} ${page.tinted}`} aria-labelledby="mfg-how">
+      <div className="frame">
+        <header className={page.heading}>
+          <h2 id="mfg-how">How implementation works.</h2>
+          <p>Usually we start with RFQ intake and quotation, where response time is won or lost.</p>
+        </header>
+        <Process />
+      </div>
+    </section>
 
-    <Section title="How implementation works.">
-      <Process />
-    </Section>
-
-    <Section tone="soft" title="Questions manufacturers ask.">
-      <Faq items={faq} />
-    </Section>
+    <section className={page.chapter} aria-labelledby="mfg-faq">
+      <div className={`frame ${page.split}`}>
+        <h2 id="mfg-faq">Questions manufacturers ask.</h2>
+        <Faq items={faq} />
+      </div>
+    </section>
   </IndustryPage>;
 }
