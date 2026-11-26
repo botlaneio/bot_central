@@ -25,10 +25,13 @@ export function SitePage({ children, hero, cta = {} }: { children: React.ReactNo
   </>;
 }
 
-export function PageHero({ crumb, title, lede, aside, actions = true, tone }: {
+export function PageHero({ crumb, title, lede, aside, actions = true, tone, streak }: {
   crumb: readonly [string, string?]; title: React.ReactNode; lede: React.ReactNode; aside?: React.ReactNode; actions?: boolean | React.ReactNode; tone?: string;
+  /** A coloured ribbon artwork behind the right side of the hero, like the homepage (public/media/streaks). */
+  streak?: string;
 }) {
-  return <section className={styles.hero} data-tone={tone}>
+  return <section className={styles.hero} data-tone={tone} data-streak={Boolean(streak)}>
+    {streak && <img className={styles.streak} src={streak} alt="" aria-hidden="true" fetchPriority="high" />}
     <div className={`frame ${styles.grid}`} data-aside={Boolean(aside)}>
       <div className={styles.copy}>
         <p className={styles.crumb}>{crumb[1] ? <a href={crumb[1]}>{crumb[0]}</a> : crumb[0]}</p>

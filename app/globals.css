@@ -30,8 +30,10 @@ body:has(.announcement) .hero-shell{box-shadow:0 -14px var(--navy)}
 .navlinks a:hover,.navlinks button:hover{color:var(--accent)}
 .chevron{display:inline-block;width:6px;height:6px;border-right:1.5px solid;border-bottom:1.5px solid;transform:translateY(-2px) rotate(45deg);margin-left:6px}
 .header-actions{margin-left:auto;display:flex;align-items:center;gap:8px}
-.purple-button,.light-button{border:0;border-radius:4px;padding:11px 20px;background:var(--accent);color:white;font-size:14px;font-weight:550;transition:background .18s ease;white-space:nowrap}
-.purple-button:hover{background:#331dbf}
+.purple-button,.light-button{border:0;border-radius:4px;padding:11px 20px;background:var(--ink);color:white;font-size:14px;font-weight:550;transition:background .18s ease;white-space:nowrap}
+.purple-button:hover{background:#1c3250}
+/* Primary buttons are navy everywhere (the class name is historical). Secondary buttons get a hairline border. */
+.light-button{box-shadow:inset 0 0 0 1px var(--line)}
 .purple-button span{margin-left:3px}
 .light-button{background:white;color:var(--ink)}
 .light-button:hover{background:#f1f4f7}

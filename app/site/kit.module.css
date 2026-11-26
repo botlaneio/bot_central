@@ -1,5 +1,10 @@
 /* Content-page shell. Same system as the homepage and industry pages: flat colours, navy ink, wave tints. */
-.hero { border-bottom: 1px solid #061b3117; background: white; }
+.hero { position: relative; overflow: hidden; border-bottom: 1px solid #061b3117; background: white; }
+/* Ribbon artwork behind the right half (same treatment as the homepage hero streak). Opacity-only fade in. */
+.streak { position: absolute; z-index: 0; top: -12%; left: calc(50% - 420px); width: auto; height: 130%; max-width: none; pointer-events: none; animation: streakIn 1.2s ease .1s both; }
+@keyframes streakIn { from { opacity: 0; } to { opacity: 1; } }
+.hero .grid { position: relative; z-index: 1; }
+.hero[data-streak="true"] .aside { filter: drop-shadow(0 30px 50px #061b3122); }
 .grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 56px; align-items: center; padding: 80px 16px 88px; }
 .grid[data-aside="true"] { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); }
 .copy { max-width: 760px; }
@@ -37,6 +42,7 @@
 .prose th { background: var(--soft); font-weight: 600; }
 
 @media (max-width: 1050px) {
+  .streak { top: auto; bottom: -4%; left: calc(50% - 560px); height: 66%; }
   .grid[data-aside="true"] { grid-template-columns: 1fr; }
   .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
@@ -45,7 +51,8 @@
   .crumb { margin-bottom: 16px; font-size: 13px; }
   .copy h1 { font-size: 30px; line-height: 1.14; }
   .lede { margin-top: 16px; font-size: 15.5px; line-height: 1.5; }
-  .actions { margin-top: 24px; gap: 8px; }
+  .actions { margin-top: 24px; gap: 8px; flex-wrap: nowrap; }
+  .actions :global(.purple-button), .actions :global(.light-button) { padding: 10px 13px; font-size: 13px; }
   .cards { grid-template-columns: 1fr; gap: 12px; }
   .cards li { padding: 20px 18px 22px; }
   .cards h3 { margin-top: 14px; font-size: 17px; }
@@ -55,3 +62,4 @@
   .prose h2 { font-size: 20px; margin-top: 32px; }
   .prose table { display: block; overflow-x: auto; }
 }
+@media (prefers-reduced-motion: reduce) { .streak { animation: none; } }

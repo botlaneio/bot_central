@@ -15,8 +15,8 @@
 .lightButton, .primary { display: inline-flex; align-items: center; gap: 7px; padding: 13px 19px; border: 0; border-radius: 4px; font-weight: 600; font-size: 14px; }
 .lightButton { background: #fff; color: #101936; }
 .lightButton:hover { background: #e8e6ff; }
-.primary { margin-top: 16px; background: var(--accent); color: white; }
-.primary:hover { background: #4021ce; }
+.primary { margin-top: 16px; background: var(--ink); color: white; }
+.primary:hover { background: #1c3250; }
 
 .feature { display: grid; grid-template-columns: 1fr 1.4fr; gap: 46px; padding: 70px 0; border-top: 1px solid #34415d; align-items: center; }
 .feature h3, .integration h3, .book h3, .slide h3 { margin: 0 0 12px; font-size: clamp(25px, 3vw, 40px); line-height: 1.12; letter-spacing: -.045em; }

@@ -1,7 +1,7 @@
 .icon { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 10px; background: var(--tint); color: var(--tone); }
 .icon svg { width: 20px; height: 20px; }
 
-.panel { padding: 28px; border: 1px solid var(--line); border-radius: 16px; background: var(--soft); }
+.panel { padding: 28px; border: 1px solid #ffffffb3; border-radius: 16px; background: #f6f8fab8; -webkit-backdrop-filter: blur(22px) saturate(1.2); backdrop-filter: blur(22px) saturate(1.2); }
 .panel small { display: block; margin: 20px 0 10px; color: var(--muted); font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
 .panel ul { display: grid; gap: 8px; list-style: none; margin: 0; padding: 0; }
 .panel li { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 8px; background: white; box-shadow: 0 8px 24px -16px #35436655; font-size: 15px; }
