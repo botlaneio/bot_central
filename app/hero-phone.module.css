@@ -6,20 +6,24 @@
   position: relative;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  height: 620px;
+  align-items: center;
+  height: 680px;
+  /* The whole device floats gently mid-air: one slow transform, nothing else repaints. */
+  animation: float 7s ease-in-out 1.2s infinite alternate;
 }
+@keyframes float { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(0, -12px, 0); } }
 
 /* ───────── The phone ───────── */
 .phone {
   position: relative;
   z-index: 1;
   width: 320px;
-  height: 600px;
-  padding: 12px 12px 0;
-  border-radius: 46px 46px 0 0;
+  height: 620px;
+  padding: 12px;
+  border-radius: 50px;
   background: var(--black);
-  box-shadow: 0 30px 60px -24px #061b3166, 0 12px 24px -12px #061b3133, inset 0 0 0 1.5px #2a2d36;
+  /* A full device floating above the page: a soft, wide drop shadow well below it. */
+  box-shadow: 0 60px 90px -40px #061b3170, 0 30px 50px -30px #5333f533, inset 0 0 0 1.5px #2a2d36;
   animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.1, 1) 0.2s both;
 }
 @keyframes rise { from { opacity: 0; transform: translate3d(0, 40px, 0); } to { opacity: 1; transform: none; } }
@@ -30,7 +34,7 @@
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  border-radius: 35px 35px 0 0;
+  border-radius: 38px;
   background: #f6f8fa;
   color: var(--ink);
 }
@@ -160,11 +164,11 @@
 }
 @media (max-width: 640px) {
   /* Whole phone shrinks proportionally (zoom scales layout too), so the cards inside keep their proportions. */
-  .stage { height: 486px; }
-  .phone { width: 300px; height: 540px; zoom: 0.87; }
+  .stage { height: 540px; }
+  .phone { width: 300px; height: 560px; zoom: 0.87; }
   .side { display: none; }
 }
-@media (prefers-reduced-motion: reduce) { .phone, .cardIcon[data-ring="true"], .dots i { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .stage, .phone, .cardIcon[data-ring="true"], .dots i { animation: none; } }
 
 /* Fields read from an RFQ attachment (document processing), in the left-hand card. */
 .fields { display: grid; gap: 5px; margin: 8px 0 0; }
