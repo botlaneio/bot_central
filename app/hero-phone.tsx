@@ -114,6 +114,7 @@ export default function HeroPhone({ className }: { className?: string }) {
       aria-label="Demo with sample data: one phone showing connected workflows. botLane reads a manufacturing RFQ and drafts a quote, books a real estate viewing, asks a person to approve the quote before it is sent, and confirms a clinic patient's appointment reminder.">
 
       <div className={styles.phone} aria-hidden="true">
+        <i className={styles.btnAction} /><i className={styles.btnVolUp} /><i className={styles.btnVolDown} /><i className={styles.btnPower} />
         <div className={styles.screen}>
           <div className={styles.status}><Roll value={clock} /><span className={styles.signal}><i /><i /><i /><i /><b /></span></div>
 

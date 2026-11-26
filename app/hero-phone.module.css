@@ -34,22 +34,43 @@
   rotate: -0.35 1 0 9deg;
   transition: rotate 0.6s cubic-bezier(0.2, 0.7, 0.1, 1), translate 0.6s cubic-bezier(0.2, 0.7, 0.1, 1), box-shadow 0.6s ease;
 }
-/* Body depth: the frame is a lit metal-and-glass slab, and two layers set back in 3D space show its thickness on the
-   side turned away (the tilt reveals them; no extra animation). */
+/* A realistic modern phone, no brand marks: a brushed titanium rim around a thin black bezel, side buttons, a camera
+   island, a faint glass glare, and the body's thickness set back in real 3D so the tilt reveals the far edge. */
 .phone {
   transform-style: preserve-3d;
-  background: linear-gradient(120deg, #3a3f4b 0%, #14171e 18%, #0b0d12 50%, #050608 78%, #2a2e38 100%);
+  padding: 9px;
+  border: 3.5px solid transparent;
+  border-radius: 56px;
+  background:
+    linear-gradient(#050608, #050608) padding-box,
+    linear-gradient(135deg, #e4e6ea 0%, #9a9fa8 18%, #f5f6f8 34%, #7d828b 52%, #c9ccd2 70%, #8c9099 86%, #e9ebee 100%) border-box;
 }
 .phone::before, .phone::after {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: -3.5px;
   z-index: -1;
-  border-radius: inherit;
+  border-radius: 56px;
   pointer-events: none;
 }
-.phone::before { transform: translateZ(-9px); background: linear-gradient(90deg, #4a505d, #1a1d24 40%, #0e1015); }
-.phone::after { transform: translateZ(-18px); background: linear-gradient(90deg, #2c313b, #111318); box-shadow: 0 50px 80px -40px #061b3166; }
+/* The titanium side band, seen past the front edge. */
+.phone::before { transform: translateZ(-8px); background: linear-gradient(90deg, #c8cbd1, #7f848d 30%, #a9adb4 60%, #6d727b); }
+.phone::after { transform: translateZ(-16px); background: linear-gradient(90deg, #9a9fa8, #5d626b); box-shadow: 0 50px 80px -40px #061b3166; }
+/* Side buttons: action and volume on the left, power on the right. */
+.btnAction, .btnVolUp, .btnVolDown, .btnPower {
+  position: absolute;
+  width: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #6d727b, #d4d7dc 50%, #8a8f98);
+  transform: translateZ(-6px);
+}
+.btnAction { left: -7px; top: 118px; height: 30px; }
+.btnVolUp { left: -7px; top: 170px; height: 56px; }
+.btnVolDown { left: -7px; top: 238px; height: 56px; }
+.btnPower { right: -7px; top: 196px; height: 88px; }
+/* Faint diagonal glare across the glass. */
+.screen::after { content: ""; position: absolute; inset: 0; z-index: 5; pointer-events: none; border-radius: inherit;
+  background: linear-gradient(115deg, #ffffff2e 0%, #ffffff00 28%, #ffffff00 62%, #ffffff14 80%, #ffffff00 100%); }
 @media (hover: hover) {
   .phone:hover { rotate: -0.35 1 0 2deg; translate: 0 -10px; box-shadow: 0 80px 110px -44px #061b3180, 0 36px 60px -30px #5333f544, inset 0 0 0 1.5px #2a2d36; }
 }
@@ -60,7 +81,7 @@
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  border-radius: 38px;
+  border-radius: 44px;
   background: #f6f8fa;
   color: var(--ink);
 }
@@ -68,10 +89,10 @@
   content: "";
   position: absolute;
   z-index: 2;
-  top: 10px;
-  left: calc(50% - 46px);
-  width: 92px;
-  height: 26px;
+  top: 11px;
+  left: calc(50% - 50px);
+  width: 100px;
+  height: 29px;
   border-radius: 999px;
   background: var(--black);
 }
