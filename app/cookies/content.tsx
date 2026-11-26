@@ -2,29 +2,27 @@
 
 import { PageHero, Prose, SitePage } from "../site/kit";
 
-/* DRAFT TEMPLATE: complete once analytics and hosting choices are final; review with counsel before launch. */
+/* Cookie policy. Matches what the site does today: no cookies, no analytics. Update before adding either. */
 export default function Content() {
-  return <SitePage cta={false} hero={<PageHero crumb={["Legal"]} actions={false} title="Cookie policy" lede="Last updated: [date]. Which cookies and similar technologies this website uses, and how to control them." />}>
-    <Prose draft="This is a template. The table must match what the live website actually uses once analytics and hosting are decided, and should be reviewed by a qualified lawyer.">
-      <h2>What cookies are</h2>
-      <p>Cookies are small files a website stores in your browser. Similar technologies include local storage and pixels.</p>
-
+  return <SitePage cta={false} hero={<PageHero crumb={["Legal"]} actions={false} title="Cookie policy" lede="Last updated 26 November 2026. The short version: this site doesn't set cookies." />}>
+    <Prose>
       <h2>What we use</h2>
       <table>
-        <thead><tr><th>Type</th><th>Purpose</th><th>Used today?</th></tr></thead>
+        <thead><tr><th>Type</th><th>Purpose</th><th>Used?</th></tr></thead>
         <tbody>
-          <tr><td>Strictly necessary</td><td>Security and basic operation of the website, such as protecting forms from abuse.</td><td>[Confirm]</td></tr>
-          <tr><td>Analytics</td><td>Understanding which pages are useful, using aggregated data.</td><td>[Not yet: complete when chosen]</td></tr>
-          <tr><td>Marketing</td><td>Measuring advertising.</td><td>No</td></tr>
+          <tr><td>Strictly necessary</td><td>Running and protecting the site. Cloudflare may use security measures to block abuse.</td><td>Only where Cloudflare needs them</td></tr>
+          <tr><td>Analytics</td><td>Measuring how pages are used.</td><td>No</td></tr>
+          <tr><td>Marketing and advertising</td><td>Tracking you across sites, measuring ads.</td><td>No</td></tr>
         </tbody>
       </table>
-      <p>We will ask for your consent before setting any cookie that isn&apos;t strictly necessary, where the law requires it.</p>
+      <p>For the current visit only, your browser may remember which version of the site you chose to preview. It stays on your device and is cleared when you close the tab.</p>
+      <p>If we ever add cookies that aren&apos;t strictly necessary, we&apos;ll update this page first and ask for your consent where the law requires it.</p>
 
       <h2>How to control cookies</h2>
-      <p>You can block or delete cookies in your browser settings. Blocking strictly necessary cookies may stop parts of the website from working.</p>
+      <p>You can block or delete cookies in your browser settings. Blocking strictly necessary ones may stop parts of the site from working.</p>
 
       <h2>More information</h2>
-      <p>See our <a href="/privacy">privacy policy</a>, or contact [privacy email].</p>
+      <p>See our <a href="/privacy">privacy policy</a>, or email <a href="mailto:admin@botlane.io">admin@botlane.io</a>.</p>
     </Prose>
   </SitePage>;
 }

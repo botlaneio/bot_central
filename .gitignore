@@ -18,5 +18,9 @@ npm-debug.log*
 next-env.d.ts
 
 # Wrangler local secrets and state
-.dev.vars*
+.dev.var*
 .wrangler/
+
+# Brand kit lives outside the site repo (shared as a zip)
+/brand-kit/
+/botlane-brand-kit.zip

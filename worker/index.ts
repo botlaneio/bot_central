@@ -14,6 +14,11 @@
  * and the form tells the visitor nothing was sent.
  */
 
+declare class HTMLRewriter {
+  on(selector: string, handlers: { element?: (element: { append(content: string, options?: { html: boolean }) : void }) => void }): HTMLRewriter;
+  transform(response: Response): Response;
+}
+
 interface Env {
   ASSETS: { fetch(request: Request): Promise<Response> };
   CRM_API_URL?: string;
@@ -135,6 +140,25 @@ export default {
       if (request.method !== "POST") return json({ ok: false, error: "method_not_allowed" }, 405);
       return enquiry(request, env);
     }
-    return env.ASSETS.fetch(request);
+    return withRegionLinks(await env.ASSETS.fetch(request), url);
   },
 };
+
+/*
+ * botlane.io (US) and botlane.in (India) serve the same pages; the page itself picks prices and legal details from
+ * the hostname. For search engines, each HTML page says which site it belongs to (canonical, always without www)
+ * and points to its twin on the other domain (hreflang), so the two aren't treated as duplicates.
+ */
+const SITES = { us: "https://botlane.io", in: "https://botlane.in" } as const;
+function withRegionLinks(response: Response, url: URL) {
+  if (!(response.headers.get("content-type") ?? "").includes("text/html")) return response;
+  const host = url.hostname.replace(/^www\./, "");
+  if (host !== "botlane.io" && host !== "botlane.in") return response;
+  const path = url.pathname;
+  const own = host === "botlane.in" ? SITES.in : SITES.us;
+  const links = `<link rel="canonical" href="${own}${path}">` +
+    `<link rel="alternate" hreflang="en-US" href="${SITES.us}${path}">` +
+    `<link rel="alternate" hreflang="en-IN" href="${SITES.in}${path}">` +
+    `<link rel="alternate" hreflang="x-default" href="${SITES.us}${path}">`;
+  return new HTMLRewriter().on("head", { element: head => { head.append(links, { html: true }); } }).transform(response);
+}

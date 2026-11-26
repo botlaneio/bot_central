@@ -76,26 +76,13 @@
 .conversionGrid p { color: var(--muted); margin: 10px 0; }
 .demoStatus { color: var(--muted); font-size: 13px; margin: 6px 0 0; }
 
-.footer { background: #f8fafd; }
-.footerFrame { padding: 72px 2% 36px; }
-.footerGrid { display: grid; grid-template-columns: .65fr repeat(4, minmax(0,1fr)); gap: 28px; align-items: start; }
 .wordmark { display: inline-block; font-weight: 800; font-size: 32px; line-height: 1; letter-spacing: -.09em; }
-.footerGroup + .footerGroup { margin-top: 25px; }
-.footerGroup h3 { margin: 0 0 9px; font-size: 14px; font-weight: 650; line-height: 1.4; }
-.footerGroup ul { list-style: none; margin: 0; padding: 0; }
-.footerGroup li { margin: 5px 0; }
-.footerGroup a:not(.wordmark), .footerGroup button { color: #425e73; font-size: 13px; }
-.footerGroup a:hover { text-decoration: underline; text-underline-offset: 3px; }
-.newsletter { display: block; margin: 10px 0; padding: 10px; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; background: white; font-size: 13px; }
-.footerBase { border-top: 1px solid var(--line); margin-top: 38px; padding-top: 26px; display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 13px; }
 
 @media(max-width: 900px) {
   .developerFrame, .newsFrame { padding: 96px 0; }
   .feature { gap: 24px; }
   .integrationCard { padding: 15px; }
   .conversionGrid { padding: 60px 0; }
-  .footerGrid { grid-template-columns: repeat(4, minmax(0,1fr)); gap: 20px; }
-  .brandColumn { grid-column: 1 / -1; }
 }
 
 @media(max-width: 600px) {
@@ -116,11 +103,41 @@
   .book { grid-template-columns: 1fr; margin-top: 60px; }
   .bookArt { min-height: 220px; }
   .conversionGrid { grid-template-columns: 1fr; padding: 50px 0; }
-  .footerFrame { padding: 46px 0 30px; }
-  .footerGrid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 20px 14px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .slide { animation: none; }
   .link span { transition: none; }
+}
+
+/* Footer: brand column plus five even link columns; legal links sit in the base row. */
+.footer { background: #f8fafd; border-top: 1px solid var(--line); }
+.footerFrame { padding: 72px 0 32px; }
+.footerGrid { display: grid; grid-template-columns: minmax(220px, 1.4fr) repeat(5, minmax(0, 1fr)); gap: 40px 32px; align-items: start; }
+.brandColumn { display: grid; gap: 18px; justify-items: start; padding-right: 24px; }
+.brandColumn p { margin: 0; max-width: 260px; color: var(--muted); font-size: 14px; line-height: 1.55; }
+.footerCta { display: inline-flex; gap: 6px; white-space: nowrap; padding: 10px 16px; border-radius: 4px; background: var(--ink); color: white; font-size: 14px; font-weight: 550; transition: background .18s ease; }
+.footerCta:hover { background: #1c3250; }
+.footerGroup h3 { margin: 6px 0 16px; font-size: 13px; font-weight: 600; line-height: 1.4; color: var(--ink); }
+.footerGroup ul { display: grid; gap: 10px; list-style: none; margin: 0; padding: 0; }
+.footerGroup a { color: var(--muted); font-size: 14px; line-height: 1.35; transition: color .15s ease; }
+.footerGroup a:hover, .footerBase a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.footerBase { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+.footerBase small { font-size: inherit; }
+.footerBase ul { display: flex; gap: 24px; list-style: none; margin: 0 0 0 auto; padding: 0; }
+.footerBase a { color: var(--muted); }
+
+@media (max-width: 1050px) {
+  .footerGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .brandColumn { grid-column: 1 / -1; padding-right: 0; }
+  .brandColumn p { max-width: 420px; }
+}
+@media (max-width: 600px) {
+  .footerFrame { padding: 48px 0 28px; }
+  .footerGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 20px; }
+  .footerGroup h3 { margin-bottom: 12px; }
+  .footerGroup ul { gap: 9px; }
+  .footerGroup a { font-size: 13.5px; }
+  .footerBase { margin-top: 40px; gap: 10px 20px; }
+  .footerBase ul { margin-left: 0; width: 100%; }
 }

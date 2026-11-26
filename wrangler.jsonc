@@ -7,8 +7,17 @@
     "directory": "./out",
     "binding": "ASSETS",
     "not_found_handling": "404-page",
-    "run_worker_first": ["/api/*"]
-  }
+    // Run the Worker first for /api/* (the form) and for pages, so it can add canonical/hreflang links per domain.
+    "run_worker_first": ["/api/*", "/*", "!/_next/*", "!/media/*"]
+  },
+  // Both sites, with and without www. botlane.io shows US content and USD; botlane.in shows India content and INR.
+  // Each zone must be in this Cloudflare account, and a domain can only be attached to one Worker at a time.
+  "routes": [
+    { "pattern": "botlane.io", "custom_domain": true },
+    { "pattern": "www.botlane.io", "custom_domain": true },
+    { "pattern": "botlane.in", "custom_domain": true },
+    { "pattern": "www.botlane.in", "custom_domain": true }
+  ]
   // Secret (set with `npx wrangler secret put CRM_API_KEY`, never committed): the Comp AI CRM API key.
   // Optional var: CRM_API_URL (defaults to https://ops-api.botlane.io/rest).
   // Optional var: ALLOWED_ORIGINS, comma-separated list of site origins allowed to post the form.

@@ -156,3 +156,5 @@ body:has(.announcement) .hero-shell{box-shadow:0 -14px var(--navy)}
 .tile-issuing .tile-heading span{background:#efebff;color:#5333f5}
 .tile-crypto .tile-heading span{background:#e8f0ff;color:#3466d6}
 .tile-connect .tile-heading span{background:#fff1e3;color:#d4640a}
+/* Host-based region (app/region.tsx): only the variant for this site is shown. */
+html[data-region="in"] [data-region-only="us"],html:not([data-region="in"]) [data-region-only="in"]{display:none!important}

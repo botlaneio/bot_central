@@ -20,22 +20,17 @@ const articles = [
   ["Which industries do you serve?", "We start with manufacturing, real estate and clinics, in the United States and India. Other industries will follow as each solution is proven.", "Industries", "business", "stock/faq-industries.jpg"],
 ] as const;
 
-const footerGroups = [
-  [["Solutions", [
+const footerColumns = [
+  ["Solutions", [
     ["Customer Acquisition", "/solutions/customer-acquisition"], ["AI Front Office", "/solutions/ai-front-office"], ["Business Operations", "/solutions/business-operations"], ["Financial Administration", "/solutions/financial-administration"], ["Customer Experience", "/solutions/customer-experience"], ["Business Intelligence", "/solutions/business-intelligence"],
-  ]]],
-  [["Industries", [
-    ["Manufacturing", "/industries/manufacturing"], ["Real Estate", "/industries/real-estate"], ["Clinics", "/industries/clinics"],
-  ]]],
-  [
-    ["How it works", [["Our process", "/how-it-works"], ["How engagements work", "/engagements"], ["Technology", "/technology"], ["Responsible automation", "/responsible-automation"]]],
-    ["Resources", [["Insights", "/blog"], ["Questions", "/#resources"], ["Demo workflow", "/#workflows"]]],
-  ],
-  [
-    ["Company", [["About", "/about"], ["Get an assessment", "/contact"]]],
-    ["Support", [["Get support", "/support"], ["Privacy", "/privacy"], ["Terms", "/terms"]]],
-  ],
+  ]],
+  ["Industries", [["Manufacturing", "/industries/manufacturing"], ["Real Estate", "/industries/real-estate"], ["Clinics", "/industries/clinics"]]],
+  ["How it works", [["Our process", "/how-it-works"], ["How engagements work", "/engagements"], ["Technology", "/technology"], ["Responsible automation", "/responsible-automation"]]],
+  ["Resources", [["Insights", "/blog"], ["Questions", "/#resources"], ["Demo workflow", "/#workflows"]]],
+  ["Company", [["About", "/about"], ["Contact", "/contact?topic=general"], ["Support", "/support"]]],
 ] as const;
+
+const legal = [["Privacy", "/privacy"], ["Terms", "/terms"], ["Cookies", "/cookies"]] as const;
 
 const integrations = [
   ["Start small.", "Fix one clearly defined problem first, such as slow RFQ replies or missed enquiries.", "Explore automation", "top"],
@@ -173,28 +168,24 @@ function DemoButton({ label, onDemo, primary = false }: { label: string; onDemo?
   </>;
 }
 
-export function Footer({ onDemo }: { onDemo?: (label: string) => void }) {
+export function Footer(_props: { onDemo?: (label: string) => void }) {
   return <footer className={styles.footer}>
     <div className={`frame ${styles.footerFrame}`}>
       <div className={styles.footerGrid}>
-        <div className={styles.brandColumn}><Logo size={38} intro="view" href="#top" /></div>
-        {footerGroups.map((column, index) =>
-          <div key={column[0][0]} className={styles.footerColumn}>
-            {column.map(([heading, links]) => <div className={styles.footerGroup} key={heading}>
-              <h3>{heading}</h3>
-              <ul>{links.map(([label, path]) => <li key={label}><a href={publicUrl(path)}>{label}</a></li>)}
-                {heading === "Company" && <li><DemoButton label="Contact us" onDemo={onDemo} /></li>}
-                {heading === "Support" && <li><DemoButton label="Client sign in" onDemo={onDemo} /></li>}
-                {heading === "Resources" && <li><DemoButton label="Cookie settings" onDemo={onDemo} /></li>}
-              </ul>
-            </div>)}
-            {index === 3 && <div className={styles.footerGroup}><h3>Get automation insights from botLane</h3><span className={styles.newsletter} aria-hidden="true">Enter work email</span><DemoButton label="Continue" onDemo={onDemo} /></div>}
-          </div>
-        )}
+        <div className={styles.brandColumn}>
+          <Logo size={40} intro="load" href="/" />
+          <p>Business automation and digital systems for manufacturing, real estate and clinics.</p>
+          <a className={styles.footerCta} href="/contact">Get an assessment <span aria-hidden="true">›</span></a>
+        </div>
+        {footerColumns.map(([heading, links]) => <nav key={heading} className={styles.footerGroup} aria-label={heading}>
+          <h3>{heading}</h3>
+          <ul>{links.map(([label, href]) => <li key={label}><a href={href}>{label}</a></li>)}</ul>
+        </nav>)}
       </div>
       <div className={styles.footerBase}>
-        <div aria-label="Markets served">◎ United States and India (English)</div>
-        <small>© 2026 BotLane LLC.</small>
+        <small>© 2026 BotLane LLC</small>
+        <span className={styles.markets}>United States and India</span>
+        <ul>{legal.map(([label, href]) => <li key={label}><a href={href}>{label}</a></li>)}</ul>
       </div>
     </div>
   </footer>;
