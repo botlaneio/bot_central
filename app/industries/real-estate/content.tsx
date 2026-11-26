@@ -1,26 +1,45 @@
 "use client";
 
-import { Checklist, Chips, Faq, Flow, Hero, IndustryPage, Journey, ModuleCards, Process, Section, TwoCol } from "../blocks";
+import {
+  ArrowRight, Building2, CalendarCheck, CalendarDays, FileSignature, FolderOpen, Globe2, LayoutDashboard, LayoutTemplate,
+  Mail, MessageCircle, MessageSquare, Phone, ShieldCheck, UserRoundCheck, Users, Workflow, type LucideIcon,
+} from "lucide-react";
+import { Faq, Flow, IndustryPage, Process } from "../blocks";
 import type { FlowConfig } from "../../workflow";
-import styles from "../industry.module.css";
+import { ForRegion } from "../../region";
+import LeadChat from "./lead-chat";
+import PipelineBoard from "./pipeline-board";
+import page from "./real-estate.module.css";
+
+/*
+ * Real estate: its own hero (a quiet street-map backdrop and a live after-hours enquiry desk), then the story from a
+ * late-night message to a confirmed viewing. Fair housing is treated as a design rule, not a footnote. Demo data is
+ * labelled; no invented results, clients or certifications. Icons from Lucide (ISC).
+ */
 
 const firstHour = [
-  { when: "Minute 0", title: "An enquiry arrives at 9:41 PM", text: "From a listing portal, your website or WhatsApp. Without a system, it waits until morning, and by then the buyer has called three other agents." },
-  { when: "Minute 1", title: "It is answered and qualified", text: "An assistant replies, asks about budget, area, timing and financing, and logs everything in your CRM using the same criteria for every enquiry." },
-  { when: "Next morning", title: "An agent picks up a warm lead", text: "A viewing is already offered, the agent confirms the slot, and reminders go out automatically. The agent's time goes into the conversation, not the admin." },
+  { when: "9:41 PM", title: "A buyer asks about a listing", text: "A three-bedroom enquiry comes in on WhatsApp while the office is closed." },
+  { when: "9:45 PM", title: "A viewing slot is held", text: "The assistant answers the buyer’s questions, captures their requirements and logs the conversation." },
+  { when: "8:10 AM", title: "The agent confirms", text: "An agent picks up the lead with the context already in the CRM. Confirmation and reminders follow." },
 ] as const;
 
-const modules = [
-  ["AI inquiry handling", "Property enquiries answered on your website, phone and messaging channels, day and night."],
-  ["Lead qualification", "Consistent questions on budget, timing and requirements, never on protected characteristics."],
-  ["AI voice receptionist", "Calls answered, details captured and urgent ones passed to an agent."],
-  ["Viewing scheduling", "Viewings booked around agent and property availability."],
-  ["Confirmations and reminders", "WhatsApp, SMS and email reminders that reduce missed viewings."],
-  ["Lead nurturing", "Follow-ups for leads who aren't ready yet, stopped when they ask."],
-  ["Property recommendations", "Listings suggested from stated preferences such as budget, size and location."],
-  ["Documents and onboarding", "Client documents collected and onboarding steps tracked."],
-  ["Pipeline and agent dashboards", "Enquiries, viewings and deals by source and by agent."],
-] as const;
+const capabilities: [LucideIcon, string, [string, string][]][] = [
+  [MessageSquare, "Capture the enquiry", [
+    ["Enquiry handling", "Reply on your website and messaging channels, day and night."],
+    ["AI voice receptionist", "Answer calls, capture details and hand urgent enquiries to an agent."],
+    ["Lead qualification", "Ask consistent questions about budget, timing and requirements."],
+  ]],
+  [CalendarCheck, "Get to the viewing", [
+    ["Property recommendations", "Suggest listings based on stated preferences such as size and location."],
+    ["Viewing scheduling", "Offer times that work for the property and the agent’s calendar."],
+    ["Confirmations and reminders", "Send updates by WhatsApp, SMS or email."],
+  ]],
+  [Workflow, "Keep the deal moving", [
+    ["Lead nurturing", "Follow up with buyers who need time and respect opt-outs."],
+    ["Documents and onboarding", "Collect documents and track what is still outstanding."],
+    ["Pipeline and agent dashboards", "See enquiries, viewings and deals by source and by agent."],
+  ]],
+];
 
 const x = (i: number) => 60 + i * 320;
 const flow: FlowConfig = {
@@ -43,13 +62,29 @@ const flow: FlowConfig = {
   noBranch: { x: x(3), y: 320, kind: "action", tag: "Nurture", title: "Added to nurture", detail: "Useful listings, no pressure", dim: true },
 };
 
-const digital = [
-  ["Real estate website", "A premium site where every enquiry form feeds the same system."],
-  ["Property listing platform", "Listings with search, filters and enquiry capture."],
-  ["Property landing pages", "One page per development or campaign, built to convert."],
-  ["Customer portal", "Documents, viewings and next steps in one place for buyers and tenants."],
-  ["Interactive enquiry", "Guided questions instead of a blank contact form."],
-] as const;
+const safeguards: [string, string][] = [
+  ["Neutral criteria", "Use stated requirements such as budget, timing, size and location. Exclude protected characteristics."],
+  ["No steering", "Base recommendations on the client’s stated preferences."],
+  ["Reviewed rules", "Review qualification scripts before launch and whenever the rules change."],
+  ["Human takeover", "Give clients a way to reach an agent and pass sensitive questions to a person."],
+  ["Consent and opt-out", "Respect messaging consent and stop follow-ups when requested."],
+];
+
+const digital: [LucideIcon, string, string][] = [
+  [Globe2, "Real estate website", "Every enquiry form feeds the same system."],
+  [Building2, "Listing platform", "Search, filters and enquiry capture."],
+  [LayoutTemplate, "Landing pages", "One page per development or campaign."],
+  [UserRoundCheck, "Customer portal", "Documents, viewings and next steps in one place."],
+  [MessageSquare, "Interactive enquiry", "Guided questions instead of a blank form."],
+];
+
+const tools: [LucideIcon, string, string][] = [
+  [Users, "CRM", "Leads, contacts and deals"], [Building2, "Listing portals", "Enquiries from every portal"],
+  [CalendarDays, "Calendars", "Google and Outlook"], [MessageCircle, "WhatsApp Business", "Buyer and tenant messages"],
+  [Phone, "Phone and SMS", "Calls, texts and voicemail"], [Mail, "Email", "Enquiry inboxes"],
+  [FileSignature, "E-signature", "Offers and agreements"], [FolderOpen, "Document storage", "IDs, proofs and contracts"],
+  [LayoutDashboard, "Dashboards", "By source and by agent"], [Globe2, "Website forms", "Every page, one queue"],
+];
 
 const faq = [
   ["Is automated lead qualification fair?", "It has to be. We design qualification and recommendations around stated requirements such as budget, timing, size and location, never protected characteristics, and review the rules with you against fair housing and anti-discrimination requirements in your market."],
@@ -59,66 +94,179 @@ const faq = [
   ["Where should we start?", "With enquiry handling and viewing scheduling, because that is where response time decides who wins the client."],
 ] as const;
 
-export default function Content() {
-  return <IndustryPage hero={onDemo => <Hero onDemo={onDemo} eyebrow="Real Estate"
-    title={<>Less time chasing leads. <em>More time closing deals.</em></>}
-    lede="Connect property inquiries, lead qualification, scheduling and customer follow-ups into one intelligent real estate ecosystem."
-    panel={<div className={styles.mockCard}>
-      <small>This week · all channels</small>
-      <strong>Enquiry pipeline</strong>
-      <div className={styles.funnel}>
-        <div><span>Enquiries answered</span><span>48</span></div>
-        <div><span>Qualified</span><span>21</span></div>
-        <div><span>Viewings booked</span><span>12</span></div>
-        <div><span>Offers</span><span>3</span></div>
+/* A quiet street map behind the hero: blocks, two avenues, a waterfront and a few pins. Original line art. */
+function StreetMap() {
+  const minor = Array.from({ length: 15 }, (_, i) => 40 + i * 82);
+  return <svg className={page.map} viewBox="0 0 1200 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g transform="rotate(-14 600 380)" stroke="#061b31" fill="none">
+      {minor.map(v => <path key={`v${v}`} d={`M${v} -200 V960`} strokeOpacity=".09" />)}
+      {minor.map(v => <path key={`h${v}`} d={`M-200 ${v - 40} H1400`} strokeOpacity=".09" />)}
+      <path d="M-200 368 H1400" strokeOpacity=".2" strokeWidth="7" />
+      <path d="M778 -200 V960" strokeOpacity=".2" strokeWidth="7" />
+      <rect x="860" y="130" width="146" height="146" rx="6" fill="#5333f5" fillOpacity=".05" stroke="none" />
+    </g>
+    <path d="M1200 520 C 1010 560, 930 650, 760 760 L1200 760 Z" fill="#6f9bff" fillOpacity=".09" />
+    <path d="M1200 520 C 1010 560, 930 650, 760 760" stroke="#6f9bff" strokeOpacity=".35" fill="none" />
+    {[[1160, 205], [1148, 560], [620, 60]].map(([cx, cy], i) => <g key={i} transform={`translate(${cx} ${cy})`}>
+      <circle r="16" fill="#5333f5" fillOpacity=".1" /><circle r="5" fill="#5333f5" fillOpacity={i === 0 ? 1 : .45} />
+    </g>)}
+  </svg>;
+}
+
+function Hero({ onDemo }: { onDemo: (label: string) => void }) {
+  return <section className={page.hero} aria-labelledby="re-title">
+    <StreetMap />
+    <div className={`frame ${page.heroGrid}`}>
+      <div className={page.heroCopy}>
+        <p className={page.crumb}><a href="/#business">Industries</a><span aria-hidden="true">/</span>Real Estate</p>
+        <h1 id="re-title">Less time chasing leads. <span>More time closing deals.</span></h1>
+        <p className={page.lede}>Property enquiries, lead qualification, viewings and follow-ups, connected into one system that answers at 9:41 PM and hands your agent a ready lead by morning.</p>
+        <div className={page.actions}>
+          <button type="button" className={page.primary} onClick={() => onDemo("Get an automation assessment")}>Get an automation assessment <ArrowRight aria-hidden="true" /></button>
+          <a className={page.secondary} href="#workflow">See the enquiry workflow</a>
+        </div>
+        <ul className={page.for}><li>Agencies and brokers</li><li>Developers</li><li>Property managers</li></ul>
       </div>
-      <div className={styles.mockRow} style={{ marginTop: 12 }}><span>New: 3-bed apartment, WhatsApp</span><span className={styles.pill}>Viewing Sat 11:00</span></div>
-    </div>} />}>
+      <LeadChat />
+    </div>
+  </section>;
+}
 
-    <Section title="The first hour decides the lead." sub="Agencies, brokerages, developers and property managers lose good enquiries to slow replies, manual follow-ups and missed viewings.">
-      <Journey steps={firstHour} />
-    </Section>
+export default function Content() {
+  return <IndustryPage hero={onDemo => <Hero onDemo={onDemo} />}>
 
-    <Section tone="soft" title="Modules for every step of the enquiry." sub="Use one or connect them all. They share the same CRM, calendar and messaging channels.">
-      <ModuleCards items={modules} label="Real estate" />
-    </Section>
+    <section className={page.band} aria-label="What we cover">
+      <div className={`frame ${page.bandGrid}`}>
+        <div><strong>Answered while the office is closed</strong><span>Website, phone, WhatsApp, SMS and email, day and night.</span></div>
+        <div><strong>Agents stay in charge</strong><span>The assistant holds the slot. A person confirms the viewing.</span></div>
+        <div><strong>Fair by design</strong><span>Stated requirements only, never protected characteristics.</span></div>
+      </div>
+    </section>
 
-    <Flow flow={flow} />
+    <section className={page.chapter} aria-labelledby="re-night">
+      <div className="frame">
+        <header className={page.heading}>
+          <h2 id="re-night">From late-night enquiry to a booked viewing.</h2>
+          <p>Buyers message when they are browsing, which is rarely office hours. The first reply decides who they keep talking to.</p>
+        </header>
+        <div className={page.story}>
+          <figure className={page.property}>
+            <img src="/media/real-estate/apartment-at-dusk.webp" width={1280} height={960} alt="Contemporary apartment building with lit windows at dusk" loading="lazy" decoding="async" />
+            <figcaption><span>Sample enquiry</span><strong>3-bed apartment</strong><span>WhatsApp · 9:41 PM</span></figcaption>
+          </figure>
+          <ol className={page.night} aria-label="Sample enquiry timeline">
+            {firstHour.map(({ when, title, text }, i) => <li key={when} data-day={i === 2 ? "true" : undefined}>
+              <time>{when}</time><h3>{title}</h3><p>{text}</p>
+            </li>)}
+          </ol>
+        </div>
+      </div>
+    </section>
 
-    <Section tone="navy" title="Fair by design." sub="Automated qualification and recommendations must comply with fair housing and anti-discrimination requirements.">
-      <Checklist items={[
-        ["Neutral criteria", "Qualification uses stated requirements such as budget, timing, size and location, never protected characteristics."],
-        ["No steering", "Recommendations follow the client's stated preferences, not assumptions about who they are."],
-        ["Reviewed rules", "Qualification scripts and rules are reviewed with you before launch and whenever they change."],
-        ["Human takeover", "Any conversation can be handed to an agent, and sensitive questions always are."],
-        ["Consent and opt-out", "Follow-ups respect messaging consent rules and stop when a client asks."],
-      ]} />
-    </Section>
+    <section className={`${page.chapter} ${page.tinted}`} aria-labelledby="re-pipe">
+      <div className="frame">
+        <header className={page.heading}>
+          <h2 id="re-pipe">One pipeline, from first reply to offer.</h2>
+          <p>Watch one enquiry move along. Tap a column to stop it there. Each stage can share your CRM, calendar and messaging channels.</p>
+        </header>
+        <PipelineBoard />
+        <ol className={page.mods}>
+          {capabilities.map(([Icon, title, items]) => <li key={title}>
+            <h3><Icon aria-hidden="true" />{title}</h3>
+            <dl>{items.map(([n, d]) => <div key={n}><dt>{n}</dt><dd>{d}</dd></div>)}</dl>
+          </li>)}
+        </ol>
+      </div>
+    </section>
 
-    <Section title="Websites and portals that feed the pipeline.">
-      <TwoCol intro={<><h3>Every page is a lead source</h3><p>Listing pages, development landing pages and portals all route enquiries into the same qualification and scheduling workflows.</p></>}>
-        <Checklist items={digital} />
-      </TwoCol>
-    </Section>
+    <div className={page.workflow}><Flow flow={flow} /></div>
 
-    <Section tone="soft" title="Works with your tools." sub="CRM, calendars, listing portals and messaging, connected.">
-      <Chips items={["CRM", "Listing portals", "Google and Outlook calendars", "WhatsApp Business", "SMS", "Email", "Telephone", "E-signature", "Document storage", "Dashboards"]} />
-    </Section>
+    <section className={page.chapter} aria-labelledby="re-spot">
+      <div className="frame">
+        <header className={page.heading}>
+          <h2 id="re-spot">What your agents see.</h2>
+          <p>Less inbox, more viewings. Every screen here is a sample.</p>
+        </header>
+        <div className={page.spots}>
+          <article className={page.spot}>
+            <div className={page.spotCopy}><small>Viewing scheduling</small><h3>Slots from the real calendar.</h3><p>The assistant only offers times when both the property and the agent are free, holds the slot, and sends the confirmation and a reminder.</p></div>
+            <div className={page.mock}>
+              <div className={page.mockHead}><b>Viewings · Lakeview Court</b><em>Demo</em></div>
+              <div className={page.cal}>
+                {["Thu", "Fri", "Sat"].map((d, c) => <div key={d}><b>{d}</b>
+                  {["10:00", "11:00", "12:00", "15:00"].map((t, r) => {
+                    const k = c === 2 && r === 1 ? "held" : (c + r) % 3 === 0 ? "busy" : "free";
+                    return <span key={t} data-k={k}>{t}{k === "held" ? " · held" : ""}</span>;
+                  })}
+                </div>)}
+              </div>
+            </div>
+          </article>
+          <article className={page.spot} data-flip="true">
+            <div className={page.spotCopy}><small>Recommendations</small><h3>Suggestions that show their reasons.</h3><p>Listings are matched to what the client asked for, and every suggestion says why. Nothing about who the client is goes into the match.</p></div>
+            <div className={page.mock}>
+              <div className={page.mockHead}><b>Suggested for this enquiry</b><em>Demo</em></div>
+              {[["Lakeview Court", <ForRegion key="a" us="$640k" in="₹1.45 Cr" />, 0], ["Harbour Row", <ForRegion key="b" us="$615k" in="₹1.38 Cr" />, 1]].map(([n, p, v]) =>
+                <div key={String(n)} className={page.match}><i className={page.house} data-v={v as number} /><span><b>{n}</b><small>3 bed · 2 bath · {p}</small></span>
+                  <ul><li>In budget</li><li>Lakeview</li><li>3 bed</li></ul></div>)}
+              <p className={page.mockNote}>Matched on stated budget, area and size only.</p>
+            </div>
+          </article>
+          <article className={page.spot}>
+            <div className={page.spotCopy}><small>Dashboards</small><h3>See where viewings come from.</h3><p>Enquiries, viewings and deals by source and by agent, so you know which portals and campaigns are worth paying for.</p></div>
+            <div className={page.mock}>
+              <div className={page.mockHead}><b>Enquiries to viewings · by source</b><em>Demo</em></div>
+              {[["WhatsApp", 82, 44], ["Listing portals", 64, 26], ["Website", 48, 22], ["Phone", 30, 14]].map(([s, a, b]) =>
+                <div key={s as string} className={page.bar}><span>{s}</span><div><i style={{ width: `${a}%` }} /><i style={{ width: `${b}%` }} /></div></div>)}
+              <p className={page.legend}><i />Enquiries <i data-b="true" />Viewings</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
 
-    <Section title="What it can change." sub="Potential benefits, not guarantees. We agree measurable goals with you during the assessment.">
-      <ModuleCards label="Benefit" items={[
-        ["Faster first replies", "Enquiries answered in minutes, including evenings and weekends."],
-        ["Fewer missed viewings", "Confirmations and reminders on the channel each client prefers."],
-        ["Agents focused on clients", "Less time on data entry, scheduling and chasing."],
-      ]} />
-    </Section>
+    <section className={page.fair} aria-labelledby="re-fair">
+      <div className={`frame ${page.split}`}>
+        <div>
+          <ShieldCheck className={page.fairIcon} aria-hidden="true" />
+          <h2 id="re-fair">Fair by design.</h2>
+          <p>Automated qualification and recommendations must comply with fair housing and anti-discrimination requirements. We review how each rule works with your team before launch.</p>
+          <div className={page.criteria} aria-label="Qualification criteria">
+            <div><small>Used to qualify</small><ul><li>Budget</li><li>Area</li><li>Size</li><li>Timing</li><li>Financing status</li></ul></div>
+            <div data-never="true"><small>Never used</small><ul><li>Protected characteristics, such as race, religion, sex, disability or family status</li></ul></div>
+          </div>
+        </div>
+        <dl className={page.rules}>{safeguards.map(([t, d]) => <div key={t}><dt>{t}</dt><dd>{d}</dd></div>)}</dl>
+      </div>
+    </section>
 
-    <Section tone="soft" title="How implementation works.">
-      <Process />
-    </Section>
+    <section className={page.chapter} aria-labelledby="re-digital">
+      <div className="frame">
+        <header className={page.heading}>
+          <h2 id="re-digital">Every property page can start a conversation.</h2>
+          <p>New websites, listing pages and portals, connected to the systems your team already uses.</p>
+        </header>
+        <ul className={page.digital}>{digital.map(([Icon, n, d]) => <li key={n}><Icon aria-hidden="true" /><b>{n}</b><small>{d}</small></li>)}</ul>
+        <h3 className={page.subhead}>Connects to your tools</h3>
+        <ul className={page.tools}>{tools.map(([Icon, n, d]) => <li key={n}><Icon aria-hidden="true" /><b>{n}</b><small>{d}</small></li>)}</ul>
+      </div>
+    </section>
 
-    <Section title="Questions real estate teams ask.">
-      <Faq items={faq} />
-    </Section>
+    <section className={`${page.chapter} ${page.tinted}`} aria-labelledby="re-how">
+      <div className="frame">
+        <header className={page.heading}>
+          <h2 id="re-how">From assessment to rollout.</h2>
+          <p>Agree on what to measure before you launch, from first-reply time to missed viewings and time spent on admin.</p>
+        </header>
+        <Process />
+      </div>
+    </section>
+
+    <section className={page.chapter} aria-labelledby="re-faq">
+      <div className={`frame ${page.split}`}>
+        <h2 id="re-faq">Questions real estate teams ask.</h2>
+        <Faq items={faq} />
+      </div>
+    </section>
   </IndustryPage>;
 }
