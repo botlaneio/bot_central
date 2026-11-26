@@ -6,23 +6,74 @@
   position: relative;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  height: 620px;
+  align-items: center;
+  height: 680px;
+  /* The whole device floats gently mid-air: one slow transform, nothing else repaints. */
+  animation: float 3.6s ease-in-out 1.2s infinite alternate;
 }
+@keyframes float { from { transform: translate3d(0, 4px, 0); } to { transform: translate3d(0, -10px, 0); } }
 
 /* ───────── The phone ───────── */
 .phone {
   position: relative;
   z-index: 1;
   width: 320px;
-  height: 600px;
-  padding: 12px 12px 0;
-  border-radius: 46px 46px 0 0;
+  height: 620px;
+  padding: 12px;
+  border-radius: 50px;
   background: var(--black);
-  box-shadow: 0 30px 60px -24px #061b3166, 0 12px 24px -12px #061b3133, inset 0 0 0 1.5px #2a2d36;
+  /* A full device floating above the page: a soft, wide drop shadow well below it. */
+  box-shadow: 0 60px 90px -40px #061b3170, 0 30px 50px -30px #5333f533, inset 0 0 0 1.5px #2a2d36;
   animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.1, 1) 0.2s both;
 }
 @keyframes rise { from { opacity: 0; transform: translate3d(0, 40px, 0); } to { opacity: 1; transform: none; } }
+/* A slight 3D tilt at rest; on hover it turns toward you and lifts. Uses the separate rotate/translate properties so it
+   composes with the rise-in and float animations (which use transform) instead of fighting them. */
+.stage { perspective: 1600px; }
+.phone {
+  rotate: -0.35 1 0 9deg;
+  transition: rotate 0.6s cubic-bezier(0.2, 0.7, 0.1, 1), translate 0.6s cubic-bezier(0.2, 0.7, 0.1, 1), box-shadow 0.6s ease;
+}
+/* A realistic modern phone, no brand marks: a brushed titanium rim around a thin black bezel, side buttons, a camera
+   island, a faint glass glare, and the body's thickness set back in real 3D so the tilt reveals the far edge. */
+.phone {
+  transform-style: preserve-3d;
+  padding: 9px;
+  border: 3.5px solid transparent;
+  border-radius: 56px;
+  background:
+    linear-gradient(#050608, #050608) padding-box,
+    linear-gradient(135deg, #e4e6ea 0%, #9a9fa8 18%, #f5f6f8 34%, #7d828b 52%, #c9ccd2 70%, #8c9099 86%, #e9ebee 100%) border-box;
+}
+.phone::before, .phone::after {
+  content: "";
+  position: absolute;
+  inset: -3.5px;
+  z-index: -1;
+  border-radius: 56px;
+  pointer-events: none;
+}
+/* The titanium side band, seen past the front edge. */
+.phone::before { transform: translateZ(-8px); background: linear-gradient(90deg, #c8cbd1, #7f848d 30%, #a9adb4 60%, #6d727b); }
+.phone::after { transform: translateZ(-16px); background: linear-gradient(90deg, #9a9fa8, #5d626b); box-shadow: 0 50px 80px -40px #061b3166; }
+/* Side buttons: action and volume on the left, power on the right. */
+.btnAction, .btnVolUp, .btnVolDown, .btnPower {
+  position: absolute;
+  width: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #6d727b, #d4d7dc 50%, #8a8f98);
+  transform: translateZ(-6px);
+}
+.btnAction { left: -7px; top: 118px; height: 30px; }
+.btnVolUp { left: -7px; top: 170px; height: 56px; }
+.btnVolDown { left: -7px; top: 238px; height: 56px; }
+.btnPower { right: -7px; top: 196px; height: 88px; }
+/* Faint diagonal glare across the glass. */
+.screen::after { content: ""; position: absolute; inset: 0; z-index: 5; pointer-events: none; border-radius: inherit;
+  background: linear-gradient(115deg, #ffffff2e 0%, #ffffff00 28%, #ffffff00 62%, #ffffff14 80%, #ffffff00 100%); }
+@media (hover: hover) {
+  .phone:hover { rotate: -0.35 1 0 2deg; translate: 0 -10px; box-shadow: 0 80px 110px -44px #061b3180, 0 36px 60px -30px #5333f544, inset 0 0 0 1.5px #2a2d36; }
+}
 
 .screen {
   position: relative;
@@ -30,7 +81,7 @@
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  border-radius: 35px 35px 0 0;
+  border-radius: 44px;
   background: #f6f8fa;
   color: var(--ink);
 }
@@ -38,10 +89,10 @@
   content: "";
   position: absolute;
   z-index: 2;
-  top: 10px;
-  left: calc(50% - 46px);
-  width: 92px;
-  height: 26px;
+  top: 11px;
+  left: calc(50% - 50px);
+  width: 100px;
+  height: 29px;
   border-radius: 999px;
   background: var(--black);
 }
@@ -160,11 +211,11 @@
 }
 @media (max-width: 640px) {
   /* Whole phone shrinks proportionally (zoom scales layout too), so the cards inside keep their proportions. */
-  .stage { height: 486px; }
-  .phone { width: 300px; height: 540px; zoom: 0.87; }
+  .stage { height: 540px; }
+  .phone { width: 300px; height: 560px; zoom: 0.87; }
   .side { display: none; }
 }
-@media (prefers-reduced-motion: reduce) { .phone, .cardIcon[data-ring="true"], .dots i { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .phone { transition: none; } .stage, .phone, .cardIcon[data-ring="true"], .dots i { animation: none; } }
 
 /* Fields read from an RFQ attachment (document processing), in the left-hand card. */
 .fields { display: grid; gap: 5px; margin: 8px 0 0; }
