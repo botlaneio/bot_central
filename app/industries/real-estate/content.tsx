@@ -94,28 +94,9 @@ const faq = [
   ["Where should we start?", "With enquiry handling and viewing scheduling, because that is where response time decides who wins the client."],
 ] as const;
 
-/* A quiet street map behind the hero: blocks, two avenues, a waterfront and a few pins. Original line art. */
-function StreetMap() {
-  const minor = Array.from({ length: 15 }, (_, i) => 40 + i * 82);
-  return <svg className={page.map} viewBox="0 0 1200 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-    <g transform="rotate(-14 600 380)" stroke="#061b31" fill="none">
-      {minor.map(v => <path key={`v${v}`} d={`M${v} -200 V960`} strokeOpacity=".09" />)}
-      {minor.map(v => <path key={`h${v}`} d={`M-200 ${v - 40} H1400`} strokeOpacity=".09" />)}
-      <path d="M-200 368 H1400" strokeOpacity=".2" strokeWidth="7" />
-      <path d="M778 -200 V960" strokeOpacity=".2" strokeWidth="7" />
-      <rect x="860" y="130" width="146" height="146" rx="6" fill="#5333f5" fillOpacity=".05" stroke="none" />
-    </g>
-    <path d="M1200 520 C 1010 560, 930 650, 760 760 L1200 760 Z" fill="#6f9bff" fillOpacity=".09" />
-    <path d="M1200 520 C 1010 560, 930 650, 760 760" stroke="#6f9bff" strokeOpacity=".35" fill="none" />
-    {[[1160, 205], [1148, 560], [620, 60]].map(([cx, cy], i) => <g key={i} transform={`translate(${cx} ${cy})`}>
-      <circle r="16" fill="#5333f5" fillOpacity=".1" /><circle r="5" fill="#5333f5" fillOpacity={i === 0 ? 1 : .45} />
-    </g>)}
-  </svg>;
-}
-
 function Hero({ onDemo }: { onDemo: (label: string) => void }) {
   return <section className={page.hero} aria-labelledby="re-title">
-    <StreetMap />
+    <img className={page.streak} src="/media/streaks/real-estate.svg" alt="" aria-hidden="true" fetchPriority="high" />
     <div className={`frame ${page.heroGrid}`}>
       <div className={page.heroCopy}>
         <p className={page.crumb}><a href="/#business">Industries</a><span aria-hidden="true">/</span>Real Estate</p>

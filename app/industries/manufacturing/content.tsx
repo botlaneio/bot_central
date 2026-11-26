@@ -11,7 +11,7 @@ import OrderPath from "./order-path";
 import page from "./manufacturing.module.css";
 
 /*
- * Manufacturing: the flagship industry page. Its own hero (blueprint backdrop and a live order desk), then the
+ * Manufacturing: the flagship industry page. Its own hero (coloured artwork like the homepage, and a live order desk), then the
  * commercial story from inquiry to order. Demo data is labelled; no invented results, clients or certifications.
  * Icons from Lucide (ISC).
  */
@@ -73,7 +73,7 @@ const faq = [
 
 function Hero({ onDemo }: { onDemo: (label: string) => void }) {
   return <section className={page.hero} aria-labelledby="mfg-title">
-    <div className={page.blueprint} aria-hidden="true" />
+    <img className={page.streak} src="/media/streaks/manufacturing.svg" alt="" aria-hidden="true" fetchPriority="high" />
     <div className={`frame ${page.heroGrid}`}>
       <div className={page.heroCopy}>
         <p className={page.crumb}><a href="/#business">Industries</a><span aria-hidden="true">/</span>Manufacturing<em>Flagship</em></p>
