@@ -10,18 +10,26 @@
   border-bottom: 1px solid var(--line);
 }
 
-/* The orange-purple streak: static artwork behind the phone, faded in with opacity only. */
+/* The orange-purple streak behind the phone, animated. Three colour states of the same artwork are stacked and
+   slowly crossfaded, with a gentle drift, so the colours appear to flow along the ribbons. Only opacity and
+   transform animate (composited, no repaint), so it stays smooth. Stretched ~15% wider than the artwork. */
 .streak {
   position: absolute;
   z-index: 0;
   top: -8%;
-  left: calc(50% - 260px);
-  width: auto;
+  left: calc(50% - 300px);
   height: 125%;
-  max-width: none;
+  aspect-ratio: 1610 / 1000;
   pointer-events: none;
   animation: fade 1.2s ease 0.1s both;
 }
+.streak img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; }
+.streak img:nth-child(1) { animation: drift 16s ease-in-out infinite alternate; }
+.streak img:nth-child(2) { opacity: 0; animation: flowB 14s ease-in-out infinite, drift 16s ease-in-out infinite alternate; }
+.streak img:nth-child(3) { opacity: 0; animation: flowC 14s ease-in-out infinite, drift 16s ease-in-out -8s infinite alternate; }
+@keyframes flowB { 0%, 100% { opacity: 0; } 30%, 50% { opacity: 1; } 70% { opacity: 0; } }
+@keyframes flowC { 0%, 40% { opacity: 0; } 65%, 85% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes drift { from { transform: translate3d(-10px, 0, 0) rotate(-0.6deg); } to { transform: translate3d(14px, -8px, 0) rotate(0.6deg); } }
 @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
 
 .grid {
@@ -80,7 +88,7 @@
 .stage { width: 100%; }
 
 @media (max-width: 1050px) {
-  .streak { top: auto; bottom: -10%; left: calc(50% - 380px); height: 70%; }
+  .streak { top: auto; bottom: -10%; left: calc(50% - 430px); height: 70%; }
   .grid { grid-template-columns: 1fr; gap: 8px; }
   .copy { padding: 64px 0 0; }
 }
@@ -99,4 +107,4 @@
 @media (max-width: 360px) {
   .primary, .secondary { padding: 10px 11px; font-size: 13px; }
 }
-@media (prefers-reduced-motion: reduce) { .in, .streak { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .in, .streak, .streak img { animation: none; } }
