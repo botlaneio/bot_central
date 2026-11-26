@@ -34,6 +34,22 @@
   rotate: -0.35 1 0 9deg;
   transition: rotate 0.6s cubic-bezier(0.2, 0.7, 0.1, 1), translate 0.6s cubic-bezier(0.2, 0.7, 0.1, 1), box-shadow 0.6s ease;
 }
+/* Body depth: the frame is a lit metal-and-glass slab, and two layers set back in 3D space show its thickness on the
+   side turned away (the tilt reveals them; no extra animation). */
+.phone {
+  transform-style: preserve-3d;
+  background: linear-gradient(120deg, #3a3f4b 0%, #14171e 18%, #0b0d12 50%, #050608 78%, #2a2e38 100%);
+}
+.phone::before, .phone::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.phone::before { transform: translateZ(-9px); background: linear-gradient(90deg, #4a505d, #1a1d24 40%, #0e1015); }
+.phone::after { transform: translateZ(-18px); background: linear-gradient(90deg, #2c313b, #111318); box-shadow: 0 50px 80px -40px #061b3166; }
 @media (hover: hover) {
   .phone:hover { rotate: -0.35 1 0 2deg; translate: 0 -10px; box-shadow: 0 80px 110px -44px #061b3180, 0 36px 60px -30px #5333f544, inset 0 0 0 1.5px #2a2d36; }
 }
