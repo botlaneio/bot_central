@@ -1,25 +1,47 @@
 "use client";
 
-import { Checklist, Chips, Faq, Flow, Hero, IndustryPage, Journey, ModuleCards, Process, Section, TwoCol } from "../blocks";
+import { ArrowDownRight, ArrowRight, CalendarCheck, Globe2, MessageSquare, ShieldCheck, Workflow } from "lucide-react";
+import { Faq, Flow, Hero, IndustryPage, Process } from "../blocks";
 import type { FlowConfig } from "../../workflow";
 import styles from "../industry.module.css";
+import page from "./real-estate.module.css";
 
 const firstHour = [
-  { when: "Minute 0", title: "An enquiry arrives at 9:41 PM", text: "From a listing portal, your website or WhatsApp. Without a system, it waits until morning, and by then the buyer has called three other agents." },
-  { when: "Minute 1", title: "It is answered and qualified", text: "An assistant replies, asks about budget, area, timing and financing, and logs everything in your CRM using the same criteria for every enquiry." },
-  { when: "Next morning", title: "An agent picks up a warm lead", text: "A viewing is already offered, the agent confirms the slot, and reminders go out automatically. The agent's time goes into the conversation, not the admin." },
+  { when: "9:41 PM", title: "A buyer asks about a listing", text: "A three-bedroom enquiry comes in on WhatsApp while the office is closed." },
+  { when: "9:45 PM", title: "A viewing slot is held", text: "The assistant answers the buyer’s questions, captures their requirements and logs the conversation." },
+  { when: "8:10 AM", title: "The agent confirms", text: "An agent picks up the lead with the context already in the CRM. Confirmation and reminders follow." },
 ] as const;
 
-const modules = [
-  ["AI inquiry handling", "Property enquiries answered on your website, phone and messaging channels, day and night."],
-  ["Lead qualification", "Consistent questions on budget, timing and requirements, never on protected characteristics."],
-  ["AI voice receptionist", "Calls answered, details captured and urgent ones passed to an agent."],
-  ["Viewing scheduling", "Viewings booked around agent and property availability."],
-  ["Confirmations and reminders", "WhatsApp, SMS and email reminders that reduce missed viewings."],
-  ["Lead nurturing", "Follow-ups for leads who aren't ready yet, stopped when they ask."],
-  ["Property recommendations", "Listings suggested from stated preferences such as budget, size and location."],
-  ["Documents and onboarding", "Client documents collected and onboarding steps tracked."],
-  ["Pipeline and agent dashboards", "Enquiries, viewings and deals by source and by agent."],
+const capabilities = [
+  {
+    icon: MessageSquare, title: "Capture the enquiry", items: [
+      ["Enquiry handling", "Reply on your website and messaging channels, day and night."],
+      ["AI voice receptionist", "Answer calls, capture details and hand urgent enquiries to an agent."],
+      ["Lead qualification", "Ask consistent questions about budget, timing and requirements."],
+    ],
+  },
+  {
+    icon: CalendarCheck, title: "Get to the viewing", items: [
+      ["Property recommendations", "Suggest listings based on stated preferences such as size and location."],
+      ["Viewing scheduling", "Offer times that work for the property and the agent’s calendar."],
+      ["Confirmations and reminders", "Send updates by WhatsApp, SMS or email."],
+    ],
+  },
+  {
+    icon: Workflow, title: "Keep the deal moving", items: [
+      ["Lead nurturing", "Follow up with buyers who need time and respect opt-outs."],
+      ["Documents and onboarding", "Collect documents and track what is still outstanding."],
+      ["Pipeline and agent dashboards", "See enquiries, viewings and deals by source and by agent."],
+    ],
+  },
+] as const;
+
+const safeguards = [
+  ["Neutral criteria", "Use stated requirements such as budget, timing, size and location. Exclude protected characteristics."],
+  ["No steering", "Base recommendations on the client’s stated preferences."],
+  ["Reviewed rules", "Review qualification scripts before launch and whenever the rules change."],
+  ["Human takeover", "Give clients a way to reach an agent and pass sensitive questions to a person."],
+  ["Consent and opt-out", "Respect messaging consent and stop follow-ups when requested."],
 ] as const;
 
 const x = (i: number) => 60 + i * 320;
@@ -75,50 +97,98 @@ export default function Content() {
       <div className={styles.mockRow} style={{ marginTop: 12 }}><span>New: 3-bed apartment, WhatsApp</span><span className={styles.pill}>Viewing Sat 11:00</span></div>
     </div>} />}>
 
-    <Section title="The first hour decides the lead." sub="Agencies, brokerages, developers and property managers lose good enquiries to slow replies, manual follow-ups and missed viewings.">
-      <Journey steps={firstHour} />
-    </Section>
+    <section className={page.chapter} aria-labelledby="estate-journey">
+      <div className={`frame ${page.frame}`}>
+        <header className={page.heading}>
+          <h2 id="estate-journey">From late-night enquiry to a booked viewing.</h2>
+          <p>See how a late-night message turns into a lead your agent can pick up in the morning.</p>
+        </header>
+        <div className={page.story}>
+          <figure className={page.property}>
+            <img src="/media/real-estate/apartment-at-dusk.webp" width={1280} height={960} alt="Contemporary apartment building with lit windows at dusk" loading="lazy" decoding="async" />
+            <figcaption><span>Sample enquiry</span><strong>3-bed apartment</strong><span>WhatsApp · 9:41 PM</span></figcaption>
+          </figure>
+          <ol className={page.timeline} aria-label="Sample enquiry timeline">
+            {firstHour.map(({ when, title, text }) => <li key={when}>
+              <time>{when}</time><h3>{title}</h3><p>{text}</p>
+            </li>)}
+          </ol>
+        </div>
+      </div>
+    </section>
 
-    <Section tone="soft" title="Modules for every step of the enquiry." sub="Use one or connect them all. They share the same CRM, calendar and messaging channels.">
-      <ModuleCards items={modules} label="Real estate" />
-    </Section>
+    <section className={page.chapter} aria-labelledby="estate-capabilities">
+      <div className={`frame ${page.frame}`}>
+        <header className={page.heading}>
+          <h2 id="estate-capabilities">One pipeline, from first reply to follow-up.</h2>
+          <p>Start with the step that takes the most time. Each module can share your CRM, calendar and messaging channels.</p>
+        </header>
+        <ol className={page.capabilities}>
+          {capabilities.map(({ icon: Icon, title, items }) => <li key={title}>
+            <div className={page.stageHeader}><Icon aria-hidden="true" /><h3>{title}</h3></div>
+            <dl>{items.map(([name, detail]) => <div key={name}><dt>{name}</dt><dd>{detail}</dd></div>)}</dl>
+          </li>)}
+        </ol>
+      </div>
+    </section>
 
-    <Flow flow={flow} />
+    <div className={page.workflow}><Flow flow={flow} /></div>
 
-    <Section tone="navy" title="Fair by design." sub="Automated qualification and recommendations must comply with fair housing and anti-discrimination requirements.">
-      <Checklist items={[
-        ["Neutral criteria", "Qualification uses stated requirements such as budget, timing, size and location, never protected characteristics."],
-        ["No steering", "Recommendations follow the client's stated preferences, not assumptions about who they are."],
-        ["Reviewed rules", "Qualification scripts and rules are reviewed with you before launch and whenever they change."],
-        ["Human takeover", "Any conversation can be handed to an agent, and sensitive questions always are."],
-        ["Consent and opt-out", "Follow-ups respect messaging consent rules and stop when a client asks."],
-      ]} />
-    </Section>
+    <section className={`${page.chapter} ${page.safeguards}`} aria-labelledby="estate-safeguards">
+      <div className={`frame ${page.frame} ${page.split}`}>
+        <header>
+          <ShieldCheck className={page.shield} aria-hidden="true" />
+          <h2 id="estate-safeguards">Fair by design.</h2>
+          <p>Automated qualification and recommendations must comply with fair housing and anti-discrimination requirements. Review how each rule works with your team before launch.</p>
+        </header>
+        <dl className={page.ledger}>{safeguards.map(([name, detail]) =>
+          <div key={name}><dt>{name}</dt><dd>{detail}</dd></div>
+        )}</dl>
+      </div>
+    </section>
 
-    <Section title="Websites and portals that feed the pipeline.">
-      <TwoCol intro={<><h3>Every page is a lead source</h3><p>Listing pages, development landing pages and portals all route enquiries into the same qualification and scheduling workflows.</p></>}>
-        <Checklist items={digital} />
-      </TwoCol>
-    </Section>
+    <section className={page.chapter} aria-labelledby="estate-digital">
+      <div className={`frame ${page.frame}`}>
+        <header className={page.heading}>
+          <h2 id="estate-digital">Every property page can start a conversation.</h2>
+          <p>Connect new websites, listing pages and portals to the systems your team already uses.</p>
+        </header>
+        <div className={page.connections}>
+          <div>
+            <h3><Globe2 aria-hidden="true" /> Websites and portals</h3>
+            <dl className={page.ledger}>{digital.map(([name, detail]) =>
+              <div key={name}><dt>{name}</dt><dd>{detail}</dd></div>
+            )}</dl>
+          </div>
+          <aside className={page.tools}>
+            <h3><ArrowDownRight aria-hidden="true" /> Connect your tools</h3>
+            <ul>
+              <li><strong>Leads and listings</strong><span>CRM and listing portals</span></li>
+              <li><strong>Scheduling and messaging</strong><span>Google and Outlook calendars, WhatsApp Business, SMS, email and phone</span></li>
+              <li><strong>Documents and reporting</strong><span>E-signature, document storage and dashboards</span></li>
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </section>
 
-    <Section tone="soft" title="Works with your tools." sub="CRM, calendars, listing portals and messaging, connected.">
-      <Chips items={["CRM", "Listing portals", "Google and Outlook calendars", "WhatsApp Business", "SMS", "Email", "Telephone", "E-signature", "Document storage", "Dashboards"]} />
-    </Section>
+    <section className={`${page.chapter} ${page.delivery}`} aria-labelledby="estate-delivery">
+      <div className={`frame ${page.frame}`}>
+        <header className={page.heading}>
+          <h2 id="estate-delivery">From assessment to rollout.</h2>
+          <p>Agree on what to measure before you launch, from first-reply time to missed viewings and time spent on admin.</p>
+        </header>
+        <div className={page.process}><Process /></div>
+      </div>
+    </section>
 
-    <Section title="What it can change." sub="Potential benefits, not guarantees. We agree measurable goals with you during the assessment.">
-      <ModuleCards label="Benefit" items={[
-        ["Faster first replies", "Enquiries answered in minutes, including evenings and weekends."],
-        ["Fewer missed viewings", "Confirmations and reminders on the channel each client prefers."],
-        ["Agents focused on clients", "Less time on data entry, scheduling and chasing."],
-      ]} />
-    </Section>
-
-    <Section tone="soft" title="How implementation works.">
-      <Process />
-    </Section>
-
-    <Section title="Questions real estate teams ask.">
-      <Faq items={faq} />
-    </Section>
+    <section className={page.chapter} aria-labelledby="estate-faq">
+      <div className={`frame ${page.frame} ${page.split}`}>
+        <header><h2 id="estate-faq">Questions real estate teams ask.</h2>
+          <a className={page.link} href="#workflow">See the sample workflow <ArrowRight aria-hidden="true" /></a>
+        </header>
+        <Faq items={faq} />
+      </div>
+    </section>
   </IndustryPage>;
 }
