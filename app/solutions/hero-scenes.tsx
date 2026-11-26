@@ -77,8 +77,12 @@ function FrontOffice() {
         {step === 0 ? <PhoneIncoming /> : <Phone />}
       </motion.span>
       <span><b>+1 (415) 555-0142</b><small>{step === 0 ? "Ringing… after hours" : "Answered by the assistant"}</small></span>
-      <div className={styles.wave}>{Array.from({ length: 12 }, (_, i) => <motion.i key={i} animate={step >= 1 && step < 5 ? { scaleY: [0.3, 1, 0.4, 0.8, 0.3] } : { scaleY: 0.25 }}
-        transition={{ duration: 0.9, repeat: Infinity, delay: i * 0.06 }} />)}</div>
+      <div className={styles.wave}>{Array.from({ length: 12 }, (_, i) => {
+        // The bars only loop while the call is live (steps 1-4); afterwards they settle once to a still resting height.
+        const live = step >= 1 && step < 5;
+        return <motion.i key={i} initial={false} animate={live ? { scaleY: [0.3, 1, 0.4, 0.8, 0.3] } : { scaleY: 0.25 }}
+          transition={live ? { duration: 0.9, repeat: Infinity, delay: i * 0.06 } : { duration: 0.3, ease }} />;
+      })}</div>
     </div>
     <div className={styles.transcript}>
       {lines.map((l, i) => step >= i + 1 && <motion.p key={l} {...pop} data-who={l.startsWith("Caller") ? "them" : "us"}>{l.split(": ")[1]}</motion.p>)}

@@ -158,22 +158,31 @@ function Looping({ items }: { items: P[] }) {
 
 /* 6. Questions you can't answer today */
 function Questions({ items }: { items: P[] }) {
-  const [open, setOpen] = useState<number | null>(null);
+  // Answers reveal on their own, one after another, once the section is on screen, and then stay open.
+  // Tapping a question still toggles it (and stops the automatic reveal).
+  const [ref, seen] = useSeen<HTMLDivElement>(0.35);
+  const [open, setOpen] = useState<Set<number>>(new Set());
+  const [touched, setTouched] = useState(false);
+  useEffect(() => {
+    if (!seen || touched || open.size >= items.length) return;
+    const t = setTimeout(() => setOpen(o => new Set(o).add(o.size)), reduced() ? 0 : open.size === 0 ? 700 : 1400);
+    return () => clearTimeout(t);
+  }, [seen, touched, open, items.length]);
+  const toggle = (i: number) => { setTouched(true); setOpen(o => { const n = new Set(o); if (n.has(i)) n.delete(i); else n.add(i); return n; }); };
   const qs = ["How many enquiries did we get last week, and from where?", "Which orders or quotes are stuck right now?", "Are we actually doing better than last month?"];
-  return <div className={styles.qs}>
-    {items.map((p, i) => <button type="button" key={p.title} className={styles.q} data-open={open === i} aria-expanded={open === i} onClick={() => setOpen(open === i ? null : i)}>
-      <span className={styles.qIcon}>{open === i ? <Check aria-hidden /> : <CircleHelp aria-hidden />}</span>
+  return <div ref={ref} className={styles.qs}>
+    {items.map((p, i) => { const isOpen = open.has(i); return <button type="button" key={p.title} className={styles.q} data-open={isOpen} aria-expanded={isOpen} onClick={() => toggle(i)}>
+      <span className={styles.qIcon}>{isOpen ? <Check aria-hidden /> : <CircleHelp aria-hidden />}</span>
       <span className={styles.qText}>
         <strong>{qs[i]}</strong>
         <AnimatePresence initial={false} mode="wait">
-          {open === i
-            ? <motion.span key="a" className={styles.qAnswer} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}><b>With botLane:</b> {p.fix}</motion.span>
+          {isOpen
+            ? <motion.span key="a" className={styles.qAnswer} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.3, ease }}><b>With botLane:</b> {p.fix}</motion.span>
             : <motion.span key="t" className={styles.qToday} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}><b>Today:</b> {midSentence(p.title)}. {p.text}</motion.span>}
         </AnimatePresence>
       </span>
-      <span className={styles.qCta}>{open === i ? "Hide" : "See the answer"}</span>
-    </button>)}
-    <p className={styles.qHint}><FileText aria-hidden /> Tap a question to see how it gets answered.</p>
+      <span className={styles.qCta}>{isOpen ? "Answered" : "Answering…"}</span>
+    </button>; })}
   </div>;
 }
 
