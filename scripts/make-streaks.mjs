@@ -122,6 +122,36 @@ function peaks() {
   return doc("chart peaks", defs, body);
 }
 
+// 7. Manufacturing: thick chevron ribbons flowing up and to the right, like work moving down a line.
+function chevrons() {
+  const cols = [[C.gold, C.orange], [C.orange, C.coral], [C.coral, C.pink], [C.pink, C.violet], [C.lilac, C.violet], [C.violet, C.purple], [C.sky, C.violet], [C.cyan, C.sky]];
+  let defs = "", body = "";
+  cols.forEach((pair, i) => {
+    defs += lin(`v${i}`, [[0, pair[0]], [1, pair[1]]], [0, 1, 1, 0]);
+    const x = 560 + i * 120, y = 1060 - i * 128, a = 300, t = 86; // tip position, arm length, thickness
+    const pts = [[x - a, y - a * 0.2], [x, y - a], [x + a * 1.2, y - a * 0.1], [x + a * 1.2, y - a * 0.1 + t], [x, y - a + t], [x - a, y - a * 0.2 + t]];
+    body += `<polygon points="${pts.map(([px, py]) => `${f(px)},${f(py)}`).join(" ")}" fill="url(#v${i})"/>`;
+  });
+  return doc("chevron flow", defs, body);
+}
+
+// 8. Real Estate: overlapping gabled rooftops of different heights, a skyline of homes.
+function rooftops() {
+  const homes = [
+    { x: 600, w: 300, h: 640, c: [C.gold, C.orange] }, { x: 820, w: 340, h: 900, c: [C.lilac, C.violet] },
+    { x: 1080, w: 280, h: 760, c: [C.pink, C.rose] }, { x: 1240, w: 300, h: 960, c: [C.sky, C.purple] },
+    { x: 720, w: 240, h: 420, c: [C.coral, C.pink] }, { x: 1150, w: 220, h: 460, c: [C.amber, C.coral] },
+  ];
+  let defs = "", body = "";
+  homes.forEach((b, i) => {
+    defs += lin(`r${i}`, [[0, b.c[0]], [1, b.c[1]]], [0, 0, 0, 1]);
+    const base = H + 20, top = base - b.h, roof = b.w * 0.5;
+    body += `<polygon points="${b.x},${base} ${b.x},${top + roof} ${f(b.x + b.w / 2)},${top} ${b.x + b.w},${top + roof} ${b.x + b.w},${base}" fill="url(#r${i})"/>`;
+    body += `<rect x="${f(b.x + b.w / 2 - 22)}" y="${f(top + roof + 30)}" width="44" height="44" rx="8" fill="#fff" fill-opacity=".85"/>`;
+  });
+  return doc("rooftops", defs, body);
+}
+
 const pages = {
   "customer-acquisition": beams(),
   "ai-front-office": ripples(),
@@ -129,6 +159,8 @@ const pages = {
   "financial-administration": columns(),
   "customer-experience": bubbles(),
   "business-intelligence": peaks(),
+  "manufacturing": chevrons(),
+  "real-estate": rooftops(),
 };
 for (const [slug, svg] of Object.entries(pages)) fs.writeFileSync(`public/media/streaks/${slug}.svg`, svg);
 console.log(Object.keys(pages).length, "artworks");
