@@ -12,11 +12,7 @@ const delay = (seconds: number) => ({ "--d": `${seconds}s` }) as React.CSSProper
 
 export default function Hero({ onDemo }: { onDemo: (label: string) => void }) {
   return <section className={styles.hero} aria-labelledby="hero-title">
-    <div className={styles.streak} aria-hidden="true">
-      <img src="/media/hero-folds.svg" alt="" fetchPriority="high" />
-      <img src="/media/hero-folds-b.svg" alt="" />
-      <img src="/media/hero-folds-c.svg" alt="" />
-    </div>
+    <img className={styles.streak} src="/media/hero-streak.svg" alt="" aria-hidden="true" fetchPriority="high" />
     <div className={`frame ${styles.grid}`}>
       <div className={styles.copy}>
         <p className={`${styles.eyebrow} ${styles.in}`} style={delay(0.05)}><span className={styles.dot} aria-hidden="true" />Business automation for manufacturing, real estate and clinics</p>
