@@ -100,8 +100,9 @@
 
 @media(max-width: 600px) {
   .developerFrame, .newsFrame { padding: 72px 0; }
-  .sectionHeader { margin-bottom: 62px; }
-  .feature { padding: 44px 0; grid-template-columns: 1fr; }
+  .developerFrame, .newsFrame { padding: 60px 0; }
+  .sectionHeader { margin-bottom: 36px; }
+  .feature { padding: 36px 0; grid-template-columns: 1fr; }
   .systems { padding: 25px 12px; }
   .scale { padding: 24px 8px; }
   .scale span { font-size: 12px; }

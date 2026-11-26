@@ -1,8 +1,15 @@
 {
   "name": "bot-central",
   "compatibility_date": "2026-11-25",
+  // The Worker handles /api/* (form enquiries to the CRM) and serves the static export for everything else.
+  "main": "./worker/index.ts",
   "assets": {
     "directory": "./out",
-    "not_found_handling": "404-page"
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
   }
+  // Secret (set with `npx wrangler secret put CRM_API_KEY`, never committed): the Comp AI CRM API key.
+  // Optional var: CRM_API_URL (defaults to https://ops-api.botlane.io/rest).
+  // Optional var: ALLOWED_ORIGINS, comma-separated list of site origins allowed to post the form.
 }

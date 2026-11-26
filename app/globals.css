@@ -121,11 +121,11 @@ body:has(.announcement) .hero-shell{box-shadow:0 -14px var(--navy)}
   .gdp{font-size:12px;margin-bottom:35px}
   .invite{width:100%;margin-top:33px}
   .brand-track li{min-width:160px;height:62px;font-size:18px}
-  .products{padding-block:54px 64px}
-  .products h2{max-width:254px;margin-bottom:32px}
+  .products{padding-block:48px 56px}
+  .products h2{max-width:300px;margin-bottom:28px}
   .bento{grid-template-columns:1fr;gap:16px}
-  .tile{min-height:350px}
-  .tile-heading{font-size:20px;padding:22px 19px}
+  .tile{min-height:330px}
+  .tile-heading{font-size:17px;padding:18px 18px}
   .tile-art{gap:8px;padding-inline:16px}
   .mock{padding:18px}
   .sessions{min-height:450px;padding:20px}

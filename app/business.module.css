@@ -92,8 +92,16 @@
   .coreMore { margin-left: 0; }
 }
 @media (max-width: 639px) {
-  .business { padding-block: 72px; }
-  .copy, .flagship .copy { padding: 26px; }
+  .business { padding-block: 60px 16px; }
+  .head { gap: 14px; margin-bottom: 32px; }
+  .lede { font-size: 15px; }
+  .copy, .flagship .copy { padding: 22px 20px 24px; gap: 12px; }
+  .copy h3 { font-size: 22px; }
+  .copy p { font-size: 14.5px; line-height: 1.55; }
+  .flagship, .card { border-radius: 16px; }
+  .flagship .scene { min-height: 320px; padding: 28px 16px; }
+  .card .scene { padding: 18px 16px; }
+  .pair { gap: 12px; margin-top: 12px; }
   .stages small { display: none; }
   .stages strong { font-size: 11px; }
   .stageIcon { width: 40px; height: 40px; }

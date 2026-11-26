@@ -95,11 +95,11 @@
   .postCover { height: 180px; }
 }
 @media (max-width: 639px) {
-  .hero { padding: 64px 0 56px; }
-  .hero h1, .postHero h1 { font-size: 32px; }
+  .hero { padding: 44px 0 40px; }
+  .hero h1, .postHero h1 { font-size: 28px; line-height: 1.14; }
   .grid { grid-template-columns: 1fr; }
   .card[data-feature="true"] .cardBody { padding: 24px; }
   .card[data-feature="true"] h2 { font-size: 26px; }
-  .prose { font-size: 17px; }
+  .prose { font-size: 16px; }
 }
 @media (prefers-reduced-motion: reduce) { .card, .card:hover { transform: none; } }

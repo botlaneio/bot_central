@@ -51,16 +51,38 @@ export const rfqFlow: FlowConfig = {
   noBranch: { x: x(3), y: 320, kind: "action", tag: "Price", title: "Standard items priced", detail: "Straight from the catalogue", dim: true },
 };
 
-function wire(a: Step, b: Step) {
-  const x1 = a.x + W, y1 = a.y + H / 2, x2 = b.x, y2 = b.y + H / 2, mid = (x2 - x1) / 2;
+type Box = Step & { w: number; h: number };
+
+/* Wires run left to right on wide screens, and top to bottom in the vertical (phone) layout. */
+function wire(a: Box, b: Box, vertical = false) {
+  if (vertical) {
+    const x1 = a.x + a.w / 2, y1 = a.y + a.h, x2 = b.x + b.w / 2, y2 = b.y, mid = (y2 - y1) / 2;
+    return `M${x1} ${y1} C${x1} ${y1 + mid} ${x2} ${y2 - mid} ${x2} ${y2}`;
+  }
+  const x1 = a.x + a.w, y1 = a.y + a.h / 2, x2 = b.x, y2 = b.y + b.h / 2, mid = (x2 - x1) / 2;
   return `M${x1} ${y1} C${x1 + mid} ${y1} ${x2 - mid} ${y2} ${x2} ${y2}`;
 }
+
+/* Phone layout: one column of smaller boxes, top to bottom. The condition's two branches sit side by side. */
+const VH = 60, ROW = 104, TOP = 30, SIDE = 14;
+function verticalLayout(path: Step[], noBranch: Step, width: number) {
+  const w = Math.min(300, width - SIDE * 2);
+  const half = (width - SIDE * 2 - 12) / 2;
+  const boxes: Box[] = path.map((step, i) => i === 3
+    ? { ...step, x: SIDE, y: TOP + i * ROW, w: half, h: VH }
+    : { ...step, x: (width - w) / 2, y: TOP + i * ROW, w, h: VH });
+  const no: Box = { ...noBranch, x: SIDE + half + 12, y: TOP + 3 * ROW, w: half, h: VH };
+  return { boxes, no, world: { w: width, h: TOP + path.length * ROW - ROW + VH + 30 } };
+}
 export default function Workflow({ flow = rfqFlow, id = "workflows" }: { flow?: FlowConfig; id?: string }) {
-  const { path, noBranch } = flow;
-  const wires = path.slice(1).map((step, index) => wire(path[index], step));
   const [progress, setProgress] = useState(0);
   const [zoom, setZoom] = useState(1);
   const [width, setWidth] = useState(1200);
+  const vertical = width < 560;
+  const layout = vertical ? verticalLayout(flow.path, flow.noBranch, width)
+    : { boxes: flow.path.map(step => ({ ...step, w: W, h: H })), no: { ...flow.noBranch, w: W, h: H }, world: WORLD };
+  const path: Box[] = layout.boxes, noBranch: Box = layout.no, world = layout.world;
+  const wires = path.slice(1).map((step, index) => wire(path[index], step, vertical));
   const [reduced, setReduced] = useState(false);
   const viewport = useRef<HTMLDivElement>(null);
   const wireRefs = useRef<(SVGPathElement | null)[]>([]);
@@ -108,7 +130,7 @@ export default function Workflow({ flow = rfqFlow, id = "workflows" }: { flow?: 
   // Where the pulse is, in world coordinates.
   const segment = Math.min(wires.length - 1, Math.floor(progress));
   const along = progress >= wires.length ? 1 : progress - segment;
-  let pulse = { x: path[0].x + W, y: path[0].y + H / 2 };
+  let pulse = vertical ? { x: path[0].x + path[0].w / 2, y: path[0].y + path[0].h } : { x: path[0].x + W, y: path[0].y + H / 2 };
   let trail = { length: 0, offset: 0, total: 0 };
   const element = wireRefs.current[segment];
   if (element) {
@@ -125,11 +147,20 @@ export default function Workflow({ flow = rfqFlow, id = "workflows" }: { flow?: 
   // A fixed scale: animating the zoom re-rasterises every box and its text each frame, which reads as a flicker
   // (worst on iPad Safari). The Theatre "Camera.zoom" track is kept in the state file but no longer applied.
   void zoom;
-  const scale = reduced ? Math.min(1, width / WORLD.w) : 0.96 * fit;
-  const viewHeight = WORLD.h * Math.max(fit, 0.78);
-  const targetX = Math.min(0, Math.max(width - WORLD.w * scale, width * 0.45 - pulse.x * scale));
-  const targetY = Math.min(0, Math.max(viewHeight - WORLD.h * scale, viewHeight / 2 - (WORLD.h / 2 + (pulse.y - WORLD.h / 2) * 0.6) * scale));
-  camera.current = { x: reduced ? 0 : targetX, y: reduced ? (viewHeight - WORLD.h * scale) / 2 : targetY };
+  let scale: number, viewHeight: number;
+  if (vertical) {
+    // Phone: no scaling, the camera scrolls down the column, keeping the pulse in the upper third.
+    scale = 1;
+    viewHeight = reduced ? world.h : 460;
+    const targetY = Math.min(0, Math.max(viewHeight - world.h, viewHeight * 0.36 - pulse.y));
+    camera.current = { x: 0, y: reduced ? 0 : targetY };
+  } else {
+    scale = reduced ? Math.min(1, width / WORLD.w) : 0.96 * fit;
+    viewHeight = WORLD.h * Math.max(fit, 0.78);
+    const targetX = Math.min(0, Math.max(width - WORLD.w * scale, width * 0.45 - pulse.x * scale));
+    const targetY = Math.min(0, Math.max(viewHeight - WORLD.h * scale, viewHeight / 2 - (WORLD.h / 2 + (pulse.y - WORLD.h / 2) * 0.6) * scale));
+    camera.current = { x: reduced ? 0 : targetX, y: reduced ? (viewHeight - WORLD.h * scale) / 2 : targetY };
+  }
 
   // The camera glides after the pulse on a spring, decoupled from the step-by-step easing of the pulse itself,
   // so the canvas never lurches and stops at each box.
@@ -149,10 +180,10 @@ export default function Workflow({ flow = rfqFlow, id = "workflows" }: { flow?: 
     if (doneCount < lastDone.current) setToasts([]); // the run restarted
     else if (doneCount > lastDone.current && doneCount < path.length) {
       const step = path[doneCount];
-      setToasts(list => [{ key: `${doneCount}-${step.title}`, title: step.title, time: step.time }, ...list].slice(0, 3));
+      setToasts(list => [{ key: `${doneCount}-${step.title}`, title: step.title, time: step.time }, ...list].slice(0, vertical ? 2 : 3));
     }
     lastDone.current = doneCount;
-  }, [doneCount, path]);
+  }, [doneCount, path, vertical]);
 
   return <section className={styles.section} id={id} aria-labelledby="workflow-title">
     <div className={`frame ${styles.frame}`}>
@@ -165,12 +196,12 @@ export default function Workflow({ flow = rfqFlow, id = "workflows" }: { flow?: 
           <span className={styles.demo}>Demo workflow</span>
         </div>
 
-        <div ref={viewport} className={styles.viewport} style={{ height: viewHeight }} role="img"
+        <div ref={viewport} className={styles.viewport} data-vertical={vertical} style={{ height: viewHeight }} role="img"
           aria-label={flow.label}>
-          <motion.div className={styles.world} style={{ width: WORLD.w, height: WORLD.h, x: camX, y: camY, scale }} aria-hidden="true">
-            <svg className={styles.wires} width={WORLD.w} height={WORLD.h} viewBox={`0 0 ${WORLD.w} ${WORLD.h}`}>
-              <path d={wire(path[2], noBranch)} className={styles.wireDim} />
-              <path d={wire(noBranch, path[4])} className={styles.wireDim} />
+          <motion.div className={styles.world} style={{ width: world.w, height: world.h, x: camX, y: camY, scale }} aria-hidden="true">
+            <svg className={styles.wires} width={world.w} height={world.h} viewBox={`0 0 ${world.w} ${world.h}`}>
+              <path d={wire(path[2], noBranch, vertical)} className={styles.wireDim} />
+              <path d={wire(noBranch, path[4], vertical)} className={styles.wireDim} />
               {wires.map((d, index) => <path key={index} d={d} ref={node => { wireRefs.current[index] = node; }}
                 className={styles.wire} data-state={index < doneCount ? "done" : index === segment && running ? "active" : "idle"} />)}
               {/* Trail and pulse stay mounted (hidden when idle) so nothing pops in or out between boxes. */}
@@ -180,13 +211,18 @@ export default function Workflow({ flow = rfqFlow, id = "workflows" }: { flow?: 
                 <circle cx={pulse.x} cy={pulse.y} r="14" className={styles.halo} />
                 <circle cx={pulse.x} cy={pulse.y} r="6" className={styles.pulse} />
               </g>
-              <text x={path[2].x + W + 34} y={path[2].y + 6} className={styles.branch}>Yes</text>
-              <text x={path[2].x + W + 34} y={path[2].y + H + 26} className={styles.branch}>No</text>
+              {vertical ? <>
+                <text x={path[3].x + path[3].w / 2 - 34} y={path[2].y + path[2].h + 26} className={styles.branch}>Yes</text>
+                <text x={noBranch.x + noBranch.w / 2 + 12} y={path[2].y + path[2].h + 26} className={styles.branch}>No</text>
+              </> : <>
+                <text x={path[2].x + W + 34} y={path[2].y + 6} className={styles.branch}>Yes</text>
+                <text x={path[2].x + W + 34} y={path[2].y + H + 26} className={styles.branch}>No</text>
+              </>}
             </svg>
             {[...path, noBranch].map((step, index) => {
               const isNo = step === noBranch;
               const state = isNo ? "skipped" : index <= doneCount ? "done" : "idle";
-              return <div key={step.title} className={styles.node} data-kind={step.kind} data-state={state} data-fresh={!isNo && running && index === doneCount} style={{ left: step.x, top: step.y, width: W, height: H }}>
+              return <div key={step.title} className={styles.node} data-kind={step.kind} data-state={state} data-fresh={!isNo && running && index === doneCount} style={{ left: step.x, top: step.y, width: step.w, height: step.h }}>
                 <span className={styles.tag}>{step.tag}</span>
                 {state === "done" && step.time && <span className={styles.time}>✓ {step.time}</span>}
                 <strong>{step.title}</strong>

@@ -38,12 +38,12 @@ type Tone = "orange" | "coral" | "pink" | "violet" | "sky";
 const tones: Tone[] = ["orange", "coral", "pink", "violet", "sky", "orange"];
 
 const solutions: [IconName, string, string, string][] = [
-  ["target", "Customer Acquisition", "Websites, landing pages and lead capture", "/#payments"],
-  ["headset", "AI Front Office", "Receptionists, enquiries and routing", "/#billing"],
-  ["flow", "Business Operations", "Workflows, scheduling and documents", "/#radar"],
-  ["receipt", "Financial Administration", "Quotations, invoices and reminders", "/#issuing"],
-  ["heart", "Customer Experience", "Follow-ups, reminders and reviews", "/#crypto"],
-  ["chart", "Business Intelligence", "Dashboards and reporting", "/#connect"],
+  ["target", "Customer Acquisition", "Websites, landing pages and lead capture", "/solutions/customer-acquisition"],
+  ["headset", "AI Front Office", "Receptionists, enquiries and routing", "/solutions/ai-front-office"],
+  ["flow", "Business Operations", "Workflows, scheduling and documents", "/solutions/business-operations"],
+  ["receipt", "Financial Administration", "Quotations, invoices and reminders", "/solutions/financial-administration"],
+  ["heart", "Customer Experience", "Follow-ups, reminders and reviews", "/solutions/customer-experience"],
+  ["chart", "Business Intelligence", "Dashboards and reporting", "/solutions/business-intelligence"],
 ];
 
 const industries: { icon: IconName; tone: Tone; name: string; line: string; modules: string[]; href: string; flag?: string }[] = [
@@ -53,9 +53,9 @@ const industries: { icon: IconName; tone: Tone; name: string; line: string; modu
 ];
 
 const how: [IconName, string, string, string][] = [
-  ["steps", "Our process", "From discovery to monthly improvement", "/#global"],
-  ["plug", "Technology", "Integrations with the tools you already use", "/#developers"],
-  ["shield", "Responsible automation", "Human approval, privacy and audit logs", "/#responsible"],
+  ["steps", "Our process", "From discovery to monthly improvement", "/how-it-works"],
+  ["plug", "Technology", "Integrations with the tools you already use", "/technology"],
+  ["shield", "Responsible automation", "Human approval, privacy and audit logs", "/responsible-automation"],
 ];
 
 export const menuLabels = ["Solutions", "Industries", "How It Works"] as const;
@@ -100,7 +100,7 @@ export default function MegaMenu({ label, onNavigate, onDemo }: { label: MenuLab
 
       {label === "How It Works" && <div className={styles.how}>
         <div className={styles.rows} data-single="true">{how.map(([icon, name, detail, href], i) => <Row key={name} tone={(["sky", "pink", "violet"] as Tone[])[i]} {...{ icon, name, detail, href, i, onNavigate }} />)}</div>
-        <motion.a href="/#responsible" className={styles.control} onClick={onNavigate} {...item(4)}>
+        <motion.a href="/responsible-automation" className={styles.control} onClick={onNavigate} {...item(4)}>
           <p className={styles.eyebrow}>You stay in control</p>
           <span className={styles.approval}>
             <span><small>Needs your approval</small><b>Quote · $4,820</b></span>

@@ -77,7 +77,7 @@ function FrontOffice() {
       </AnimatePresence>
       {step === 1 && <Orb state="listening" color={wave.coral} />}
     </div>
-    <div className={styles.barsHead}><b>Enquiries handled</b><small>Demo data</small></div>
+    <div className={styles.barsHead}><b>Enquiries handled</b><small>Demo</small></div>
     <div className={styles.bars}>{bars.map((h, i) => <motion.i key={i} style={{ height: `${h}%` }} initial={false}
       animate={{ scaleY: step >= 2 ? 1 : 0 }} transition={{ duration: 0.5, ease, delay: step >= 2 ? i * 0.04 : 0 }} />)}</div>
   </div>;
@@ -160,7 +160,7 @@ function Intelligence() {
   const on = step >= 1;
   const kpis = [["Enquiries", 128, "", "orange"], ["Quotes sent", 46, "", "coral"], ["Bookings", 73, "", "violet"], ["Avg. first reply", 4, "", "sky"]] as const;
   return <div ref={ref} className={styles.dash}>
-    <header><strong>Operations dashboard · this week</strong><em>Demo data</em></header>
+    <header><strong>Operations dashboard · this week</strong><em>Demo</em></header>
     <div className={styles.kpis}>{kpis.map(([k, v, p, tone]) => <div key={k} data-tone={tone}><small>{k}</small><b><Count to={v} on={on} prefix={p} />{k === "Avg. first reply" ? " min" : ""}</b><i /></div>)}</div>
     <div className={styles.chart}>
       <svg viewBox="0 0 400 110" preserveAspectRatio="none" aria-hidden="true">

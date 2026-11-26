@@ -37,7 +37,7 @@ export function Hero({ eyebrow, title, lede, onDemo, panel }: { eyebrow: string;
           <a className="light-button" href="#workflow">See a sample workflow</a>
         </div>
       </div>
-      <div className={styles.panel} aria-hidden="true">{panel}<span className={styles.demoTag}>Demo data</span></div>
+      <div className={styles.panel} aria-hidden="true">{panel}<span className={styles.demoTag}>Demo</span></div>
     </div>
   </section>;
 }
@@ -120,16 +120,16 @@ export function Flow({ flow }: { flow: FlowConfig }) {
   return <Workflow flow={flow} id="workflow" />;
 }
 
-function Cta({ onDemo }: { onDemo: (label: string) => void }) {
+export function Cta({ onDemo, title = "Start with one workflow.", text = "Tell us where work slows down today. We will map your current process and recommend a narrowly scoped first automation, with the approval steps you need.", secondary = ["Other industries", "/#business"] }: { onDemo: (label: string) => void; title?: string; text?: string; secondary?: readonly [string, string] }) {
   return <section className={styles.cta}>
     <div className={`frame ${styles.ctaInner}`}>
       <div>
-        <h2>Start with one workflow.</h2>
-        <p>Tell us where work slows down today. We will map your current process and recommend a narrowly scoped first automation, with the approval steps you need.</p>
+        <h2>{title}</h2>
+        <p>{text}</p>
       </div>
       <div className={styles.actions}>
         <button className="purple-button" onClick={() => onDemo("Get an automation assessment")}>Get an automation assessment <span aria-hidden="true">›</span></button>
-        <a className="light-button" href="/#business">Other industries</a>
+        <a className="light-button" href={secondary[1]}>{secondary[0]}</a>
       </div>
     </div>
   </section>;

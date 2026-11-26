@@ -159,8 +159,9 @@
   .stage { width: min(100%, 720px); margin-inline: auto; }
 }
 @media (max-width: 640px) {
-  .stage { height: 560px; }
-  .phone { width: min(100%, 300px); height: 540px; }
+  /* Whole phone shrinks proportionally (zoom scales layout too), so the cards inside keep their proportions. */
+  .stage { height: 486px; }
+  .phone { width: 300px; height: 540px; zoom: 0.87; }
   .side { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .phone, .cardIcon[data-ring="true"], .dots i { animation: none; } }

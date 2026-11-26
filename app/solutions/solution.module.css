@@ -1,0 +1,39 @@
+.icon { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 10px; background: var(--tint); color: var(--tone); }
+.icon svg { width: 20px; height: 20px; }
+
+.panel { padding: 28px; border: 1px solid var(--line); border-radius: 16px; background: var(--soft); }
+.panel small { display: block; margin: 20px 0 10px; color: var(--muted); font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+.panel ul { display: grid; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.panel li { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 8px; background: white; box-shadow: 0 8px 24px -16px #35436655; font-size: 15px; }
+.panel li svg { flex: none; width: 16px; height: 16px; color: var(--tone); }
+
+.modules { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; list-style: none; margin: 0; padding: 0; }
+.modules li { display: flex; gap: 16px; padding: 22px; border: 1px solid var(--line); border-radius: 12px; background: white; }
+.modules h3 { margin: 2px 0 6px; font-size: 17px; font-weight: 500; letter-spacing: -0.02em; }
+.modules p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.5; }
+
+.examples { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.examples a { display: grid; gap: 8px; align-content: start; padding: 22px; border: 1px solid var(--line); border-radius: 12px; transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+.examples a:hover { border-color: #d5dbe2; box-shadow: 0 20px 50px -30px #17186955; }
+.examples small { color: var(--accent); font-size: 13px; font-weight: 600; }
+.examples span { font-size: 16px; line-height: 1.45; }
+.examples em { margin-top: 6px; font-style: normal; color: var(--muted); font-size: 14px; }
+.control { display: flex; align-items: center; gap: 10px; margin: 24px 0 0; color: var(--muted); }
+.control svg { flex: none; width: 18px; height: 18px; color: var(--accent); }
+
+.related { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.related a { display: flex; gap: 16px; padding: 22px; border: 1px solid var(--line); border-radius: 12px; transition: border-color 0.2s ease; }
+.related a:hover { border-color: var(--tone); }
+.related strong { display: block; font-weight: 550; }
+.related small { display: block; margin-top: 4px; color: var(--muted); font-size: 14px; line-height: 1.5; }
+
+@media (max-width: 900px) {
+  .modules, .examples, .related { grid-template-columns: 1fr; gap: 12px; }
+}
+@media (max-width: 600px) {
+  .panel { padding: 20px; }
+  .modules li, .examples a, .related a { padding: 18px; gap: 14px; }
+  .modules p, .related small { font-size: 14px; }
+  .icon { width: 34px; height: 34px; border-radius: 9px; }
+  .icon svg { width: 18px; height: 18px; }
+}

@@ -22,7 +22,7 @@
 .control { display: flex; align-items: flex-start; gap: 10px; margin: 22px 0 0; padding: 12px 14px; border-radius: 10px; background: var(--soft); font-size: 14px; line-height: 1.5; }
 .control svg { flex: none; width: 18px; height: 18px; margin-top: 1px; color: var(--tone); }
 .foot { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
-.primary, .secondary { padding: 12px 18px; border: 0; border-radius: 4px; font-size: 14px; font-weight: 550; }
+.primary, .secondary { display: inline-flex; align-items: center; padding: 12px 18px; border: 0; border-radius: 4px; font-size: 14px; font-weight: 550; }
 .primary { background: var(--ink); color: white; transition: background 0.2s ease; }
 .primary:hover { background: #1c3250; }
 .primary span { display: inline-block; margin-left: 4px; transition: transform 0.2s ease; }

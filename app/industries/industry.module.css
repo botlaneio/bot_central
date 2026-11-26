@@ -121,8 +121,11 @@
   .modules { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 760px) {
-  .heroCopy h1 { font-size: 36px; }
-  .section { padding-block: 64px; }
+  .heroCopy h1 { font-size: 30px; line-height: 1.14; }
+  .heroGrid { padding-block: 40px 48px; gap: 32px; }
+  .lede { font-size: 15.5px; }
+  .actions { margin-top: 24px; gap: 8px; }
+  .section { padding-block: 56px; }
   .heading { margin-bottom: 32px; }
   .numbered, .stages, .modules, .split, .journey, .twoCol, .process, .ctaInner { grid-template-columns: 1fr; }
   .stage + .stage { border-left: 0; border-top: 1px solid var(--line); }

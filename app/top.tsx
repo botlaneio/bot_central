@@ -8,6 +8,7 @@ import TileScene from "./capability-tiles";
 import CapabilityDialog from "./capability-dialog";
 import Method from "./method";
 import MegaMenu, { menuLabels, type MenuLabel } from "./nav-menu";
+import { goTo } from "./routes";
 
 const products = [
   { id: "payments", title: "Turn website visitors and enquiries into qualified opportunities", name: "Customer Acquisition", detail: "Premium websites, landing pages, lead capture, inquiry management and conversion tracking, connected to the systems that follow up." },
@@ -102,7 +103,7 @@ export function SiteHeader({ children, onDemo }: { children?: React.ReactNode; o
 
 export function useDemo() {
   const [dialog, setDialog] = useState<{ title: string; description: string } | null>(null);
-  const open = (title: string, description = demoText) => setDialog({ title, description });
+  const open = (title: string, description = demoText) => { if (!goTo(title)) setDialog({ title, description }); };
   const node = dialog && <DemoDialog title={dialog.title} description={dialog.description} onClose={() => setDialog(null)} />;
   return [open, node] as const;
 }

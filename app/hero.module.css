@@ -65,9 +65,9 @@
   font-weight: 550;
   transition: background-color 0.18s ease;
 }
-.primary { border: 0; background: var(--ink); color: white; }
+.primary { border: 1px solid var(--ink); background: var(--ink); color: white; }
 .primary span { transition: transform 0.3s var(--ease); }
-.primary:hover { background: #1c3250; }
+.primary:hover { background: #1c3250; border-color: #1c3250; }
 .primary:hover span { transform: translateX(3px); }
 .secondary { border: 1px solid var(--line); background: white; color: var(--ink); }
 .secondary:hover { background: #f1f4f7; }
@@ -86,8 +86,17 @@
 }
 @media (max-width: 640px) {
   .grid { padding: 0; }
-  .copy { padding-top: 48px; }
-  .lede { font-size: 16.5px; }
-  .primary, .secondary { width: 100%; justify-content: center; }
+  .copy { padding-top: 36px; }
+  .eyebrow { margin-bottom: 18px; font-size: 12.5px; gap: 8px; align-items: flex-start; line-height: 1.4; }
+  .eyebrow .dot { flex: none; margin-top: 5px; }
+  .copy h1 { font-size: 30px; line-height: 1.14; }
+  .lede { margin-top: 16px; font-size: 15.5px; line-height: 1.5; }
+  /* CTAs stay side by side, left-aligned, just smaller. */
+  .actions { flex-wrap: nowrap; justify-content: flex-start; gap: 8px; margin-top: 24px; }
+  .primary, .secondary { padding: 11px 14px; font-size: 14px; gap: 6px; white-space: nowrap; }
+  .points { margin-top: 22px; gap: 6px 16px; font-size: 13px; }
+}
+@media (max-width: 360px) {
+  .primary, .secondary { padding: 10px 11px; font-size: 13px; }
 }
 @media (prefers-reduced-motion: reduce) { .in, .streak { animation: none; } }

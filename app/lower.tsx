@@ -3,43 +3,44 @@
 import { useState } from "react";
 import styles from "./lower.module.css";
 import Logo from "./logo";
+import { goTo } from "./routes";
 import BotOrb from "./bot-orb";
 import { Boxes, Calculator, CalendarDays, CreditCard, Globe, Phone, Users } from "lucide-react";
 import { siWhatsapp } from "simple-icons";
 
 const stripeImages = "/media/";
 const articles = [
-  ["Will this replace my staff?", "No. It takes repetitive admin off their plate so they can spend more time with customers and on the work that needs them.", "Ask us", "/#pricing", "stock/faq-staff.jpg"],
+  ["Will this replace my staff?", "No. It takes repetitive admin off their plate so they can spend more time with customers and on the work that needs them.", "Ask us", "/contact?topic=general", "stock/faq-staff.jpg"],
   ["Do I have to change my software?", "Usually not. We integrate the tools you already use and only build custom components when there is a real need.", "How we integrate", "developers", "stock/faq-software.jpg"],
   ["Where do you use AI?", "Where reasoning, language or conversation is needed. Predictable, rules-based steps use conventional automation, which is more reliable and cheaper.", "Our approach", "developers", "stock/faq-ai.jpg"],
   ["Who approves sensitive decisions?", "Your people. Anything involving money, sensitive information or professional judgment keeps a human approval step.", "Responsible automation", "developers", "stock/faq-approval.jpg"],
-  ["What does it cost?", "A one-time implementation fee, then a monthly fee to manage and improve the system. Third-party software, AI usage, calls and messaging are set out separately. We quote after an assessment.", "How engagements work", "pricing", "stock/faq-cost.jpg"],
-  ["How long does it take?", "It depends on scope. We recommend starting with one clearly defined problem, so you see value early.", "How it works", "/#global", "stock/faq-time.jpg"],
+  ["What does it cost?", "A one-time implementation fee, then a monthly fee to manage and improve the system. Third-party software, AI usage, calls and messaging are set out separately. We quote after an assessment.", "How engagements work", "/engagements", "stock/faq-cost.jpg"],
+  ["How long does it take?", "It depends on scope. We recommend starting with one clearly defined problem, so you see value early.", "How it works", "/how-it-works", "stock/faq-time.jpg"],
   ["Do you still build websites?", "Yes. Premium websites and landing pages are part of customer acquisition, connected to the systems behind them.", "Customer acquisition", "payments", "stock/faq-website.jpg"],
   ["Which industries do you serve?", "We start with manufacturing, real estate and clinics, in the United States and India. Other industries will follow as each solution is proven.", "Industries", "business", "stock/faq-industries.jpg"],
 ] as const;
 
 const footerGroups = [
   [["Solutions", [
-    ["Customer Acquisition", "/#payments"], ["AI Front Office", "/#billing"], ["Business Operations", "/#radar"], ["Financial Administration", "/#issuing"], ["Customer Experience", "/#crypto"], ["Business Intelligence", "/#connect"],
+    ["Customer Acquisition", "/solutions/customer-acquisition"], ["AI Front Office", "/solutions/ai-front-office"], ["Business Operations", "/solutions/business-operations"], ["Financial Administration", "/solutions/financial-administration"], ["Customer Experience", "/solutions/customer-experience"], ["Business Intelligence", "/solutions/business-intelligence"],
   ]]],
   [["Industries", [
     ["Manufacturing", "/industries/manufacturing"], ["Real Estate", "/industries/real-estate"], ["Clinics", "/industries/clinics"],
   ]]],
   [
-    ["How it works", [["Discover", "/#global"], ["Design", "/#global"], ["Implement", "/#global"], ["Validate", "/#global"], ["Launch", "/#global"], ["Manage and improve", "/#global"]]],
-    ["Resources", [["Insights", "/blog"], ["Questions", "/#resources"], ["Technology", "/#developers"], ["Responsible automation", "/#responsible"], ["Demo workflow", "/#workflows"]]],
+    ["How it works", [["Our process", "/how-it-works"], ["How engagements work", "/engagements"], ["Technology", "/technology"], ["Responsible automation", "/responsible-automation"]]],
+    ["Resources", [["Insights", "/blog"], ["Questions", "/#resources"], ["Demo workflow", "/#workflows"]]],
   ],
   [
-    ["Company", [["About", "/#solution"], ["How engagements work", "/#pricing"]]],
-    ["Support", [["Get support", "/#top"]]],
+    ["Company", [["About", "/about"], ["Get an assessment", "/contact"]]],
+    ["Support", [["Get support", "/support"], ["Privacy", "/privacy"], ["Terms", "/terms"]]],
   ],
 ] as const;
 
 const integrations = [
   ["Start small.", "Fix one clearly defined problem first, such as slow RFQ replies or missed enquiries.", "Explore automation", "top"],
   ["Add modules.", "Connect the next part of your business once the first system proves its value.", "See solutions", "products"],
-  ["Fully managed.", "Monitoring, maintenance, support and monthly improvements, so nothing breaks quietly.", "How engagements work", "/#pricing"],
+  ["Fully managed.", "Monitoring, maintenance, support and monthly improvements, so nothing breaks quietly.", "How engagements work", "/engagements"],
 ] as const;
 
 const features = [
@@ -157,7 +158,7 @@ export default function Lower({ onDemo }: { onDemo?: (label: string) => void }) 
     <section className={styles.conversion}>
       <div className={`frame ${styles.conversionGrid}`}>
         <div><h2>Get an automation assessment.</h2><p>Tell us where admin is slowing your business down. We will map your current process and show you what a connected system could look like for your business.</p><DemoButton label="Get an automation assessment" onDemo={onDemo} primary /></div>
-        <div id="pricing"><h3>How engagements work</h3><p>A one-time implementation fee, then a monthly fee to manage and improve your system. Quoted after an assessment.</p><PublicLink path="resources">Common questions</PublicLink></div>
+        <div id="pricing"><h3>How engagements work</h3><p>A one-time implementation fee, then a monthly fee to manage and improve your system. Quoted after an assessment.</p><PublicLink path="/engagements">How engagements work</PublicLink></div>
         <div><h3>Start with one problem</h3><p>A narrowly scoped first project, such as RFQ intake or appointment reminders, so you see value early.</p><PublicLink path="products">See solutions</PublicLink></div>
       </div>
     </section>
@@ -167,7 +168,7 @@ export default function Lower({ onDemo }: { onDemo?: (label: string) => void }) 
 function DemoButton({ label, onDemo, primary = false }: { label: string; onDemo?: (label: string) => void; primary?: boolean }) {
   const [shown, setShown] = useState(false);
   return <>
-    <button className={primary ? styles.primary : styles.link} type="button" onClick={() => onDemo ? onDemo(label) : setShown(!shown)}>{label} <span aria-hidden="true">›</span></button>
+    <button className={primary ? styles.primary : styles.link} type="button" onClick={() => { if (goTo(label)) return; if (onDemo) onDemo(label); else setShown(!shown); }}>{label} <span aria-hidden="true">›</span></button>
     {shown && <p role="status" className={styles.demoStatus}>This action is shown for demonstration only.</p>}
   </>;
 }
