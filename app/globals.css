@@ -17,11 +17,21 @@ h2{font-size:32px;letter-spacing:-.035em;line-height:1.12}
 .announcement button{color:inherit;border:0;background:none}
 .announcement span button{font-weight:600}
 .announcement-close{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:19px}
-.hero-shell{position:relative;isolation:isolate;overflow:hidden;border-radius:14px 14px 0 0}
+/* Sticky navigation: transparent over the hero at the top of the page (the hero is pulled up underneath it so its
+   artwork shows through), then a solid frosted bar once the page scrolls. Colour, border and shadow transition only. */
+:root{--header-h:77px}
+.hero-shell{position:relative;isolation:isolate;overflow:hidden;border-radius:14px 14px 0 0;margin-top:calc(-1 * var(--header-h))}
+.hero-pad{padding-top:var(--header-h)}
+/* Homepage: the first screen is exactly the hero (and its strip), on every device. The hero section grows to fill;
+   svh keeps it steady while mobile browser bars show and hide. */
+.hero-shell.is-full{display:flex;flex-direction:column;min-height:calc(100vh - var(--announce-h,0px));min-height:calc(100svh - var(--announce-h,0px))}
+.hero-shell.is-full>.hero-pad{flex:1;display:flex;flex-direction:column}
+.hero-shell.is-full>.hero-pad>:first-child{flex:1;display:flex;flex-direction:column}
 body:has(.announcement) .hero-shell{box-shadow:0 -14px var(--navy)}
 .hero-art{position:absolute;z-index:-1;top:0;left:calc(50% - 390px);height:100%;width:auto;pointer-events:none}
 .hero-art img{display:block;width:auto;height:128%;max-width:none;position:relative;top:-14%}
-.site-header{position:relative;z-index:2;border-bottom:1px solid #061b3117}
+.site-header{position:sticky;top:0;z-index:20;border-bottom:1px solid transparent;border-radius:14px 14px 0 0;background:transparent;transition:background-color .3s ease,border-color .3s ease,box-shadow .3s ease,border-radius .3s ease}
+.site-header[data-scrolled="true"]{background:#ffffffe6;-webkit-backdrop-filter:saturate(1.6) blur(14px);backdrop-filter:saturate(1.6) blur(14px);border-bottom-color:#061b3117;border-radius:0;box-shadow:0 8px 24px -20px #061b3155}
 .navigation{position:relative;display:flex;align-items:center;gap:28px;min-height:76px;padding:0 16px}
 .wordmark{font-size:27px;line-height:1;font-weight:800;letter-spacing:-.07em}
 .logo-lockup{display:inline-flex;align-items:center;gap:1px;color:#061b31;font-size:23px;line-height:1;font-weight:600;letter-spacing:-.035em}
@@ -114,6 +124,7 @@ body:has(.announcement) .hero-shell{box-shadow:0 -14px var(--navy)}
   .announcement{font-size:12px;line-height:16px;padding:7px 40px}
   .announcement span button{display:block;margin:auto}
   .navigation{min-height:62px}
+  :root{--header-h:63px}
   .wordmark{font-size:24px}
   .hero{border-inline:0}
   .hero-copy{margin-left:0;padding:84px 0 85px}

@@ -37,7 +37,7 @@ export function DemoDialog({ title, description, onClose }: { title: string; des
 export const demoText = "This is a demonstration site. Contact botLane to request an automation assessment for your business.";
 
 // Announcement bar and navigation, shared by every page. Children render inside the hero shell, under the nav.
-export function SiteHeader({ children, onDemo }: { children?: React.ReactNode; onDemo: (label: string) => void }) {
+export function SiteHeader({ children, onDemo, full = false }: { children?: React.ReactNode; onDemo: (label: string) => void; full?: boolean }) {
   const [announcement, setAnnouncement] = useState(true);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [menu, setMenu] = useState<MenuLabel | null>(null);
@@ -51,6 +51,27 @@ export function SiteHeader({ children, onDemo }: { children?: React.ReactNode; o
   // so the dropdown swaps content instead of blinking out and fading back in.
   const [switching, setSwitching] = useState(false);
   const hoverOpen = (label: MenuLabel) => { if (!canHover()) return; if (closeTimer.current) clearTimeout(closeTimer.current); setSwitching(menu !== null && menu !== label); setMenu(label); };
+  // Full-screen hero (homepage): the announcement bar's height is kept in --announce-h so the hero fills exactly
+  // what's left of the first screen, whatever the device or however the bar wraps.
+  const announceRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const root = document.documentElement;
+    const el = announceRef.current;
+    if (!el) { root.style.setProperty("--announce-h", "0px"); return; }
+    const set = () => root.style.setProperty("--announce-h", `${el.offsetHeight}px`);
+    set();
+    const ro = new ResizeObserver(set);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [announcement]);
+  // The bar is transparent over the hero at the top of the page and turns solid once the page scrolls.
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const on = () => setScrolled(window.scrollY > 8);
+    on();
+    window.addEventListener("scroll", on, { passive: true });
+    return () => window.removeEventListener("scroll", on);
+  }, []);
   const hoverClose = () => { if (!canHover()) return; if (closeTimer.current) clearTimeout(closeTimer.current); closeTimer.current = setTimeout(() => setMenu(null), 160); };
 
   useEffect(() => {
@@ -65,12 +86,11 @@ export function SiteHeader({ children, onDemo }: { children?: React.ReactNode; o
   }, []);
 
   return <>
-    {announcement && <div className="announcement">
+    {announcement && <div className="announcement" ref={announceRef}>
       <span>botLane is now a business automation company, starting with manufacturing, real estate and clinics. <button onClick={() => onDemo("Introducing the new botLane")}>Learn more ›</button></span>
       <button className="announcement-close" aria-label="Dismiss announcement" onClick={() => setAnnouncement(false)}>×</button>
     </div>}
-    <div className="hero-shell" id="top">
-      <header className="site-header" ref={navigation}
+    <header className="site-header" data-scrolled={scrolled || mobileMenu} ref={navigation}
         onKeyDown={event => { if (event.key === "Escape") {
           if (menu) activeButton.current?.focus();
           else if (mobileMenu) menuButton.current?.focus();
@@ -99,7 +119,9 @@ export function SiteHeader({ children, onDemo }: { children?: React.ReactNode; o
           </div>
         </div>
       </header>
-      {children}
+    {/* The hero sits under the sticky bar (pulled up by the bar's height), so its artwork shows through it. */}
+    <div className={full ? "hero-shell is-full" : "hero-shell"} id="top">
+      <div className="hero-pad">{children}</div>
     </div>
   </>;
 }
@@ -114,7 +136,7 @@ export function useDemo() {
 export default function Top() {
   const [openDemo, dialog] = useDemo();
   return <>
-    <SiteHeader onDemo={openDemo}>
+    <SiteHeader onDemo={openDemo} full>
       <Hero onDemo={openDemo} />
       <div className="brand-strip" aria-label="What botLane automates">
         <div className="brand-track">

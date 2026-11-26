@@ -4,20 +4,22 @@
   --ease: cubic-bezier(0.2, 0.7, 0.1, 1);
   --line: #061b3117;
   position: relative;
-  overflow: hidden;
+  /* Clip the artwork at the sides and bottom, but let it run up behind the transparent navigation bar. */
+  clip-path: inset(calc(-1 * var(--header-h)) 0 0 0);
   color: var(--ink);
   background: white;
   border-bottom: 1px solid var(--line);
 }
 
-/* The orange-purple streak: static artwork behind the phone, faded in with opacity only. */
+/* The orange-purple streak: static artwork behind the phone, faded in with opacity only (no looping animation). */
 .streak {
   position: absolute;
   z-index: 0;
-  top: -8%;
+  /* Starts above the hero by the nav's height, so the artwork reaches up to the announcement bar with no gap. */
+  top: calc(-8% - var(--header-h));
   left: calc(50% - 260px);
   width: auto;
-  height: 125%;
+  height: calc(125% + var(--header-h));
   max-width: none;
   pointer-events: none;
   animation: fade 1.2s ease 0.1s both;
@@ -27,6 +29,7 @@
 .grid {
   position: relative;
   z-index: 1;
+  flex: 1;
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
   align-items: end;
