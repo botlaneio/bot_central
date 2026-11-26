@@ -1,0 +1,19 @@
+<svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" viewBox="600 0 680 720" width="680" height="720">
+  <!-- botLane hero: folded planes, state B (crossfaded). Original artwork in the wave colours; crisp edges. -->
+  <defs>
+    <linearGradient id="f1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb03a"/><stop offset="1" stop-color="#ff5a4e"/></linearGradient>
+    <linearGradient id="f2" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffc56b"/><stop offset="1" stop-color="#ff4fa8"/></linearGradient>
+    <linearGradient id="f3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d39bff"/><stop offset="1" stop-color="#6b46ff"/></linearGradient>
+    <linearGradient id="f4" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#22b8ff"/><stop offset="1" stop-color="#a48bff"/></linearGradient>
+  </defs>
+  <polygon points="760,0 1010,0 880,330 640,420" fill="url(#f1)"/>
+  <polygon points="880,330 1010,0 1280,0 1280,140 1060,420" fill="url(#f2)" fill-opacity=".94"/>
+  <polygon points="640,420 880,330 1060,420 960,720 700,720" fill="url(#f3)" fill-opacity=".94"/>
+  <polygon points="1060,420 1280,140 1280,720 960,720" fill="url(#f4)" fill-opacity=".92"/>
+  <polygon points="880,330 1060,420 960,720" fill="#061b31" fill-opacity=".08"/>
+  <g fill="none" stroke="#ffffff" stroke-opacity=".55" stroke-width="1.2">
+    <polyline points="640,420 880,330 1010,0"/>
+    <polyline points="880,330 1060,420 1280,140"/>
+    <polyline points="1060,420 960,720"/>
+  </g>
+</svg>
