@@ -51,6 +51,14 @@ export function SiteHeader({ children, onDemo }: { children?: React.ReactNode; o
   // so the dropdown swaps content instead of blinking out and fading back in.
   const [switching, setSwitching] = useState(false);
   const hoverOpen = (label: MenuLabel) => { if (!canHover()) return; if (closeTimer.current) clearTimeout(closeTimer.current); setSwitching(menu !== null && menu !== label); setMenu(label); };
+  // The bar is transparent over the hero at the top of the page and turns solid once the page scrolls.
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const on = () => setScrolled(window.scrollY > 8);
+    on();
+    window.addEventListener("scroll", on, { passive: true });
+    return () => window.removeEventListener("scroll", on);
+  }, []);
   const hoverClose = () => { if (!canHover()) return; if (closeTimer.current) clearTimeout(closeTimer.current); closeTimer.current = setTimeout(() => setMenu(null), 160); };
 
   useEffect(() => {
@@ -69,8 +77,7 @@ export function SiteHeader({ children, onDemo }: { children?: React.ReactNode; o
       <span>botLane is now a business automation company, starting with manufacturing, real estate and clinics. <button onClick={() => onDemo("Introducing the new botLane")}>Learn more ›</button></span>
       <button className="announcement-close" aria-label="Dismiss announcement" onClick={() => setAnnouncement(false)}>×</button>
     </div>}
-    <div className="hero-shell" id="top">
-      <header className="site-header" ref={navigation}
+    <header className="site-header" data-scrolled={scrolled || mobileMenu} ref={navigation}
         onKeyDown={event => { if (event.key === "Escape") {
           if (menu) activeButton.current?.focus();
           else if (mobileMenu) menuButton.current?.focus();
@@ -99,7 +106,9 @@ export function SiteHeader({ children, onDemo }: { children?: React.ReactNode; o
           </div>
         </div>
       </header>
-      {children}
+    {/* The hero sits under the sticky bar (pulled up by the bar's height), so its artwork shows through it. */}
+    <div className="hero-shell" id="top">
+      <div className="hero-pad">{children}</div>
     </div>
   </>;
 }

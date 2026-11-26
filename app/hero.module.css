@@ -4,7 +4,8 @@
   --ease: cubic-bezier(0.2, 0.7, 0.1, 1);
   --line: #061b3117;
   position: relative;
-  overflow: hidden;
+  /* Clip the artwork at the sides and bottom, but let it run up behind the transparent navigation bar. */
+  clip-path: inset(calc(-1 * var(--header-h)) 0 0 0);
   color: var(--ink);
   background: white;
   border-bottom: 1px solid var(--line);
@@ -16,9 +17,9 @@
 .streak {
   position: absolute;
   z-index: 0;
-  top: -8%;
-  left: calc(50% - 300px);
-  height: 125%;
+  top: calc(-10% - var(--header-h));
+  left: calc(50% - 320px);
+  height: calc(132% + var(--header-h));
   aspect-ratio: 1610 / 1000;
   pointer-events: none;
   animation: fade 1.2s ease 0.1s both;
