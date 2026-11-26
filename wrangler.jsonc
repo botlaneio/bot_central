@@ -8,7 +8,7 @@
     "binding": "ASSETS",
     "not_found_handling": "404-page",
     // Run the Worker first for /api/* (the form) and for pages, so it can add canonical/hreflang links per domain.
-    "run_worker_first": ["/api/*", "/*", "!/_next/*", "!/media/*"]
+    "run_worker_first": ["/*", "!/_next/*", "!/media/*"]
   },
   // Both sites, with and without www. botlane.io shows US content and USD; botlane.in shows India content and INR.
   // Each zone must be in this Cloudflare account, and a domain can only be attached to one Worker at a time.
