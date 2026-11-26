@@ -15,10 +15,11 @@
 .streak {
   position: absolute;
   z-index: 0;
-  top: -8%;
+  /* Starts above the hero by the nav's height, so the artwork reaches up to the announcement bar with no gap. */
+  top: calc(-8% - var(--header-h));
   left: calc(50% - 260px);
   width: auto;
-  height: 125%;
+  height: calc(125% + var(--header-h));
   max-width: none;
   pointer-events: none;
   animation: fade 1.2s ease 0.1s both;
