@@ -189,8 +189,10 @@ export default function Challenges() {
             <div className={styles.rail} aria-hidden="true">
               <motion.i className={styles.railFill} initial={{ scaleX: 0 }} animate={{ scaleX: step < 0 ? 0 : at }}
                 transition={{ duration: step < 0 ? 0.5 : 0.7, ease: [0.45, 0, 0.2, 1] }} />
-              <motion.b className={styles.pulse} initial={{ left: "0%", opacity: 0 }} animate={{ left: `${at * 100}%`, opacity: step < 0 ? 0 : 1 }}
-                transition={{ duration: step <= 0 ? 0.3 : 0.7, ease: [0.45, 0, 0.2, 1] }} />
+              {/* The pulse rides a full-width track moved with a transform (x as a % of the rail), in step with the fill.
+                  Animating `left` instead re-lays out every frame and visibly stutters against the fill. */}
+              <motion.span className={styles.pulseTrack} initial={{ x: "0%", opacity: 0 }} animate={{ x: `${at * 100}%`, opacity: step < 0 ? 0 : 1 }}
+                transition={{ duration: step <= 0 ? 0.3 : 0.7, ease: [0.45, 0, 0.2, 1] }}><b className={styles.pulse} /></motion.span>
             </div>
             <ul className={styles.pillars}>
               {pillars.map(([icon, name, text], index) => <motion.li key={name}

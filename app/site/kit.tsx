@@ -30,7 +30,7 @@ export function PageHero({ crumb, title, lede, aside, actions = true, tone, stre
   /** A coloured ribbon artwork behind the right side of the hero, like the homepage (public/media/streaks). */
   streak?: string;
 }) {
-  return <section className={styles.hero} data-tone={tone} data-streak={Boolean(streak)}>
+  return <section className={styles.hero} data-tone={tone}>
     {streak && <img className={styles.streak} src={streak} alt="" aria-hidden="true" fetchPriority="high" />}
     <div className={`frame ${styles.grid}`} data-aside={Boolean(aside)}>
       <div className={styles.copy}>

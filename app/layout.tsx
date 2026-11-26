@@ -10,6 +10,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html lang="en" data-region="us" suppressHydrationWarning>
+    {/* Preload the one web font so text doesn't flash from the fallback font on first paint. */}
+    <head><link rel="preload" href="/media/instrument-sans.ttf" as="font" type="font/ttf" crossOrigin="anonymous" /></head>
     {/* Sets data-region from the hostname before first paint: botlane.in shows India content and INR. */}
     <body>
       <Script id="region" strategy="beforeInteractive">{regionScript}</Script>

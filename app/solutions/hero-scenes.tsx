@@ -7,25 +7,25 @@ import styles from "./hero-scenes.module.css";
 
 /*
  * Animated hero scenes for the six solution pages, one story each. A scene steps through its frames while on
- * screen, holds on the last one, then starts again. Fixed-size stage (no layout shift), transform and opacity only.
+ * screen once, then holds on the last one. The stage has a fixed size during playback.
  * Everything shown is demo data and labelled so. Reduced motion shows the final frame.
  * Icons from Lucide (ISC).
  */
 
 const ease = [0.2, 0.7, 0.1, 1] as const;
 
-/** Loops 0..last while in view: `ms` per step, `hold` on the last frame. */
-function useLoop(last: number, ms: number, hold = 2600) {
+/** Advances to the last frame while in view and keeps it visible. */
+function useScene(last: number, ms: number) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { amount: 0.3 });
   const [step, setStep] = useState(0);
   useEffect(() => {
-    if (!inView) return;
+    if (!inView || step >= last) return;
     // Reduced motion, or ?still for previews and screenshots: show the final frame.
     if (matchMedia("(prefers-reduced-motion: reduce)").matches || new URLSearchParams(location.search).has("still")) { setStep(last); return; }
-    const t = setTimeout(() => setStep(s => (s >= last ? 0 : s + 1)), step >= last ? hold : step === 0 ? 500 : ms);
+    const t = setTimeout(() => setStep(s => Math.min(s + 1, last)), step === 0 ? 500 : ms);
     return () => clearTimeout(t);
-  }, [inView, step, last, ms, hold]);
+  }, [inView, step, last, ms]);
   return [ref, step] as const;
 }
 
@@ -42,7 +42,7 @@ function Frame({ title, children, tone, stageRef }: { title: string; children: R
 
 /* 1. Customer Acquisition: a landing-page form fills in, is sent, and arrives in the CRM as a qualified lead. */
 function Acquisition() {
-  const [ref, step] = useLoop(7, 700);
+  const [ref, step] = useScene(7, 700);
   const fields: [string, string][] = [["Name", "Ravi Menon"], ["Company", "Menon Fabrication"], ["Need", "RFQ · 500 steel brackets"]];
   return <Frame title="Landing page → CRM" tone="orange" stageRef={ref}>
     <div className={styles.page}>
@@ -61,7 +61,7 @@ function Acquisition() {
           {step >= 6 && <motion.em {...pop}>Qualified</motion.em>}
         </motion.div>}
       </AnimatePresence>
-      <div className={styles.leadGhost} /><div className={styles.leadGhost} />
+      {step < 5 && <><div className={styles.leadGhost} /><div className={styles.leadGhost} /></>}
       {step >= 7 && <motion.p {...pop} className={styles.note}><Send /> Assigned to sales with the details attached</motion.p>}
     </div>
   </Frame>;
@@ -69,7 +69,7 @@ function Acquisition() {
 
 /* 2. AI Front Office: an after-hours call is answered, summarised and routed to the right person. */
 function FrontOffice() {
-  const [ref, step] = useLoop(6, 900);
+  const [ref, step] = useScene(6, 900);
   const lines = ["Caller: Is the 3-bed on Park Street still available?", "Assistant: It is. When would you like to view it?", "Caller: Saturday morning, if possible."];
   return <Frame title="Incoming call · 9:42 PM" tone="coral" stageRef={ref}>
     <div className={styles.call}>
@@ -92,7 +92,7 @@ function FrontOffice() {
 
 /* 3. Business Operations: a purchase order is read, its fields go into the ERP, and a mismatch goes to a person. */
 function Operations() {
-  const [ref, step] = useLoop(6, 800);
+  const [ref, step] = useScene(6, 800);
   const rows: [string, string, boolean][] = [["PO number", "PO-77812", true], ["Item", "SB-40 bracket × 500", true], ["Unit price", "$9.40 (list $9.64)", false], ["Delivery", "12 Dec", true]];
   return <Frame title="Purchase order → ERP" tone="pink" stageRef={ref}>
     <div className={styles.doc}>
@@ -113,7 +113,7 @@ function Operations() {
 
 /* 4. Financial Administration: a quote builds from the price list, waits for approval, is sent, then paid. */
 function Finance() {
-  const [ref, step] = useLoop(7, 750, 3000);
+  const [ref, step] = useScene(7, 750);
   const items: [string, number][] = [["SB-40 bracket × 500", 4700], ["Zinc finish", 320], ["Delivery", 120]];
   const total = items.slice(0, Math.min(step, 3)).reduce((s, [, v]) => s + v, 0);
   return <Frame title="Quote Q-2041" tone="violet" stageRef={ref}>
@@ -134,7 +134,7 @@ function Finance() {
 
 /* 5. Customer Experience: a customer is kept informed from booking to review. */
 function Experience() {
-  const [ref, step] = useLoop(6, 850);
+  const [ref, step] = useScene(6, 850);
   const msgs: [React.ReactNode, string, string][] = [
     [<Check key="c" />, "Booking confirmed", "Fri 10:30 · Dr. Shah"],
     [<Bell key="b" />, "Reminder", "Tomorrow at 10:30. Reply C to confirm"],
@@ -168,7 +168,7 @@ function Count({ to, on, prefix = "", suffix = "" }: { to: number; on: boolean; 
   return <>{prefix}{n.toLocaleString("en-US")}{suffix}</>;
 }
 function Intelligence() {
-  const [ref, step] = useLoop(5, 900, 3200);
+  const [ref, step] = useScene(5, 900);
   const bars = [42, 58, 51, 70, 64, 86, 78];
   const summary = "Enquiries are up 18% this week. 3 quotes are waiting on approval for over 2 days.";
   return <Frame title="This week · dashboard" tone="orange" stageRef={ref}>

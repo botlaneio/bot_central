@@ -47,7 +47,10 @@ export function SiteHeader({ children, onDemo }: { children?: React.ReactNode; o
   // Desktop: open on hover, with a short delay before closing so the pointer can travel into the panel.
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const canHover = () => matchMedia("(hover: hover) and (min-width: 901px)").matches;
-  const hoverOpen = (label: MenuLabel) => { if (!canHover()) return; if (closeTimer.current) clearTimeout(closeTimer.current); setMenu(label); };
+  // When moving straight from one open menu to another, the new panel appears without its entrance animation,
+  // so the dropdown swaps content instead of blinking out and fading back in.
+  const [switching, setSwitching] = useState(false);
+  const hoverOpen = (label: MenuLabel) => { if (!canHover()) return; if (closeTimer.current) clearTimeout(closeTimer.current); setSwitching(menu !== null && menu !== label); setMenu(label); };
   const hoverClose = () => { if (!canHover()) return; if (closeTimer.current) clearTimeout(closeTimer.current); closeTimer.current = setTimeout(() => setMenu(null), 160); };
 
   useEffect(() => {
@@ -84,7 +87,7 @@ export function SiteHeader({ children, onDemo }: { children?: React.ReactNode; o
               <button type="button" ref={menu === label ? activeButton : null} aria-expanded={menu === label} onClick={() => setMenu(canHover() ? label : menu === label ? null : label)}>
                 {label} <span className="chevron" aria-hidden="true" />
               </button>
-              {menu === label && <MegaMenu label={label} onDemo={onDemo} onNavigate={() => { setMenu(null); setMobileMenu(false); }} />}
+              {menu === label && <MegaMenu label={label} instant={switching} onDemo={onDemo} onNavigate={() => { setMenu(null); setMobileMenu(false); }} />}
             </div>)}
             <a href="/blog" onClick={() => setMobileMenu(false)}>Insights</a>
             <div className="mobile-actions">

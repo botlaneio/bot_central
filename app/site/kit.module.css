@@ -4,7 +4,6 @@
 .streak { position: absolute; z-index: 0; top: -12%; left: calc(50% - 420px); width: auto; height: 130%; max-width: none; pointer-events: none; animation: streakIn 1.2s ease .1s both; }
 @keyframes streakIn { from { opacity: 0; } to { opacity: 1; } }
 .hero .grid { position: relative; z-index: 1; }
-.hero[data-streak="true"] .aside { filter: drop-shadow(0 30px 50px #061b3122); }
 .grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 56px; align-items: center; padding: 80px 16px 88px; }
 .grid[data-aside="true"] { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); }
 .copy { max-width: 760px; }
@@ -51,7 +50,7 @@
   .crumb { margin-bottom: 16px; font-size: 13px; }
   .copy h1 { font-size: 30px; line-height: 1.14; }
   .lede { margin-top: 16px; font-size: 15.5px; line-height: 1.5; }
-  .actions { margin-top: 24px; gap: 8px; flex-wrap: nowrap; }
+  .actions { margin-top: 24px; gap: 8px; }
   .actions :global(.purple-button), .actions :global(.light-button) { padding: 10px 13px; font-size: 13px; }
   .cards { grid-template-columns: 1fr; gap: 12px; }
   .cards li { padding: 20px 18px 22px; }
