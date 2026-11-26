@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "motion/react";
+import { MotionConfig, motion } from "motion/react";
 import { ArrowRight, ChartLine, Factory, Headset, HeartHandshake, House, ListOrdered, Plug, Receipt, ShieldCheck, Stethoscope, Target, Workflow } from "lucide-react";
 import styles from "./nav-menu.module.css";
 
@@ -64,22 +64,23 @@ export type MenuLabel = (typeof menuLabels)[number];
 const ease = [0.2, 0.7, 0.1, 1] as const;
 const item = (i: number) => ({ initial: { opacity: 0, y: 6 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.3, ease, delay: 0.04 + i * 0.03 } });
 
-function Row({ icon, name, detail, href, i, onNavigate, tone }: { icon: IconName; name: string; detail: string; href: string; i: number; onNavigate: () => void; tone: Tone }) {
-  return <motion.a href={href} className={styles.row} onClick={onNavigate} data-tone={tone} {...item(i)}>
+function Row({ icon, name, detail, href, i, onNavigate, tone, instant = false }: { icon: IconName; name: string; detail: string; href: string; i: number; onNavigate: () => void; tone: Tone; instant?: boolean }) {
+  return <motion.a href={href} className={styles.row} onClick={onNavigate} data-tone={tone} {...(instant ? { initial: false as const } : item(i))}>
     <span className={styles.icon}><Icon name={icon} /></span>
     <span><strong>{name}</strong><small>{detail}</small></span>
   </motion.a>;
 }
 
-export default function MegaMenu({ label, onNavigate, onDemo }: { label: MenuLabel; onNavigate: () => void; onDemo: (label: string) => void }) {
-  return <div className={styles.anchor} data-menu={label}>
-    <motion.div className={styles.panel} initial={{ opacity: 0, y: -8, scale: 0.985 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.28, ease }}>
+export default function MegaMenu({ label, onNavigate, onDemo, instant = false }: { label: MenuLabel; onNavigate: () => void; onDemo: (label: string) => void; instant?: boolean }) {
+  const it = (i: number) => (instant ? { initial: false as const } : item(i));
+  return <MotionConfig reducedMotion="user"><div className={styles.anchor} data-menu={label}>
+    <motion.div className={styles.panel} initial={instant ? false : { opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.22, ease }}>
       {label === "Solutions" && <div className={styles.solutions}>
         <div>
           <p className={styles.eyebrow}>Six reusable capabilities</p>
-          <div className={styles.rows}>{solutions.map(([icon, name, detail, href], i) => <Row key={name} tone={tones[i]} {...{ icon, name, detail, href, i, onNavigate }} />)}</div>
+          <div className={styles.rows}>{solutions.map(([icon, name, detail, href], i) => <Row key={name} tone={tones[i]} {...{ icon, name, detail, href, i, onNavigate, instant }} />)}</div>
         </div>
-        <motion.aside className={styles.feature} {...item(6)}>
+        <motion.aside className={styles.feature} {...it(6)}>
           <p className={styles.eyebrow} data-dark="true">Not sure where to start?</p>
           <strong>Get an automation assessment</strong>
           <span>We map how work moves through your business and recommend one narrowly scoped first workflow.</span>
@@ -88,19 +89,19 @@ export default function MegaMenu({ label, onNavigate, onDemo }: { label: MenuLab
       </div>}
 
       {label === "Industries" && <div className={styles.industries}>
-        {industries.map((ind, i) => <motion.a key={ind.name} href={ind.href} className={styles.industry} onClick={onNavigate} data-tone={ind.tone} {...item(i * 2)}>
+        {industries.map((ind, i) => <motion.a key={ind.name} href={ind.href} className={styles.industry} onClick={onNavigate} data-tone={ind.tone} {...it(i * 2)} whileHover={{ y: -2, transition: { duration: 0.2, ease } }}>
           <span className={styles.industryTop}><span className={styles.icon}><Icon name={ind.icon} /></span>{ind.flag && <em>{ind.flag}</em>}</span>
           <strong>{ind.name}</strong>
           <small>{ind.line}</small>
           <span className={styles.chips}>{ind.modules.map(m => <i key={m}>{m}</i>)}</span>
           <span className={styles.more}>Explore {ind.name.toLowerCase()} <Icon name="arrow" /></span>
         </motion.a>)}
-        <motion.p className={styles.foot} {...item(7)}>Same shared automation infrastructure underneath, configured for each industry. More industries will follow.</motion.p>
+        <motion.p className={styles.foot} {...it(7)}>Same shared automation infrastructure underneath, configured for each industry. More industries will follow.</motion.p>
       </div>}
 
       {label === "How It Works" && <div className={styles.how}>
-        <div className={styles.rows} data-single="true">{how.map(([icon, name, detail, href], i) => <Row key={name} tone={(["sky", "pink", "violet"] as Tone[])[i]} {...{ icon, name, detail, href, i, onNavigate }} />)}</div>
-        <motion.a href="/responsible-automation" className={styles.control} onClick={onNavigate} {...item(4)}>
+        <div className={styles.rows} data-single="true">{how.map(([icon, name, detail, href], i) => <Row key={name} tone={(["sky", "pink", "violet"] as Tone[])[i]} {...{ icon, name, detail, href, i, onNavigate, instant }} />)}</div>
+        <motion.a href="/responsible-automation" className={styles.control} onClick={onNavigate} {...it(4)}>
           <p className={styles.eyebrow}>You stay in control</p>
           <span className={styles.approval}>
             <span><small>Needs your approval</small><b>Quote · $4,820</b></span>
@@ -112,5 +113,5 @@ export default function MegaMenu({ label, onNavigate, onDemo }: { label: MenuLab
         </motion.a>
       </div>}
     </motion.div>
-  </div>;
+  </div></MotionConfig>;
 }

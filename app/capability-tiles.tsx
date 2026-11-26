@@ -8,7 +8,7 @@ import styles from "./capability-tiles.module.css";
 
 /*
  * The six capability tiles, each its own animated scene. A scene plays its story when the tile scrolls into
- * view, holds on the final frame, and replays the next time it comes back into view. Fixed-size stages, transform
+ * view, holds on the final frame, and replays after the tile has left the screen completely and come back. Fixed-size stages, transform
  * and opacity only, so nothing shifts. Everything shown is demo data. Reduced motion shows the final frame.
  */
 
@@ -18,9 +18,12 @@ const ease = [0.2, 0.7, 0.1, 1] as const;
 function useStory(last: number, ms: number) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { amount: 0.45 });
+  // Reset only once the tile is fully off screen, so a tile half in view never jumps back to its first frame.
+  const anyVisible = useInView(ref, { amount: 0 });
   const [step, setStep] = useState(0);
+  useEffect(() => { if (!anyVisible) setStep(0); }, [anyVisible]);
   useEffect(() => {
-    if (!inView) { setStep(0); return; }
+    if (!inView) return;
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) { setStep(last); return; }
     if (step >= last) return;
     const t = setTimeout(() => setStep(s => s + 1), step === 0 ? 350 : ms);

@@ -150,7 +150,10 @@ export default function BotOrb({ size = 40, mood = "idle", intro = "load", anima
           {navy ? <><stop offset="0" stopColor="#061B31" stopOpacity=".55" /><stop offset="1" stopColor="#425E73" stopOpacity=".35" /></>
             : <><stop offset="0" stopColor="#4B6BFF" /><stop offset=".45" stopColor="#5333F5" /><stop offset="1" stopColor="#C38BFF" /></>}
         </linearGradient>
-        <filter id={`${id}b`} x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="9" /></filter>
+        {/* Soft glow as a radial gradient, not an SVG blur filter: a blurred group that rotates is re-rasterised every
+            frame and flickers (worst on iPad/Safari). The gradient is cheap and looks the same. */}
+        <radialGradient id={`${id}b`} cx="50%" cy="50%" r="50%"><stop offset="0" stopColor="#fff" stopOpacity="1" /><stop offset=".55" stopColor="#fff" stopOpacity=".55" /><stop offset="1" stopColor="#fff" stopOpacity="0" /></radialGradient>
+        <mask id={`${id}m`} maskContentUnits="userSpaceOnUse"><ellipse cx="66" cy="72" rx="58" ry="54" fill={`url(#${id}b)`} /></mask>
         <radialGradient id={`${id}s`} cx="38%" cy="30%" r="75%">
           {navy ? <><stop offset="0" stopColor="#2a3f5e" /><stop offset=".5" stopColor="#11253f" /><stop offset=".85" stopColor="#081d34" /><stop offset="1" stopColor="#061B31" /></>
             : <><stop offset="0" stopColor="#ffffff" /><stop offset=".55" stopColor="#fbfbfe" /><stop offset=".82" stopColor="#ebeaf5" /><stop offset="1" stopColor="#d9d7ea" /></>}
@@ -165,7 +168,7 @@ export default function BotOrb({ size = 40, mood = "idle", intro = "load", anima
         animate={{ scale: entered ? (shown === "surprised" ? 1.12 : 1) : 0.6 }}
         transition={gentle}>
         <motion.g animate={animated ? { rotate: 360 } : { rotate: 0 }} transition={{ duration: glowSpin, repeat: Infinity, ease: "linear" }}>
-          <g filter={`url(#${id}b)`}><ellipse cx="66" cy="72" rx="40" ry="36" fill={`url(#${id}g)`} /></g>
+          <g mask={`url(#${id}m)`}><ellipse cx="66" cy="72" rx="58" ry="54" fill={`url(#${id}g)`} /></g>
         </motion.g>
       </motion.g>
 
