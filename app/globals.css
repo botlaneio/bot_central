@@ -22,6 +22,11 @@ h2{font-size:32px;letter-spacing:-.035em;line-height:1.12}
 :root{--header-h:77px}
 .hero-shell{position:relative;isolation:isolate;overflow:hidden;border-radius:14px 14px 0 0;margin-top:calc(-1 * var(--header-h))}
 .hero-pad{padding-top:var(--header-h)}
+/* Homepage: the first screen is exactly the hero (and its strip), on every device. The hero section grows to fill;
+   svh keeps it steady while mobile browser bars show and hide. */
+.hero-shell.is-full{display:flex;flex-direction:column;min-height:calc(100vh - var(--announce-h,0px));min-height:calc(100svh - var(--announce-h,0px))}
+.hero-shell.is-full>.hero-pad{flex:1;display:flex;flex-direction:column}
+.hero-shell.is-full>.hero-pad>:first-child{flex:1;display:flex;flex-direction:column}
 body:has(.announcement) .hero-shell{box-shadow:0 -14px var(--navy)}
 .hero-art{position:absolute;z-index:-1;top:0;left:calc(50% - 390px);height:100%;width:auto;pointer-events:none}
 .hero-art img{display:block;width:auto;height:128%;max-width:none;position:relative;top:-14%}
